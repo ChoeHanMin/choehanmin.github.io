@@ -1,11 +1,201 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>Choi Hanmin</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Choi Hanmin Portfolio</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background: linear-gradient(135deg, #f5f7fb 0%, #e9eef8 100%);
+      color: #222;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .hero {
+      background: white;
+      border-radius: 24px;
+      padding: 50px 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      margin-bottom: 24px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #eef4ff;
+      color: #2f5bd3;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 42px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 20px;
+      color: #555;
+      margin-bottom: 28px;
+    }
+
+    .intro {
+      font-size: 17px;
+      color: #444;
+      max-width: 700px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 18px;
+      font-size: 24px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      font-weight: 700;
+      color: #111;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .chip {
+      background: #f3f5f8;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 28px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 36px 24px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>안녕하세요, 최한민입니다 👋</h1>
-  <p>Computer Engineering & Science 학생입니다.</p>
+  <div class="container">
+    <section class="hero">
+      <div class="tag">GitHub Pages Portfolio</div>
+      <h1>안녕하세요, 최한민입니다 👋</h1>
+      <div class="subtitle">Computer Engineering & Science 학생</div>
+      <p class="intro">
+        저는 컴퓨터공학을 공부하며 코딩과 문제 해결에 흥미를 가지고 있는 학생입니다.
+        새로운 기술을 배우고 직접 구현해보는 것을 좋아하며,
+        꾸준히 저만의 프로젝트와 포트폴리오를 만들어가고 있습니다.
+      </p>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>About Me</h2>
+        <ul>
+          <li><span class="label">이름</span> : 최한민</li>
+          <li><span class="label">생년월일</span> : 1999년 12월생</li>
+          <li><span class="label">성별</span> : 남성</li>
+          <li><span class="label">전공/관심 분야</span> : Computer Engineering & Science</li>
+          <li><span class="label">성격/스타일</span> : 새로운 것을 배우고 직접 해보는 것을 좋아함</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Interests & Hobbies</h2>
+        <div class="chips">
+          <div class="chip">FPS 게임</div>
+          <div class="chip">코딩</div>
+          <div class="chip">기술 탐색</div>
+          <div class="chip">문제 해결</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>My Companion</h2>
+        <ul>
+          <li><span class="label">반려견</span> : 치와와</li>
+          <li><span class="label">이름</span> : 헨리</li>
+          <li><span class="label">소개</span> : 함께 지내는 소중한 가족입니다.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Goal</h2>
+        <p>
+          GitHub와 GitHub Pages를 활용해 저를 소개하는 개인 포트폴리오를 만들고,
+          앞으로 다양한 프로젝트와 학습 기록을 차곡차곡 쌓아가는 것이 목표입니다.
+        </p>
+      </div>
+    </section>
+
+    <div class="footer">
+      © 2026 Choi Hanmin | Built with GitHub Pages
+    </div>
+  </div>
 </body>
 </html>
