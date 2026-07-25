@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>최한민에게 요청하기</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap">
+<style>
+  :root{
+    --bg:#F4F5F8;
+    --surface:#FFFFFF;
+    --ink:#15171F;
+    --ink-soft:#6B7080;
+    --line:#E7E8ED;
+    --accent:#3654FF;
+    --accent-soft:#EAEDFF;
+    --warm:#FF6B47;
+    --warm-soft:#FFEBE5;
+  }
+
+  *{box-sizing:border-box;}
+
+  html,body{
+    margin:0;
+    padding:0;
+    min-height:100%;
+    background:var(--bg);
+    font-family:'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  body{
+    display:flex;
+    justify-content:center;
+    padding:0 20px;
+  }
+
+  .page{
+    width:100%;
+    max-width:420px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding:64px 0 40px;
+  }
+
+  .eyebrow{
+    font-family:'SFMono-Regular', ui-monospace, Menlo, monospace;
+    font-size:13px;
+    color:var(--accent);
+    letter-spacing:0.02em;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-bottom:18px;
+  }
+
+  .eyebrow::before{
+    content:"";
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 4px var(--accent-soft);
+  }
+
+  .cursor{
+    display:inline-block;
+    width:2px;
+    height:14px;
+    background:var(--accent);
+    margin-left:2px;
+    animation:blink 1.1s steps(1) infinite;
+    vertical-align:middle;
+  }
+
+  @keyframes blink{
+    0%,49%{opacity:1;}
+    50%,100%{opacity:0;}
+  }
+
+  h1{
+    font-size:28px;
+    line-height:1.4;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin:0 0 8px;
+  }
+
+  .sub{
+    font-size:15px;
+    color:var(--ink-soft);
+    line-height:1.6;
+    margin:0 0 40px;
+  }
+
+  .cards{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  .card{
+    position:relative;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    text-align:left;
+    cursor:pointer;
+    transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    -webkit-tap-highlight-color:transparent;
+    font-family:inherit;
+  }
+
+  .card:active{
+    transform:scale(0.98);
+  }
+
+  .card:hover{
+    border-color:var(--accent);
+    box-shadow:0 8px 24px -12px rgba(54,84,255,0.25);
+  }
+
+  .card.warm:hover{
+    border-color:var(--warm);
+    box-shadow:0 8px 24px -12px rgba(255,107,71,0.25);
+  }
+
+  .icon{
+    flex:none;
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:var(--accent-soft);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .card.warm .icon{
+    background:var(--warm-soft);
+  }
+
+  .icon svg{
+    width:22px;
+    height:22px;
+  }
+
+  .card-text{
+    flex:1;
+    min-width:0;
+  }
+
+  .card-title{
+    font-size:16px;
+    font-weight:700;
+    margin:0 0 2px;
+  }
+
+  .card-desc{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:0;
+    line-height:1.5;
+  }
+
+  .arrow{
+    flex:none;
+    color:var(--ink-soft);
+    transition:transform .18s ease;
+  }
+
+  .card:hover .arrow{
+    transform:translateX(3px);
+  }
+
+  .footer{
+    margin-top:auto;
+    padding-top:48px;
+    display:flex;
+    justify-content:center;
+  }
+
+  .faq-btn{
+    font-family:'SFMono-Regular', ui-monospace, Menlo, monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    background:none;
+    border:none;
+    padding:8px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    letter-spacing:0.03em;
+    transition:background .15s ease, color .15s ease;
+  }
+
+  .faq-btn:hover{
+    background:var(--line);
+    color:var(--ink);
+  }
+
+  /* Disabled card */
+  .card.disabled{
+    cursor:not-allowed;
+    opacity:0.55;
+    background:var(--surface);
+  }
+  .card.disabled:hover{
+    border-color:var(--line);
+    box-shadow:none;
+    transform:none;
+  }
+  .card.disabled .icon{
+    background:var(--line);
+  }
+  .card.disabled .card-title{
+    color:var(--ink-soft);
+  }
+  .card.disabled .arrow{
+    display:none;
+  }
+
+  .below-cards{
+    margin-top:10px;
+  }
+
+  /* Sub option buttons inside sheet */
+  .option-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .option-btn{
+    font-family:inherit;
+    text-align:left;
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px 18px;
+    font-size:14.5px;
+    font-weight:600;
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .option-btn:hover{
+    border-color:var(--accent);
+    background:var(--accent-soft);
+  }
+
+  /* Form inside sheet */
+  .form-group{
+    margin-bottom:16px;
+  }
+  .form-label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:8px;
+  }
+  .form-input,
+  .form-textarea{
+    width:100%;
+    font-family:inherit;
+    font-size:14.5px;
+    color:var(--ink);
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px 14px;
+    resize:none;
+    outline:none;
+    transition:border-color .15s ease;
+  }
+  .form-input:focus,
+  .form-textarea:focus{
+    border-color:var(--accent);
+  }
+  .form-textarea{
+    min-height:110px;
+    line-height:1.5;
+  }
+  .field-hint{
+    font-size:12px;
+    color:var(--warm);
+    margin:6px 0 0;
+    min-height:14px;
+  }
+  .submit-btn{
+    width:100%;
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    border-radius:12px;
+    padding:14px;
+    font-size:14.5px;
+    font-weight:700;
+    font-family:inherit;
+    cursor:pointer;
+    margin-top:4px;
+    transition:opacity .15s ease;
+  }
+  .submit-btn:hover{
+    opacity:0.9;
+  }
+
+  .submit-btn:disabled{
+    opacity:0.6;
+    cursor:not-allowed;
+  }
+
+  .tag-group{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .tag-btn{
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:9px 16px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+
+  .tag-btn:hover{
+    border-color:var(--accent);
+  }
+
+  .tag-btn.selected{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+  }
+
+  .back-link{
+    font-family:inherit;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    background:none;
+    border:none;
+    padding:0;
+    margin-bottom:14px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:4px;
+  }
+  .back-link:hover{
+    color:var(--ink);
+  }
+
+  /* Notepad paper for FAQ */
+  .sheet.sheet--paper{
+    background:transparent;
+    padding:0 0 20px;
+    overflow:visible;
+  }
+
+  .paper{
+    position:relative;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        #FFFDF6 0px,
+        #FFFDF6 31px,
+        #ECE6D2 32px
+      );
+    border-radius:6px 6px 14px 14px;
+    padding:32px 26px 30px;
+    box-shadow:0 -10px 28px rgba(0,0,0,0.10), 0 4px 10px rgba(0,0,0,0.06);
+    transform:translateY(70px) rotate(-3deg);
+    opacity:0;
+  }
+
+  .paper.show{
+    animation:paperRise .55s cubic-bezier(.22,.85,.28,1) forwards;
+  }
+
+  @keyframes paperRise{
+    0%{ transform:translateY(80px) rotate(-4deg); opacity:0; }
+    55%{ transform:translateY(-8px) rotate(1.5deg); opacity:1; }
+    100%{ transform:translateY(0) rotate(-0.6deg); opacity:1; }
+  }
+
+  .paper::before{
+    content:"";
+    position:absolute;
+    top:-15px;
+    left:50%;
+    width:72px;
+    height:28px;
+    background:rgba(255,205,120,0.55);
+    border:1px solid rgba(255,190,100,0.7);
+    transform:translateX(-50%) rotate(-5deg);
+    box-shadow:0 2px 4px rgba(0,0,0,0.08);
+  }
+
+  .paper-head{
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:6px;
+  }
+
+  .paper-text{
+    font-family:'Gaegu', 'Pretendard', sans-serif;
+    font-size:18px;
+    line-height:2;
+    color:#3A362B;
+    margin:0;
+    white-space:pre-wrap;
+  }
+
+  /* Fake error screen */
+  .error-screen{
+    position:fixed;
+    inset:0;
+    background:#0B0C10;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:200;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .15s ease;
+  }
+  .error-screen.show{
+    opacity:1;
+    pointer-events:auto;
+    animation:glitchFlash .25s steps(2) 2;
+  }
+
+  @keyframes glitchFlash{
+    0%{ filter:none; }
+    40%{ filter:invert(1) hue-rotate(20deg); }
+    100%{ filter:none; }
+  }
+
+  .error-inner{
+    text-align:center;
+    padding:0 32px;
+  }
+
+  .error-code{
+    font-family:'SFMono-Regular', ui-monospace, Menlo, monospace;
+    font-size:56px;
+    font-weight:700;
+    color:#FF4D4D;
+    letter-spacing:0.08em;
+    margin:0 0 12px;
+    text-shadow:0 0 18px rgba(255,77,77,0.5);
+  }
+
+  .error-msg{
+    font-family:'SFMono-Regular', ui-monospace, Menlo, monospace;
+    font-size:14px;
+    color:#9AA0AE;
+    letter-spacing:0.05em;
+    margin:0 0 6px;
+  }
+
+  .error-sub{
+    font-size:14px;
+    color:#5C616E;
+    margin:0 0 32px;
+  }
+
+  .error-btn{
+    font-family:'SFMono-Regular', ui-monospace, Menlo, monospace;
+    font-size:13px;
+    color:#0B0C10;
+    background:#FF4D4D;
+    border:none;
+    padding:12px 24px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
+  }
+
+  /* Toast */
+  .toast{
+    position:fixed;
+    left:50%;
+    bottom:32px;
+    transform:translate(-50%, 20px);
+    background:var(--ink);
+    color:#fff;
+    padding:12px 20px;
+    border-radius:12px;
+    font-size:13.5px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+    white-space:nowrap;
+    z-index:50;
+  }
+  .toast.show{
+    opacity:1;
+    transform:translate(-50%, 0);
+  }
+
+  /* FAQ modal */
+  .overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(21,23,31,0.45);
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s ease;
+    z-index:100;
+  }
+  .overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .sheet{
+    width:100%;
+    max-width:420px;
+    background:var(--surface);
+    border-radius:24px 24px 0 0;
+    padding:28px 24px 32px;
+    transform:translateY(30px);
+    transition:transform .25s ease;
+    max-height:80vh;
+    overflow-y:auto;
+  }
+  .overlay.show .sheet{
+    transform:translateY(0);
+  }
+
+  .sheet-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+  }
+
+  .sheet-title{
+    font-size:17px;
+    font-weight:700;
+    margin:0;
+  }
+
+  .close-btn{
+    background:var(--line);
+    border:none;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    color:var(--ink-soft);
+    cursor:pointer;
+    font-size:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .faq-item{
+    border-bottom:1px solid var(--line);
+    padding:16px 0;
+  }
+  .faq-item:last-child{
+    border-bottom:none;
+  }
+
+  .faq-q{
+    font-size:14.5px;
+    font-weight:600;
+    margin:0 0 6px;
+    display:flex;
+    gap:8px;
+  }
+  .faq-q span{
+    color:var(--accent);
+  }
+
+  .faq-a{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+    margin:0;
+    padding-left:20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="eyebrow">STATUS: ONLINE<span class="cursor"></span></div>
+  <h1>최한민에게<br>무엇을 요청하시겠어요?</h1>
+  <p class="sub">아래에서 원하는 항목을 선택해주세요.</p>
+
+  <div class="cards">
+    <button class="card" onclick="openSheet('appointment')">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="5" width="18" height="16" rx="3" stroke="#3654FF" stroke-width="1.8"/>
+          <path d="M3 9.5H21" stroke="#3654FF" stroke-width="1.8"/>
+          <path d="M8 3V6.5" stroke="#3654FF" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M16 3V6.5" stroke="#3654FF" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="8" cy="14" r="1.4" fill="#3654FF"/>
+        </svg>
+      </div>
+      <div class="card-text">
+        <p class="card-title">약속 잡기</p>
+        <p class="card-desc">미팅이나 만남 일정을 조율해요</p>
+      </div>
+      <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <button class="card warm" onclick="openSheet('inquiry')">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 5H20V16H8L4 19.5V5Z" stroke="#FF6B47" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M8 9.5H16" stroke="#FF6B47" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M8 12.5H13" stroke="#FF6B47" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-text">
+        <p class="card-title">문의 남기기</p>
+        <p class="card-desc">궁금한 점이나 제안을 남겨주세요</p>
+      </div>
+      <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="below-cards">
+      <button class="card disabled" type="button" disabled>
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="1.6" fill="#6B7080"/>
+            <circle cx="6" cy="12" r="1.6" fill="#6B7080"/>
+            <circle cx="18" cy="12" r="1.6" fill="#6B7080"/>
+          </svg>
+        </div>
+        <div class="card-text">
+          <p class="card-title">기타 서비스</p>
+          <p class="card-desc">그 외는 천천히 구현 예정입니다</p>
+        </div>
+      </button>
+    </div>
+
+    <div class="below-cards">
+      <button class="card" onclick="openSheet('who')">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="9" r="3.4" stroke="#3654FF" stroke-width="1.8"/>
+            <path d="M5.5 19C6.8 15.8 9.1 14.3 12 14.3C14.9 14.3 17.2 15.8 18.5 19" stroke="#3654FF" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="card-text">
+          <p class="card-title">최한민은 누구인가요?</p>
+          <p class="card-desc">궁금하면 눌러봐</p>
+        </div>
+        <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <button class="faq-btn" onclick="openSheet('faq')">FAQ</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeSheet()">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<div class="error-screen" id="errorScreen">
+  <div class="error-inner">
+    <p class="error-code">ERROR</p>
+    <p class="error-msg">SERVICE_ACCESS_DENIED</p>
+    <p class="error-sub">이 서비스에서 나가주세요.</p>
+    <button class="error-btn" onclick="hideErrorScreen()">다시 돌아가기</button>
+  </div>
+</div>
+
+<script>
+  // ▼▼▼ EmailJS 설정 (emailjs.com 무료 가입 후 아래 3개 값을 본인 값으로 교체하세요) ▼▼▼
+  const EMAILJS_PUBLIC_KEY  = "gT3f6wnJqzi52pYQG";
+  const EMAILJS_SERVICE_ID  = "service_4rbq86w";
+  const EMAILJS_TEMPLATE_ID = "template_th6u4ck";
+  // ▲▲▲ 여기까지 ▲▲▲
+
+  const ALLOWED_EMAIL_DOMAINS = ["gmail.com", "naver.com", "kakao.com"];
+
+  function isAllowedEmail(email){
+    const match = /^[^\s@]+@([^\s@]+)$/.exec(email.trim().toLowerCase());
+    if(!match) return false;
+    return ALLOWED_EMAIL_DOMAINS.includes(match[1]);
+  }
+
+  async function sendEmail(templateParams){
+    const res = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        service_id: EMAILJS_SERVICE_ID,
+        template_id: EMAILJS_TEMPLATE_ID,
+        user_id: EMAILJS_PUBLIC_KEY,
+        template_params: templateParams
+      })
+    });
+    if(!res.ok){
+      throw new Error(await res.text());
+    }
+  }
+
+  const sheetTemplates = {
+    appointment: `
+      <div class="sheet-head">
+        <p class="sheet-title">약속 잡기</p>
+        <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <div class="option-list">
+        <button class="option-btn" onclick="selectAppointmentType('공부 등 활동 약속')">공부 등 활동 약속</button>
+        <button class="option-btn" onclick="selectAppointmentType('식사 약속')">식사 약속</button>
+        <button class="option-btn" onclick="selectAppointmentType('게임 약속')">게임 약속</button>
+        <button class="option-btn" onclick="selectAppointmentType('데이트 약속')">데이트 약속</button>
+      </div>
+    `,
+    inquiry: `
+      <div class="sheet-head">
+        <p class="sheet-title">문의 남기기</p>
+        <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">보내는 사람 이메일</label>
+        <input class="form-input" id="inquiryEmail" type="email" placeholder="example@gmail.com / naver.com / kakao.com" oninput="checkInquiryValidity()">
+        <p class="field-hint" id="inquiryEmailHint"></p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">제목</label>
+        <input class="form-input" id="inquiryTitle" type="text" placeholder="문의 제목을 입력해주세요">
+      </div>
+      <div class="form-group">
+        <label class="form-label">문의 내용</label>
+        <textarea class="form-textarea" id="inquiryBody" placeholder="문의하실 내용을 자세히 적어주세요"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">분류</label>
+        <div class="tag-group">
+          <button type="button" class="tag-btn" onclick="selectTag(this,'불만')">불만</button>
+          <button type="button" class="tag-btn" onclick="selectTag(this,'칭찬')">칭찬</button>
+          <button type="button" class="tag-btn" onclick="selectTag(this,'아무 생각 없음')">아무 생각 없음</button>
+        </div>
+      </div>
+      <button class="submit-btn" id="submitBtn" style="display:none;" onclick="submitInquiry()">전송</button>
+    `,
+    who: `
+      <div class="sheet-head">
+        <p class="sheet-title">최한민은 누구인가요?</p>
+        <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <div class="option-list">
+        <button class="option-btn" onclick="personaChoice('good')">귀요미</button>
+        <button class="option-btn" onclick="personaChoice('good')">공주</button>
+        <button class="option-btn" onclick="personaChoice('bad')">꿀꿀돼지</button>
+        <button class="option-btn" onclick="personaChoice('bad')">늙크크</button>
+      </div>
+    `,
+    faq: `
+      <div class="paper" id="paper">
+        <div class="paper-head">
+          <button class="close-btn" onclick="closeSheet()">✕</button>
+        </div>
+        <p class="paper-text">최한민 요청 서비스에 온 것을 환영합니다. 사실 만든 이유는 제가 공부하려고 만든거지, 별 의미가 있지는 않습니다. 어쩌면 언젠가 의미가 생길 수도 있겠네요. 버튼은 매우 직관적이니 FAQ는 사실 안 필요하다고도 보입니다ㅎㅎ</p>
+      </div>
+    `
+  };
+
+  let selectedTag = null;
+
+  function openSheet(type){
+    const sheetEl = document.getElementById('sheet');
+    sheetEl.innerHTML = sheetTemplates[type];
+    sheetEl.classList.toggle('sheet--paper', type === 'faq');
+    selectedTag = null;
+    document.getElementById('overlay').classList.add('show');
+    if(type === 'faq'){
+      requestAnimationFrame(()=>{
+        setTimeout(()=>{
+          const paper = document.getElementById('paper');
+          if(paper) paper.classList.add('show');
+        }, 30);
+      });
+    }
+  }
+
+  function selectTag(btn, tag){
+    document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedTag = tag;
+    checkInquiryValidity();
+  }
+
+  function checkInquiryValidity(){
+    const emailInput = document.getElementById('inquiryEmail');
+    const hint = document.getElementById('inquiryEmailHint');
+    const btn = document.getElementById('submitBtn');
+    if(!emailInput) return;
+    const email = emailInput.value;
+
+    if(email.trim() === ""){
+      hint.textContent = "";
+    }else if(isAllowedEmail(email)){
+      hint.textContent = "";
+    }else{
+      hint.textContent = "gmail.com / naver.com / kakao.com 주소만 사용할 수 있어요";
+    }
+
+    const valid = selectedTag && isAllowedEmail(email);
+    btn.style.display = valid ? "block" : "none";
+  }
+
+  function closeSheet(){
+    document.getElementById('overlay').classList.remove('show');
+  }
+
+  function showToast(msg){
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'), 2200);
+  }
+
+  function confirmChoice(label){
+    closeSheet();
+    showToast(label + " 요청이 접수될 예정이에요");
+  }
+
+  let currentApptType = null;
+  let selectedGames = new Set();
+
+  function selectAppointmentType(type){
+    currentApptType = type;
+    selectedGames = new Set();
+
+    const gameSection = type === '게임 약속' ? `
+      <div class="form-group">
+        <label class="form-label">게임 선택 (중복 가능)</label>
+        <div class="tag-group">
+          <button type="button" class="tag-btn" onclick="toggleGameTag(this,'오버워치')">오버워치</button>
+          <button type="button" class="tag-btn" onclick="toggleGameTag(this,'레식 시즈')">레식 시즈</button>
+          <button type="button" class="tag-btn" onclick="toggleGameTag(this,'기타 스팀 게임')">기타 스팀 게임</button>
+        </div>
+      </div>
+    ` : '';
+
+    document.getElementById('sheet').innerHTML = `
+      <button class="back-link" onclick="openSheet('appointment')">← 다른 약속 선택</button>
+      <div class="sheet-head">
+        <p class="sheet-title">${type}</p>
+        <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      ${gameSection}
+      <div class="form-group">
+        <label class="form-label">보내는 사람 이메일</label>
+        <input class="form-input" id="apptEmail" type="email" placeholder="example@gmail.com / naver.com / kakao.com" oninput="checkApptValidity()">
+        <p class="field-hint" id="apptEmailHint"></p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">약속 신청자</label>
+        <input class="form-input" id="apptApplicant" type="text" placeholder="이름을 입력해주세요">
+      </div>
+      <div class="form-group">
+        <label class="form-label">동행자</label>
+        <input class="form-input" id="apptCompanion" type="text" placeholder="함께하는 사람을 입력해주세요">
+      </div>
+      <div class="form-group">
+        <label class="form-label">날짜 및 시간</label>
+        <input class="form-input" id="apptDatetime" type="datetime-local">
+      </div>
+      <button class="submit-btn" id="apptSubmitBtn" style="display:none;" onclick="submitAppointment('${type}')">신청 보내기</button>
+    `;
+  }
+
+  function toggleGameTag(btn, game){
+    if(selectedGames.has(game)){
+      selectedGames.delete(game);
+      btn.classList.remove('selected');
+    }else{
+      selectedGames.add(game);
+      btn.classList.add('selected');
+    }
+    checkApptValidity();
+  }
+
+  function checkApptValidity(){
+    const email = document.getElementById('apptEmail').value;
+    const hint = document.getElementById('apptEmailHint');
+    const btn = document.getElementById('apptSubmitBtn');
+
+    const emailValid = email.trim() !== "" && isAllowedEmail(email);
+    const gameValid = currentApptType !== '게임 약속' || selectedGames.size > 0;
+
+    if(email.trim() !== "" && !isAllowedEmail(email)){
+      hint.textContent = "gmail.com / naver.com / kakao.com 주소만 사용할 수 있어요";
+    }else{
+      hint.textContent = "";
+    }
+
+    btn.style.display = (emailValid && gameValid) ? "block" : "none";
+  }
+
+  function formatDatetime(value){
+    const [datePart, timePart] = value.split('T');
+    const [y,m,d] = datePart.split('-');
+    const [h,min] = timePart.split(':');
+    return `${parseInt(m)}월 ${parseInt(d)}일 ${h}시 ${min}분`;
+  }
+
+  async function submitAppointment(type){
+    const email = document.getElementById('apptEmail').value.trim();
+    const applicant = document.getElementById('apptApplicant').value.trim();
+    const companion = document.getElementById('apptCompanion').value.trim();
+    const datetime = document.getElementById('apptDatetime').value;
+
+    if(!isAllowedEmail(email)){
+      showToast("gmail.com / naver.com / kakao.com 주소만 사용할 수 있어요");
+      return;
+    }
+    if(type === '게임 약속' && selectedGames.size === 0){
+      showToast("게임을 하나 이상 선택해주세요");
+      return;
+    }
+    if(!applicant || !companion || !datetime){
+      showToast("신청자, 동행자, 날짜/시간을 모두 입력해주세요");
+      return;
+    }
+
+    const submitBtn = document.getElementById('apptSubmitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = "전송 중...";
+
+    const gameLine = type === '게임 약속' ? ("\n선택한 게임: " + Array.from(selectedGames).join(", ")) : "";
+
+    try{
+      await sendEmail({
+        to_email: "rokafhanmin@gmail.com",
+        reply_to: email,
+        category: "약속 신청 - " + type,
+        title: type + " 신청",
+        message: "보내는 사람: " + email + gameLine + "\n약속 신청자: " + applicant + "\n동행자: " + companion + "\n날짜 및 시간: " + formatDatetime(datetime)
+      });
+      closeSheet();
+      showToast("전송 되었습니다");
+    }catch(err){
+      showToast("전송 실패하였습니다");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "신청 보내기";
+    }
+  }
+
+  function personaChoice(type){
+    closeSheet();
+    if(type === 'good'){
+      showToast("역시 자네는 내 친구가 맞아. 어서 이 서비스를 정상적으로 이용해주게😊");
+    }else{
+      showToast("자네는 날 실망시켰네. 나는 몹시 삐쳐있어. 냉큼 이 서비스에서 나가시게");
+      setTimeout(showErrorScreen, 3000);
+    }
+  }
+
+  function showErrorScreen(){
+    document.getElementById('errorScreen').classList.add('show');
+  }
+
+  function hideErrorScreen(){
+    document.getElementById('errorScreen').classList.remove('show');
+  }
+
+  async function submitInquiry(){
+    const email = document.getElementById('inquiryEmail').value.trim();
+    const title = document.getElementById('inquiryTitle').value.trim();
+    const body = document.getElementById('inquiryBody').value.trim();
+
+    if(!isAllowedEmail(email)){
+      showToast("gmail.com / naver.com / kakao.com 주소만 사용할 수 있어요");
+      return;
+    }
+    if(!title || !body || !selectedTag){
+      showToast("제목, 내용, 분류를 모두 입력해주세요");
+      return;
+    }
+
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = "전송 중...";
+
+    try{
+      await sendEmail({
+        to_email: "rokafhanmin@gmail.com",
+        reply_to: email,
+        category: selectedTag,
+        title: title,
+        message: "보내는 사람: " + email + "\n\n" + body
+      });
+      closeSheet();
+      showToast("전송 되었습니다");
+    }catch(err){
+      showToast("전송 실패하였습니다");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "전송";
+    }
+  }
+</script>
+
+</body>
+</html>
