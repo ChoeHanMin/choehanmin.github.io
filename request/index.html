@@ -127,6 +127,16 @@
     box-shadow:0 20px 50px -12px rgba(0,0,0,0.35);
   }
 
+  .gate-program-name{
+    font-family:'SFMono-Regular', ui-monospace, Menlo, monospace;
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--accent);
+    text-align:center;
+    letter-spacing:0.03em;
+    margin:0 0 10px;
+  }
+
   .gate-title{
     font-size:19px;
     font-weight:700;
@@ -1138,6 +1148,137 @@
     transform:translateY(0);
   }
 
+  .chat-fab{
+    position:fixed;
+    right:20px;
+    bottom:24px;
+    width:54px;
+    height:54px;
+    border-radius:50%;
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    font-size:22px;
+    box-shadow:0 10px 24px -8px rgba(54,84,255,0.5);
+    cursor:pointer;
+    z-index:90;
+  }
+
+  .chat-messages{
+    max-height:280px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-bottom:14px;
+  }
+
+  .chat-bubble{
+    max-width:78%;
+    padding:9px 13px;
+    border-radius:14px;
+    font-size:13.5px;
+    line-height:1.5;
+  }
+  .chat-bubble.mine{
+    align-self:flex-end;
+    background:var(--accent);
+    color:#fff;
+    border-bottom-right-radius:4px;
+  }
+  .chat-bubble.theirs{
+    align-self:flex-start;
+    background:var(--bg);
+    color:var(--ink);
+    border:1px solid var(--line);
+    border-bottom-left-radius:4px;
+  }
+
+  .chat-input-row{
+    display:flex;
+    gap:8px;
+  }
+  .chat-input-row .form-input{
+    flex:1;
+  }
+
+  .admin-sheet{
+    max-height:88vh;
+  }
+
+  .admin-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-bottom:16px;
+  }
+  .admin-stat-box{
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px 8px;
+    text-align:center;
+  }
+  .admin-stat-num{
+    font-size:20px;
+    font-weight:700;
+    color:var(--accent);
+  }
+  .admin-stat-label{
+    font-size:11px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+
+  .admin-tabs{
+    display:flex;
+    gap:6px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .admin-tab{
+    font-family:inherit;
+    font-size:12.5px;
+    font-weight:600;
+    padding:7px 12px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--bg);
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .admin-tab.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+  }
+
+  .admin-row{
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:8px;
+    font-size:13px;
+  }
+  .admin-row-title{
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .admin-row-meta{
+    color:var(--ink-soft);
+    font-size:12px;
+    margin-bottom:6px;
+  }
+  .admin-status-select{
+    font-family:inherit;
+    font-size:12px;
+    padding:5px 8px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:var(--surface);
+    color:var(--ink);
+  }
+
   .sheet-head{
     display:flex;
     align-items:center;
@@ -1198,6 +1339,7 @@
 <div class="gate-overlay" id="gateOverlay">
   <div class="gate-card">
     <div id="gateStep1">
+      <p class="gate-program-name">최한민에게 요청하기 프로그램</p>
       <p class="gate-title">🔒 로그인</p>
       <p class="gate-sub">이름, 이메일, 사용 가능 코드를 입력해야 로그인 가능해요.</p>
 
@@ -1663,12 +1805,78 @@
     <p class="maker-label">제작자: 최한민</p>
     <p class="visitor-count" id="visitorCount"></p>
     <div class="version-row">
-      <p class="version-label">Ver 2.9</p>
+      <p class="version-label">Ver 3.0</p>
       <button class="changelog-btn" onclick="openSheet('changelog')">업데이트 내역 확인하기</button>
     </div>
     <div class="footer-actions">
       <button class="faq-btn" onclick="openSheet('faq')">FAQ</button>
       <button class="faq-btn" onclick="copyPageLink()">🔗 링크 복사</button>
+      <button class="faq-btn" onclick="openAdminLogin()">🛠 관리자</button>
+    </div>
+  </div>
+</div>
+
+<button class="chat-fab" id="chatFab" onclick="openChatPanel()">💬</button>
+
+<div class="overlay" id="chatOverlay" onclick="if(event.target===this)closeChatPanel()">
+  <div class="sheet">
+    <div class="sheet-head">
+      <p class="sheet-title">한민이와 채팅</p>
+      <button class="close-btn" onclick="closeChatPanel()">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input-row">
+      <input class="form-input" id="chatInput" type="text" placeholder="메시지를 입력하세요" onkeydown="if(event.key==='Enter')sendChatMessage()">
+      <button class="submit-btn" style="width:auto;padding:0 18px;" onclick="sendChatMessage()">전송</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="adminLoginOverlay" onclick="if(event.target===this)closeAdminLogin()">
+  <div class="sheet">
+    <div class="sheet-head">
+      <p class="sheet-title">🛠 관리자 로그인</p>
+      <button class="close-btn" onclick="closeAdminLogin()">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">관리자 비밀번호</label>
+      <input class="form-input" id="adminPasswordInput" type="password" placeholder="비밀번호를 입력해주세요" onkeydown="if(event.key==='Enter')submitAdminLogin()">
+    </div>
+    <p class="field-hint" id="adminLoginHint"></p>
+    <button class="submit-btn" onclick="submitAdminLogin()">입장하기</button>
+  </div>
+</div>
+
+<div class="overlay" id="adminDashboardOverlay">
+  <div class="sheet admin-sheet">
+    <div class="sheet-head">
+      <p class="sheet-title">🛠 관리자 대시보드</p>
+      <button class="close-btn" onclick="closeAdminDashboard()">✕</button>
+    </div>
+
+    <div class="admin-stats" id="adminStats"></div>
+
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchAdminTab(this,'inquiries')">문의</button>
+      <button class="admin-tab" onclick="switchAdminTab(this,'appointments')">약속</button>
+      <button class="admin-tab" onclick="switchAdminTab(this,'members')">회원</button>
+      <button class="admin-tab" onclick="switchAdminTab(this,'chats')">채팅</button>
+      <button class="admin-tab" onclick="switchAdminTab(this,'busy')">바쁜시간</button>
+    </div>
+
+    <div id="adminPanelInquiries" class="admin-panel"></div>
+    <div id="adminPanelAppointments" class="admin-panel" style="display:none"></div>
+    <div id="adminPanelMembers" class="admin-panel" style="display:none"></div>
+    <div id="adminPanelChats" class="admin-panel" style="display:none"></div>
+    <div id="adminPanelBusy" class="admin-panel" style="display:none">
+      <div class="form-group">
+        <label class="form-label">바쁜 시간 추가</label>
+        <input class="form-input" id="busyStart" type="datetime-local" style="margin-bottom:8px;">
+        <input class="form-input" id="busyEnd" type="datetime-local" style="margin-bottom:8px;">
+        <input class="form-input" id="busyLabel" type="text" placeholder="메모 (예: 시험기간)">
+      </div>
+      <button class="submit-btn" onclick="addBusySlot()">추가</button>
+      <div id="busySlotList" style="margin-top:16px;"></div>
     </div>
   </div>
 </div>
@@ -1695,6 +1903,44 @@
     <button class="error-btn" onclick="hideErrorScreen()">다시 돌아가기</button>
   </div>
 </div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
+
+<script>
+  // ▼▼▼ Firebase 설정 (firebase.google.com 무료 프로젝트 생성 후 본인 값으로 교체) ▼▼▼
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyCetF-_n3hpC3n4QEolEjbRI05kNpJF5_Y",
+    authDomain: "hanmin-request.firebaseapp.com",
+    projectId: "hanmin-request",
+    storageBucket: "hanmin-request.firebasestorage.app",
+    messagingSenderId: "846552471829",
+    appId: "1:846552471829:web:49dc2c3613a1ba4b73311c"
+  };
+  const ADMIN_PASSWORD = "hanmin-admin-2026";
+  const FCM_VAPID_KEY = "YOUR_VAPID_KEY";
+  // ▲▲▲ 여기까지 ▲▲▲
+
+  let db = null;
+  let firebaseReady = false;
+  try{
+    if(FIREBASE_CONFIG.apiKey !== "YOUR_FIREBASE_API_KEY"){
+      firebase.initializeApp(FIREBASE_CONFIG);
+      db = firebase.firestore();
+      firebaseReady = true;
+    }
+  }catch(err){
+    console.warn("Firebase 초기화 실패(무시됨, 설정 전이면 정상):", err);
+  }
+
+  if(firebaseReady && 'serviceWorker' in navigator){
+    navigator.serviceWorker.register('./firebase-messaging-sw.js').catch(err => {
+      console.warn("푸시 알림용 서비스워커 등록 실패(무시됨):", err);
+    });
+  }
+</script>
+
 
 <script>
   // ▼▼▼ EmailJS 설정 (emailjs.com 무료 가입 후 아래 값을 본인 값으로 교체하세요) ▼▼▼
@@ -1959,6 +2205,314 @@
     }).catch(err => console.warn("시트 기록 실패(무시됨):", err));
   }
 
+  // ── Firestore 백엔드 저장 (관리자 대시보드/채팅/캘린더 충돌 체크의 기반) ──
+  async function saveToFirestore(collectionName, data){
+    if(!firebaseReady) return null;
+    try{
+      const ref = await db.collection(collectionName).add(Object.assign({
+        status: "대기중",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, data));
+      return ref.id;
+    }catch(err){
+      console.warn("Firestore 저장 실패(무시됨):", err);
+      return null;
+    }
+  }
+
+  // ── 약속 시간 겹침 체크용 '바쁜 시간' 목록 가져오기 ──
+  async function fetchBusySlots(){
+    if(!firebaseReady) return [];
+    try{
+      const snap = await db.collection('busySlots').get();
+      return snap.docs.map(d => d.data());
+    }catch(err){
+      console.warn("바쁜 시간 조회 실패(무시됨):", err);
+      return [];
+    }
+  }
+
+  function isOverlappingBusySlot(datetimeValue, busySlots){
+    const target = new Date(datetimeValue).getTime();
+    const targetEnd = target + 60 * 60000;
+    return busySlots.some(slot => {
+      const s = new Date(slot.start).getTime();
+      const e = new Date(slot.end).getTime();
+      return target < e && targetEnd > s;
+    });
+  }
+
+  // ── 푸시 알림용 FCM 토큰 등록 (실제 발송은 Firebase 콘솔에서 수동으로) ──
+  async function registerPushToken(ownerEmail){
+    if(!firebaseReady || !firebase.messaging || FCM_VAPID_KEY === "YOUR_VAPID_KEY") return;
+    try{
+      const messaging = firebase.messaging();
+      const permission = await Notification.requestPermission();
+      if(permission !== 'granted') return;
+      const token = await messaging.getToken({ vapidKey: FCM_VAPID_KEY });
+      if(token){
+        await db.collection('fcmTokens').doc(ownerEmail).set({
+          token: token,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+    }catch(err){
+      console.warn("푸시 토큰 등록 실패(무시됨):", err);
+    }
+  }
+
+  // ── 회원 ↔ 최한민 채팅 ──
+  let chatUnsubscribe = null;
+
+  function getCurrentMemberEmail(){
+    try{
+      const info = JSON.parse(localStorage.getItem('memberInfo') || 'null');
+      return info ? info.email : null;
+    }catch(e){
+      return null;
+    }
+  }
+
+  function openChatPanel(){
+    if(!firebaseReady){
+      showToast("채팅 기능은 Firebase 설정 후 사용할 수 있어요");
+      return;
+    }
+    const email = getCurrentMemberEmail();
+    if(!email){
+      showToast("로그인 후 이용할 수 있어요");
+      return;
+    }
+    document.getElementById('chatOverlay').classList.add('show');
+    listenToChat(email);
+  }
+
+  function closeChatPanel(){
+    document.getElementById('chatOverlay').classList.remove('show');
+    if(chatUnsubscribe){ chatUnsubscribe(); chatUnsubscribe = null; }
+  }
+
+  function listenToChat(email){
+    if(chatUnsubscribe){ chatUnsubscribe(); }
+    const box = document.getElementById('chatMessages');
+    chatUnsubscribe = db.collection('chats').doc(email).collection('messages')
+      .orderBy('createdAt', 'asc')
+      .onSnapshot(snap => {
+        box.innerHTML = snap.docs.map(doc => {
+          const m = doc.data();
+          const cls = m.sender === 'admin' ? 'theirs' : 'mine';
+          return `<div class="chat-bubble ${cls}">${escapeHtml(m.text || '')}</div>`;
+        }).join('');
+        box.scrollTop = box.scrollHeight;
+      }, err => console.warn("채팅 수신 실패:", err));
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  async function sendChatMessage(){
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if(!text) return;
+    const email = getCurrentMemberEmail();
+    if(!email || !firebaseReady) return;
+    input.value = '';
+    try{
+      await db.collection('chats').doc(email).collection('messages').add({
+        text: text,
+        sender: 'member',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      await db.collection('chats').doc(email).set({
+        email: email,
+        lastMessage: text,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    }catch(err){
+      showToast("메시지 전송에 실패했어요");
+    }
+  }
+
+  // ── 관리자 로그인/대시보드 ──
+  let isAdminLoggedIn = false;
+
+  function openAdminLogin(){
+    document.getElementById('adminLoginOverlay').classList.add('show');
+  }
+  function closeAdminLogin(){
+    document.getElementById('adminLoginOverlay').classList.remove('show');
+  }
+
+  function submitAdminLogin(){
+    const pw = document.getElementById('adminPasswordInput').value;
+    const hint = document.getElementById('adminLoginHint');
+    if(pw !== ADMIN_PASSWORD){
+      hint.textContent = "비밀번호가 일치하지 않아요.";
+      return;
+    }
+    hint.textContent = "";
+    isAdminLoggedIn = true;
+    closeAdminLogin();
+    document.getElementById('adminDashboardOverlay').classList.add('show');
+    if(!firebaseReady){
+      showToast("Firebase 설정 전이라 데이터는 비어있어요");
+    }
+    loadAdminDashboard();
+  }
+
+  function closeAdminDashboard(){
+    document.getElementById('adminDashboardOverlay').classList.remove('show');
+  }
+
+  function switchAdminTab(btn, panel){
+    document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    ['Inquiries', 'Appointments', 'Members', 'Chats', 'Busy'].forEach(name => {
+      const el = document.getElementById('adminPanel' + name);
+      if(el) el.style.display = (name.toLowerCase() === panel) ? 'block' : 'none';
+    });
+  }
+
+  async function loadAdminDashboard(){
+    if(!firebaseReady) return;
+    try{
+      const [inquirySnap, apptSnap, memberSnap, chatSnap] = await Promise.all([
+        db.collection('inquiries').orderBy('createdAt', 'desc').get(),
+        db.collection('appointments').orderBy('createdAt', 'desc').get(),
+        db.collection('members').orderBy('createdAt', 'desc').get(),
+        db.collection('chats').orderBy('updatedAt', 'desc').get()
+      ]);
+
+      document.getElementById('adminStats').innerHTML = `
+        <div class="admin-stat-box"><div class="admin-stat-num">${inquirySnap.size}</div><div class="admin-stat-label">문의</div></div>
+        <div class="admin-stat-box"><div class="admin-stat-num">${apptSnap.size}</div><div class="admin-stat-label">약속</div></div>
+        <div class="admin-stat-box"><div class="admin-stat-num">${memberSnap.size}</div><div class="admin-stat-label">회원</div></div>
+      `;
+
+      document.getElementById('adminPanelInquiries').innerHTML = inquirySnap.docs.map(doc => {
+        const d = doc.data();
+        return `<div class="admin-row">
+          <div class="admin-row-title">${escapeHtml(d.title || '(제목 없음)')}</div>
+          <div class="admin-row-meta">${escapeHtml(d.email || '')} · ${escapeHtml(d.category || '')} ${d.relation ? '· ' + escapeHtml(d.relation) : ''}</div>
+          <div>${escapeHtml(d.body || '')}</div>
+          <div style="margin-top:8px;">
+            <select class="admin-status-select" onchange="updateDocStatus('inquiries','${doc.id}',this.value)">
+              ${['대기중','수락','거절','완료'].map(s => `<option value="${s}" ${d.status===s?'selected':''}>${s}</option>`).join('')}
+            </select>
+          </div>
+        </div>`;
+      }).join('') || '<p class="field-hint">아직 문의가 없어요.</p>';
+
+      document.getElementById('adminPanelAppointments').innerHTML = apptSnap.docs.map(doc => {
+        const d = doc.data();
+        return `<div class="admin-row">
+          <div class="admin-row-title">${escapeHtml(d.appointmentType || '')}</div>
+          <div class="admin-row-meta">${escapeHtml(d.email || '')} · 신청자: ${escapeHtml(d.applicant || '')} · 동행: ${escapeHtml(d.companion || '')}</div>
+          <div>${escapeHtml(d.datetimeDisplay || '')} ${d.games ? '· ' + escapeHtml(d.games) : ''}</div>
+          <div style="margin-top:8px;">
+            <select class="admin-status-select" onchange="updateDocStatus('appointments','${doc.id}',this.value)">
+              ${['대기중','수락','거절','완료'].map(s => `<option value="${s}" ${d.status===s?'selected':''}>${s}</option>`).join('')}
+            </select>
+          </div>
+        </div>`;
+      }).join('') || '<p class="field-hint">아직 약속 신청이 없어요.</p>';
+
+      document.getElementById('adminPanelMembers').innerHTML = memberSnap.docs.map(doc => {
+        const d = doc.data();
+        return `<div class="admin-row">
+          <div class="admin-row-title">${escapeHtml(d.name || '')}</div>
+          <div class="admin-row-meta">${escapeHtml(d.email || '')}</div>
+        </div>`;
+      }).join('') || '<p class="field-hint">아직 회원이 없어요.</p>';
+
+      document.getElementById('adminPanelChats').innerHTML = chatSnap.docs.map(doc => {
+        const d = doc.data();
+        return `<div class="admin-row" style="cursor:pointer;" onclick="openAdminChatThread('${doc.id}')">
+          <div class="admin-row-title">${escapeHtml(d.email || doc.id)}</div>
+          <div class="admin-row-meta">${escapeHtml(d.lastMessage || '')}</div>
+        </div>`;
+      }).join('') || '<p class="field-hint">아직 채팅이 없어요.</p>';
+
+      renderBusySlots();
+    }catch(err){
+      console.warn("관리자 데이터 로드 실패:", err);
+      showToast("데이터를 불러오지 못했어요");
+    }
+  }
+
+  async function updateDocStatus(collectionName, docId, status){
+    if(!firebaseReady) return;
+    try{
+      await db.collection(collectionName).doc(docId).update({ status: status });
+      showToast("상태가 업데이트됐어요");
+    }catch(err){
+      showToast("업데이트에 실패했어요");
+    }
+  }
+
+  function openAdminChatThread(email){
+    const reply = prompt(email + " 님에게 보낼 답장을 입력하세요:");
+    if(!reply) return;
+    db.collection('chats').doc(email).collection('messages').add({
+      text: reply,
+      sender: 'admin',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    db.collection('chats').doc(email).set({
+      lastMessage: reply,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+    showToast("답장을 보냈어요");
+  }
+
+  async function addBusySlot(){
+    const start = document.getElementById('busyStart').value;
+    const end = document.getElementById('busyEnd').value;
+    const label = document.getElementById('busyLabel').value.trim();
+    if(!start || !end){
+      showToast("시작/종료 시간을 입력해주세요");
+      return;
+    }
+    try{
+      await db.collection('busySlots').add({ start, end, label });
+      document.getElementById('busyStart').value = '';
+      document.getElementById('busyEnd').value = '';
+      document.getElementById('busyLabel').value = '';
+      renderBusySlots();
+    }catch(err){
+      showToast("추가에 실패했어요");
+    }
+  }
+
+  async function renderBusySlots(){
+    if(!firebaseReady) return;
+    try{
+      const snap = await db.collection('busySlots').get();
+      document.getElementById('busySlotList').innerHTML = snap.docs.map(doc => {
+        const d = doc.data();
+        return `<div class="admin-row">
+          <div class="admin-row-title">${escapeHtml(d.label || '(메모 없음)')}</div>
+          <div class="admin-row-meta">${d.start} ~ ${d.end}</div>
+          <button class="back-link" onclick="deleteBusySlot('${doc.id}')">삭제</button>
+        </div>`;
+      }).join('') || '<p class="field-hint">등록된 바쁜 시간이 없어요.</p>';
+    }catch(err){
+      console.warn("바쁜 시간 목록 로드 실패:", err);
+    }
+  }
+
+  async function deleteBusySlot(docId){
+    try{
+      await db.collection('busySlots').doc(docId).delete();
+      renderBusySlots();
+    }catch(err){
+      showToast("삭제에 실패했어요");
+    }
+  }
+
   function isAllowedEmail(email){
     const match = /^[^\s@]+@([^\s@]+)$/.exec(email.trim().toLowerCase());
     if(!match) return false;
@@ -2082,6 +2636,22 @@
       <div class="sheet-head">
         <p class="sheet-title">업데이트 내역</p>
         <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <p class="version-tag">Ver 3.0</p>
+      <div class="faq-item">
+        <p class="faq-a">Firebase 실시간 데이터베이스를 도입했습니다. 문의/약속/회원 데이터가 백엔드에 쌓입니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">관리자 전용 대시보드를 추가했습니다 (footer의 "🛠 관리자"). 문의·약속 목록을 보고 대기중/수락/거절/완료로 상태를 바꿀 수 있고, 기본 통계도 볼 수 있습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">약속 시간이 관리자가 등록한 "바쁜 시간"과 겹치면 자동으로 막히도록 캘린더 충돌 체크를 추가했습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">회원과 최한민이 실시간으로 대화할 수 있는 채팅 기능을 추가했습니다 (우측 하단 💬 버튼).</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">푸시 알림 기반을 추가했습니다. 현재는 알림 토큰 수집까지 자동이며, 실제 발송은 Firebase 콘솔에서 수동으로 합니다.</p>
       </div>
       <p class="version-tag">Ver 2.9</p>
       <div class="faq-item">
@@ -2354,11 +2924,14 @@
     });
 
     document.getElementById('gateOverlay').classList.add('gate-hidden');
+    registerPushToken(gateOtpEmail);
   }
 
   function initGate(){
     if(isMember()){
       document.getElementById('gateOverlay').classList.add('gate-hidden');
+      const email = getCurrentMemberEmail();
+      if(email) registerPushToken(email);
     }
   }
   initGate();
@@ -2483,6 +3056,11 @@
       title: "새로운 회원가입",
       message: signupOtpName + " (" + signupOtpEmail + ")가 회원가입했습니다."
     }).catch(err => console.warn("회원가입 알림 메일 전송 실패(무시됨):", err));
+
+    saveToFirestore('members', {
+      name: signupOtpName,
+      email: signupOtpEmail
+    });
 
     document.getElementById('codeReveal').textContent = SERVICE_ACCESS_CODE;
     showGatePanel('gateSignupSuccess');
@@ -2612,9 +3190,13 @@
   let currentApptType = null;
   let selectedGames = new Set();
 
+  let currentApptBusySlots = [];
+
   function selectAppointmentType(type){
     currentApptType = type;
     selectedGames = new Set();
+    currentApptBusySlots = [];
+    fetchBusySlots().then(slots => { currentApptBusySlots = slots; });
 
     const gameSection = type === '게임 약속' ? `
       <div class="form-group">
@@ -2699,9 +3281,14 @@
     const [h, min] = timePart.split(':').map(Number);
     const mins = h * 60 + min;
     const isSleepTime = (mins >= 120 && mins < 390); // 02:00 ~ 06:30
-    hint.textContent = isSleepTime
-      ? "😴 이 시간엔 최한민이 자고 있을 확률이 높아요. 답장이 늦을 수 있어요."
-      : "";
+
+    if(isOverlappingBusySlot(input.value, currentApptBusySlots)){
+      hint.textContent = "📅 이미 다른 일정과 겹치는 시간이에요. 다른 시간을 골라주세요.";
+    }else if(isSleepTime){
+      hint.textContent = "😴 이 시간엔 최한민이 자고 있을 확률이 높아요. 답장이 늦을 수 있어요.";
+    }else{
+      hint.textContent = "";
+    }
   }
 
   async function submitAppointment(type){
@@ -2724,6 +3311,10 @@
     }
     if(!canSendNow()){
       showToast("너무 빨리 재전송하려고 해요! 1분 후 다시 시도해주세요");
+      return;
+    }
+    if(isOverlappingBusySlot(datetime, currentApptBusySlots)){
+      showToast("이미 잡힌 시간대예요. 다른 시간을 선택해주세요");
       return;
     }
 
@@ -2761,6 +3352,15 @@
         datetime: formattedDatetime,
         games: type === '게임 약속' ? Array.from(selectedGames).join(", ") : "",
         sentAt: new Date().toISOString()
+      });
+      saveToFirestore('appointments', {
+        appointmentType: type,
+        email: email,
+        applicant: applicant,
+        companion: companion,
+        datetime: datetime,
+        datetimeDisplay: formattedDatetime,
+        games: type === '게임 약속' ? Array.from(selectedGames).join(", ") : ""
       });
     }catch(err){
       showToast("전송 실패하였습니다");
@@ -2834,6 +3434,13 @@
         title: title,
         body: body,
         sentAt: new Date().toISOString()
+      });
+      saveToFirestore('inquiries', {
+        category: selectedTag,
+        relation: selectedRelation || "",
+        email: email,
+        title: title,
+        body: body
       });
     }catch(err){
       showToast("전송 실패하였습니다");
