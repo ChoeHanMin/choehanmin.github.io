@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>최한민에게 요청하기</title>
 
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%238A7B68'/%3E%3Cellipse cx='50' cy='58' rx='30' ry='26' fill='%23EDE3D3'/%3E%3Cellipse cx='24' cy='30' rx='9' ry='11' fill='%236E6153'/%3E%3Cellipse cx='76' cy='30' rx='9' ry='11' fill='%236E6153'/%3E%3Crect x='24' y='42' width='20' height='15' rx='4' fill='none' stroke='%2320222A' stroke-width='4'/%3E%3Crect x='56' y='42' width='20' height='15' rx='4' fill='none' stroke='%2320222A' stroke-width='4'/%3E%3Cline x1='44' y1='49' x2='56' y2='49' stroke='%2320222A' stroke-width='4'/%3E%3Cellipse cx='50' cy='62' rx='6' ry='4' fill='%233B2E26'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%238A7B68'/%3E%3Cellipse cx='83' cy='15' rx='13' ry='13' fill='%238A7B68' stroke='%236E6153' stroke-width='2'/%3E%3Cellipse cx='24' cy='30' rx='9' ry='11' fill='%236E6153'/%3E%3Cellipse cx='76' cy='30' rx='9' ry='11' fill='%236E6153'/%3E%3Cellipse cx='50' cy='59' rx='32' ry='29' fill='%23EDE3D3'/%3E%3Crect x='22' y='40' width='22' height='16' rx='4' fill='none' stroke='%2320222A' stroke-width='4'/%3E%3Crect x='56' y='40' width='22' height='16' rx='4' fill='none' stroke='%2320222A' stroke-width='4'/%3E%3Cline x1='44' y1='48' x2='56' y2='48' stroke='%2320222A' stroke-width='4'/%3E%3Cellipse cx='50' cy='61' rx='5' ry='3.5' fill='%233B2E26'/%3E%3Cpath d='M33,63 Q50,88 67,63 Z' fill='%233B2E26'/%3E%3Cpath d='M38,63 Q50,78 62,63 Z' fill='%23F28FA3'/%3E%3C/svg%3E">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://choehanmin.github.io/request/">
@@ -258,6 +258,29 @@
     transition:all .25s ease;
   }
   .theme-toggle:hover{
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+
+  .top-bar{
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:10px;
+  }
+
+  .logout-btn{
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:8px 16px;
+    cursor:pointer;
+    transition:all .2s ease;
+  }
+  .logout-btn:hover{
     border-color:var(--accent);
     color:var(--accent);
   }
@@ -584,6 +607,8 @@
     align-items:center;
     gap:16px;
     text-align:left;
+    text-decoration:none;
+    color:inherit;
     cursor:pointer;
     transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
     -webkit-tap-highlight-color:transparent;
@@ -1191,7 +1216,7 @@
       </div>
 
       <p class="field-hint" id="gateStep1Hint"></p>
-      <button class="submit-btn" id="gateRequestBtn" onclick="requestGateOtp()">인증번호 받기</button>
+      <button class="submit-btn" id="gateRequestBtn" onclick="requestGateOtp()">로그인 하기</button>
       <button class="signup-link" onclick="openSignup()">아직 코드가 없나요? 회원가입</button>
     </div>
 
@@ -1524,6 +1549,9 @@
 </div>
 
 <div class="page">
+  <div class="top-bar">
+    <button class="logout-btn" onclick="logoutMember()">로그아웃</button>
+  </div>
   <div class="header-row">
     <div class="header-text">
       <div class="eyebrow">STATUS: ONLINE<span class="cursor"></span></div>
@@ -1579,6 +1607,23 @@
       </svg>
     </button>
 
+    <a class="card" href="https://www.instagram.com/choihanmin_" target="_blank" rel="noopener" onclick="playClickSound()">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="#E1306C" stroke-width="1.8"/>
+          <circle cx="12" cy="12" r="4.2" stroke="#E1306C" stroke-width="1.8"/>
+          <circle cx="17" cy="7" r="1.1" fill="#E1306C"/>
+        </svg>
+      </div>
+      <div class="card-text">
+        <p class="card-title card-title--highlight">최한민에게 DM 보내기</p>
+        <p class="card-desc">맞팔이 되어야만 DM 전송이 가능합니다</p>
+      </div>
+      <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+
     <div class="below-cards">
       <button class="card disabled" type="button" disabled>
         <div class="icon">
@@ -1618,7 +1663,7 @@
     <p class="maker-label">제작자: 최한민</p>
     <p class="visitor-count" id="visitorCount"></p>
     <div class="version-row">
-      <p class="version-label">Ver 2.7</p>
+      <p class="version-label">Ver 2.9</p>
       <button class="changelog-btn" onclick="openSheet('changelog')">업데이트 내역 확인하기</button>
     </div>
     <div class="footer-actions">
@@ -1980,7 +2025,7 @@
         <button class="close-btn" onclick="closeSheet()">✕</button>
       </div>
       <div class="option-list">
-        <button class="option-btn" onclick="selectAppointmentType('공부/대외활동 등 활동 약속')">공부/대외활동 등 활동 약속</button>
+        <button class="option-btn" onclick="selectAppointmentType('공부/대외활동 등 학습 활동 약속')">공부/대외활동 등 학습 활동 약속</button>
         <button class="option-btn" onclick="selectAppointmentType('운동 약속')">운동 약속</button>
         <button class="option-btn" onclick="selectAppointmentType('식사 약속')">식사 약속</button>
         <button class="option-btn" onclick="selectAppointmentType('게임 약속')">게임 약속</button>
@@ -2025,20 +2070,6 @@
       </div>
       <button class="submit-btn" id="submitBtn" style="display:none;" onclick="submitInquiry()">전송</button>
     `,
-    who: `
-      <div class="sheet-head">
-        <p class="sheet-title">최한민은 누구인가요?</p>
-        <button class="close-btn" onclick="closeSheet()">✕</button>
-      </div>
-      <div class="option-list">
-        <button class="option-btn" onclick="personaChoice('good')">귀요미</button>
-        <button class="option-btn" onclick="personaChoice('good')">공주</button>
-        <button class="option-btn" onclick="personaChoice('good')">자유로운파랑새</button>
-        <button class="option-btn" onclick="personaChoice('bad')">꿀꿀돼지</button>
-        <button class="option-btn" onclick="personaChoice('bad')">늙크크</button>
-        <button class="option-btn" onclick="personaChoice('bad')">영포티</button>
-      </div>
-    `,
     faq: `
       <div class="paper" id="paper">
         <div class="paper-head">
@@ -2051,6 +2082,29 @@
       <div class="sheet-head">
         <p class="sheet-title">업데이트 내역</p>
         <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <p class="version-tag">Ver 2.9</p>
+      <div class="faq-item">
+        <p class="faq-a">로그인된 화면 상단에 "로그아웃" 버튼을 추가했습니다. 누르기 전까지는 자동으로 로그아웃되지 않습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">누군가 회원가입을 완료하면 이름·이메일이 rokafhanmin@gmail.com으로도 알림 메일이 갑니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">"공부/대외활동 등 활동 약속"을 "공부/대외활동 등 학습 활동 약속"으로 이름을 바꿨습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">"최한민은 누구인가요?"의 6개 버튼 순서가 열 때마다 랜덤으로 섞입니다.</p>
+      </div>
+      <p class="version-tag">Ver 2.8</p>
+      <div class="faq-item">
+        <p class="faq-a">"문의 남기기"와 "기타 서비스" 사이에 "최한민에게 DM 보내기" 버튼을 추가했습니다. 인스타그램 프로필로 바로 이동합니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">로그인 화면의 "인증번호 받기" 버튼을 "로그인 하기"로 바꿨습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">파비콘과 홈 화면 아이콘을 활짝 웃으며 손을 흔드는 수달로 새로 그렸습니다.</p>
       </div>
       <p class="version-tag">Ver 2.7</p>
       <div class="faq-item">
@@ -2256,7 +2310,7 @@
     }catch(err){
       hint.textContent = "인증번호 전송에 실패했어요. 잠시 후 다시 시도해주세요.";
     }finally{
-      if(btn){ btn.disabled = false; btn.textContent = "인증번호 받기"; }
+      if(btn){ btn.disabled = false; btn.textContent = "로그인 하기"; }
     }
   }
 
@@ -2308,6 +2362,16 @@
     }
   }
   initGate();
+
+  function logoutMember(){
+    try{
+      localStorage.removeItem('memberInfo');
+    }catch(e){ /* ignore */ }
+    document.getElementById('gateOverlay').classList.remove('gate-hidden');
+    showGatePanel('gateStep1');
+    const codeInput = document.getElementById('gateCode');
+    if(codeInput) codeInput.value = '';
+  }
 
   // ── 회원가입 (이메일 인증만, 성공 시 사용 가능 코드 공개) ──
   let signupOtpCode = null;
@@ -2412,6 +2476,14 @@
       sentAt: new Date().toISOString()
     });
 
+    sendEmail({
+      to_email: "rokafhanmin@gmail.com",
+      reply_to: signupOtpEmail,
+      category: "회원가입",
+      title: "새로운 회원가입",
+      message: signupOtpName + " (" + signupOtpEmail + ")가 회원가입했습니다."
+    }).catch(err => console.warn("회원가입 알림 메일 전송 실패(무시됨):", err));
+
     document.getElementById('codeReveal').textContent = SERVICE_ACCESS_CODE;
     showGatePanel('gateSignupSuccess');
   }
@@ -2425,9 +2497,34 @@
   let selectedTag = null;
   let selectedRelation = null;
 
+  function buildWhoSheet(){
+    const personas = [
+      { label: '귀요미', mood: 'good' },
+      { label: '공주', mood: 'good' },
+      { label: '자유로운파랑새', mood: 'good' },
+      { label: '꿀꿀돼지', mood: 'bad' },
+      { label: '늙크크', mood: 'bad' },
+      { label: '영포티', mood: 'bad' }
+    ];
+    for(let i = personas.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [personas[i], personas[j]] = [personas[j], personas[i]];
+    }
+    const buttons = personas.map(p =>
+      `<button class="option-btn" onclick="personaChoice('${p.mood}')">${p.label}</button>`
+    ).join('');
+    return `
+      <div class="sheet-head">
+        <p class="sheet-title">최한민은 누구인가요?</p>
+        <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <div class="option-list">${buttons}</div>
+    `;
+  }
+
   function openSheet(type){
     const sheetEl = document.getElementById('sheet');
-    sheetEl.innerHTML = sheetTemplates[type];
+    sheetEl.innerHTML = (type === 'who') ? buildWhoSheet() : sheetTemplates[type];
     sheetEl.classList.toggle('sheet--paper', type === 'faq');
     selectedTag = null;
     selectedRelation = null;
