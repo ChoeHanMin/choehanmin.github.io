@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap">
 <style>
   :root{
-    --bg:#F4F5F8;
+    --bg:#F1F5EC;
     --surface:#FFFFFF;
     --ink:#15171F;
     --ink-soft:#6B7080;
@@ -38,12 +38,27 @@
   }
 
   .page{
+    position:relative;
+    z-index:1;
     width:100%;
     max-width:420px;
     min-height:100vh;
     display:flex;
     flex-direction:column;
     padding:64px 0 40px;
+  }
+
+  .nature-bg{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .nature-bg svg{
+    width:100%;
+    height:100%;
+    display:block;
   }
 
   .eyebrow{
@@ -184,7 +199,18 @@
     margin-top:auto;
     padding-top:48px;
     display:flex;
-    justify-content:center;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+  }
+
+  .version-label{
+    font-family:'SFMono-Regular', ui-monospace, Menlo, monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+    margin:0;
+    opacity:0.7;
   }
 
   .faq-btn{
@@ -601,6 +627,77 @@
 </head>
 <body>
 
+<div class="nature-bg" aria-hidden="true">
+  <svg viewBox="0 0 800 1400" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#F4F8EF"/>
+        <stop offset="100%" stop-color="#E3EFDA"/>
+      </linearGradient>
+      <linearGradient id="hillBack" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#D2E5C3"/>
+        <stop offset="100%" stop-color="#BEDCAB"/>
+      </linearGradient>
+      <linearGradient id="hillFront" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ACD293"/>
+        <stop offset="100%" stop-color="#8FC275"/>
+      </linearGradient>
+    </defs>
+
+    <rect x="0" y="0" width="800" height="1400" fill="url(#skyGrad)"/>
+
+    <path d="M0,1050 C150,980 300,1000 420,1040 C560,1085 650,1020 800,1060 L800,1400 L0,1400 Z" fill="url(#hillBack)"/>
+    <path d="M0,1180 C180,1120 320,1160 480,1130 C620,1105 700,1150 800,1120 L800,1400 L0,1400 Z" fill="url(#hillFront)"/>
+
+    <g stroke="#6FA968" stroke-width="3" stroke-linecap="round" opacity="0.6">
+      <path d="M40,1250 q6,-30 0,-45"/>
+      <path d="M55,1250 q10,-35 4,-50"/>
+      <path d="M70,1250 q-6,-28 -2,-42"/>
+      <path d="M560,1260 q6,-30 0,-45"/>
+      <path d="M575,1260 q10,-35 4,-50"/>
+      <path d="M590,1260 q-6,-28 -2,-42"/>
+    </g>
+
+    <g transform="translate(90,1160)">
+      <line x1="0" y1="0" x2="0" y2="40" stroke="#6FA968" stroke-width="4"/>
+      <circle cx="0" cy="-6" r="10" fill="#F6C9DD"/>
+      <circle cx="-9" cy="2" r="10" fill="#F6C9DD"/>
+      <circle cx="9" cy="2" r="10" fill="#F6C9DD"/>
+      <circle cx="-5" cy="12" r="10" fill="#F6C9DD"/>
+      <circle cx="5" cy="12" r="10" fill="#F6C9DD"/>
+      <circle cx="0" cy="4" r="6" fill="#F7DE7A"/>
+    </g>
+
+    <g transform="translate(230,1200) scale(0.85)">
+      <line x1="0" y1="0" x2="0" y2="36" stroke="#6FA968" stroke-width="4"/>
+      <circle cx="0" cy="-6" r="10" fill="#FFFFFF"/>
+      <circle cx="-9" cy="2" r="10" fill="#FFFFFF"/>
+      <circle cx="9" cy="2" r="10" fill="#FFFFFF"/>
+      <circle cx="-5" cy="12" r="10" fill="#FFFFFF"/>
+      <circle cx="5" cy="12" r="10" fill="#FFFFFF"/>
+      <circle cx="0" cy="4" r="6" fill="#F7DE7A"/>
+    </g>
+
+    <g transform="translate(650,1170) scale(1.1)">
+      <line x1="0" y1="0" x2="0" y2="42" stroke="#6FA968" stroke-width="4"/>
+      <circle cx="0" cy="-6" r="10" fill="#F2B65A"/>
+      <circle cx="-9" cy="2" r="10" fill="#F2B65A"/>
+      <circle cx="9" cy="2" r="10" fill="#F2B65A"/>
+      <circle cx="-5" cy="12" r="10" fill="#F2B65A"/>
+      <circle cx="5" cy="12" r="10" fill="#F2B65A"/>
+      <circle cx="0" cy="4" r="6" fill="#C0472F"/>
+    </g>
+
+    <g transform="translate(700,40)" opacity="0.55">
+      <path d="M0,0 C40,20 60,60 40,110 C25,145 0,160 -10,190" fill="none" stroke="#8FB878" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="18" cy="30" rx="14" ry="8" fill="#A8CC8F" transform="rotate(30 18 30)"/>
+      <ellipse cx="45" cy="65" rx="14" ry="8" fill="#9BC482" transform="rotate(60 45 65)"/>
+      <ellipse cx="40" cy="110" rx="14" ry="8" fill="#A8CC8F" transform="rotate(100 40 110)"/>
+      <ellipse cx="15" cy="150" rx="12" ry="7" fill="#9BC482" transform="rotate(140 15 150)"/>
+    </g>
+  </svg>
+</div>
+
 <div class="page">
   <div class="eyebrow">STATUS: ONLINE<span class="cursor"></span></div>
   <h1>최한민에게<br>무엇을 요청하시겠어요?</h1>
@@ -679,6 +776,7 @@
   </div>
 
   <div class="footer">
+    <p class="version-label">Ver 1.0</p>
     <button class="faq-btn" onclick="openSheet('faq')">FAQ</button>
   </div>
 </div>
