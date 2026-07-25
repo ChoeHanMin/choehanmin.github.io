@@ -4,6 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>최한민에게 요청하기</title>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%238A7B68'/%3E%3Cellipse cx='50' cy='58' rx='30' ry='26' fill='%23EDE3D3'/%3E%3Cellipse cx='24' cy='30' rx='9' ry='11' fill='%236E6153'/%3E%3Cellipse cx='76' cy='30' rx='9' ry='11' fill='%236E6153'/%3E%3Crect x='24' y='42' width='20' height='15' rx='4' fill='none' stroke='%2320222A' stroke-width='4'/%3E%3Crect x='56' y='42' width='20' height='15' rx='4' fill='none' stroke='%2320222A' stroke-width='4'/%3E%3Cline x1='44' y1='49' x2='56' y2='49' stroke='%2320222A' stroke-width='4'/%3E%3Cellipse cx='50' cy='62' rx='6' ry='4' fill='%233B2E26'/%3E%3C/svg%3E">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://choehanmin.github.io/request/">
+<meta property="og:title" content="최한민에게 요청하기">
+<meta property="og:description" content="약속 잡기 · 문의 남기기 · 최한민은 누구인가요?">
+<meta property="og:image" content="https://choehanmin.github.io/request/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#3654FF">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="한민에게 요청">
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap">
 <style>
@@ -138,7 +154,146 @@
     font-size:15px;
     color:var(--ink-soft);
     line-height:1.6;
-    margin:0 0 40px;
+    margin:0 0 14px;
+  }
+
+  .theme-toggle{
+    font-family:'SFMono-Regular', ui-monospace, Menlo, monospace;
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:6px 12px;
+    margin:0 0 26px;
+    cursor:pointer;
+    transition:all .25s ease;
+  }
+  .theme-toggle:hover{
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+
+  .otter-eyes{
+    transform-box:fill-box;
+    transform-origin:center;
+    animation:otterBlink 4.5s infinite;
+  }
+  @keyframes otterBlink{
+    0%, 94%, 100%{ transform:scaleY(1); }
+    97%{ transform:scaleY(0.1); }
+  }
+
+  .firefly{
+    transform-box:fill-box;
+    transform-origin:center;
+    animation:fireflyFloat 3.5s ease-in-out infinite;
+    filter:drop-shadow(0 0 4px rgba(247,233,142,0.9));
+  }
+  @keyframes fireflyFloat{
+    0%,100%{ transform:translate(0,0); opacity:0.3; }
+    25%{ transform:translate(8px,-10px); opacity:1; }
+    50%{ transform:translate(-6px,-4px); opacity:0.5; }
+    75%{ transform:translate(5px,6px); opacity:0.9; }
+  }
+
+  .calendar-fab{
+    position:fixed;
+    left:50%;
+    bottom:90px;
+    transform:translateX(-50%);
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    border-radius:999px;
+    padding:12px 20px;
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 10px 26px -8px rgba(54,84,255,0.5);
+    z-index:120;
+    animation:fabPop .35s ease;
+  }
+  @keyframes fabPop{
+    0%{ transform:translateX(-50%) scale(0.8); opacity:0; }
+    100%{ transform:translateX(-50%) scale(1); opacity:1; }
+  }
+
+  .success-overlay{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+    opacity:0;
+    z-index:150;
+  }
+  .success-overlay.show{
+    animation:successFade 1.3s ease forwards;
+  }
+  @keyframes successFade{
+    0%{ opacity:0; }
+    15%{ opacity:1; }
+    80%{ opacity:1; }
+    100%{ opacity:0; }
+  }
+
+  .success-check{
+    width:96px;
+    height:96px;
+    filter:drop-shadow(0 8px 20px rgba(54,84,255,0.35));
+  }
+  .success-check-circle{
+    fill:none;
+    stroke:var(--accent);
+    stroke-width:5;
+    stroke-linecap:round;
+    stroke-dasharray:214;
+    stroke-dashoffset:214;
+  }
+  .success-check-mark{
+    fill:none;
+    stroke:var(--accent);
+    stroke-width:6;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray:46;
+    stroke-dashoffset:46;
+  }
+  .success-overlay.show .success-check-circle{
+    animation:drawCircle .5s ease forwards;
+  }
+  .success-overlay.show .success-check-mark{
+    animation:drawCheck .35s ease forwards .45s;
+  }
+  @keyframes drawCircle{
+    to{ stroke-dashoffset:0; }
+  }
+  @keyframes drawCheck{
+    to{ stroke-dashoffset:0; }
+  }
+
+  .confetti-layer{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:149;
+  }
+  .confetti-piece{
+    position:absolute;
+    top:-20px;
+    width:8px;
+    height:8px;
+    border-radius:2px;
+    animation:confettiFall 1.4s ease-in forwards;
+  }
+  @keyframes confettiFall{
+    0%{ transform:translateY(0) rotate(0deg); opacity:1; }
+    100%{ transform:translateY(100vh) rotate(540deg); opacity:0; }
   }
 
   .header-row{
@@ -295,6 +450,19 @@
     letter-spacing:0.03em;
     margin:0;
     opacity:0.55;
+  }
+
+  .visitor-count{
+    font-family:'SFMono-Regular', ui-monospace, Menlo, monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    margin:4px 0 0;
+    opacity:0.6;
+  }
+
+  .footer-actions{
+    display:flex;
+    gap:6px;
   }
 
   .version-row{
@@ -823,6 +991,41 @@
       <circle cx="13" cy="-13" r="4" fill="#D7DBE5"/>
     </g>
 
+    <g id="weatherCloud" transform="translate(250,935)" style="display:none">
+      <ellipse cx="-15" cy="5" rx="18" ry="14" fill="#E6EAF2"/>
+      <ellipse cx="10" cy="0" rx="22" ry="17" fill="#E6EAF2"/>
+      <ellipse cx="30" cy="8" rx="15" ry="12" fill="#E6EAF2"/>
+    </g>
+    <g id="weatherRain" transform="translate(250,935)" style="display:none">
+      <ellipse cx="-15" cy="5" rx="18" ry="14" fill="#C9D2E0"/>
+      <ellipse cx="10" cy="0" rx="22" ry="17" fill="#C9D2E0"/>
+      <ellipse cx="30" cy="8" rx="15" ry="12" fill="#C9D2E0"/>
+      <g stroke="#6FA0E0" stroke-width="3" stroke-linecap="round">
+        <line x1="-10" y1="28" x2="-16" y2="42"/>
+        <line x1="10" y1="30" x2="4" y2="46"/>
+        <line x1="28" y1="26" x2="22" y2="40"/>
+      </g>
+    </g>
+    <g id="weatherSnow" transform="translate(250,935)" style="display:none">
+      <ellipse cx="-15" cy="5" rx="18" ry="14" fill="#E6EAF2"/>
+      <ellipse cx="10" cy="0" rx="22" ry="17" fill="#E6EAF2"/>
+      <ellipse cx="30" cy="8" rx="15" ry="12" fill="#E6EAF2"/>
+      <g fill="#FFFFFF">
+        <circle cx="-10" cy="34" r="3"/>
+        <circle cx="10" cy="38" r="3"/>
+        <circle cx="28" cy="32" r="3"/>
+      </g>
+    </g>
+
+    <g id="firefliesGroup" style="display:none">
+      <circle class="firefly" cx="150" cy="1120" r="4" fill="#F7E98E"/>
+      <circle class="firefly" cx="320" cy="1180" r="3.5" fill="#F7E98E" style="animation-delay:0.6s"/>
+      <circle class="firefly" cx="480" cy="1130" r="4" fill="#F7E98E" style="animation-delay:1.2s"/>
+      <circle class="firefly" cx="600" cy="1200" r="3.5" fill="#F7E98E" style="animation-delay:1.8s"/>
+      <circle class="firefly" cx="220" cy="1250" r="4" fill="#F7E98E" style="animation-delay:0.3s"/>
+      <circle class="firefly" cx="700" cy="1280" r="3.5" fill="#F7E98E" style="animation-delay:2.1s"/>
+    </g>
+
     <path d="M0,1050 C150,980 300,1000 420,1040 C560,1085 650,1020 800,1060 L800,1400 L0,1400 Z" fill="url(#hillBack)"/>
     <path d="M0,1180 C180,1120 320,1160 480,1130 C620,1105 700,1150 800,1120 L800,1400 L0,1400 Z" fill="url(#hillFront)"/>
 
@@ -902,8 +1105,10 @@
         <line x1="-32" y1="-51" x2="-40" y2="-53"/>
         <line x1="32" y1="-51" x2="40" y2="-53"/>
       </g>
-      <circle cx="-20" cy="-49" r="3" fill="#20222A"/>
-      <circle cx="20" cy="-49" r="3" fill="#20222A"/>
+      <g class="otter-eyes">
+        <circle cx="-20" cy="-49" r="3" fill="#20222A"/>
+        <circle cx="20" cy="-49" r="3" fill="#20222A"/>
+      </g>
 
       <path d="M-13,-4 Q0,10 13,-4" stroke="#8A6A46" stroke-width="3" fill="none"/>
       <rect x="-19" y="4" width="38" height="22" rx="5" fill="#FFFFFF" stroke="#D8D2C4" stroke-width="1.5"/>
@@ -918,6 +1123,7 @@
       <div class="eyebrow">STATUS: ONLINE<span class="cursor"></span></div>
       <h1>최한민에게<br>무엇을 요청하시겠어요?</h1>
       <p class="sub">아래에서 원하는 항목을 선택해주세요.</p>
+      <button class="theme-toggle" id="themeToggle" onclick="cycleThemeOverride()">🌗 자동</button>
     </div>
     <div class="status-grid" id="statusGrid">
       <div class="status-cell" data-status="study">공부/학습 중</div>
@@ -928,7 +1134,7 @@
   </div>
 
   <div class="cards">
-    <button class="card" onclick="openSheet('appointment')">
+    <button class="card" onclick="playClickSound();openSheet('appointment')">
       <div class="icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="3" y="5" width="18" height="16" rx="3" stroke="#3654FF" stroke-width="1.8"/>
@@ -947,7 +1153,7 @@
       </svg>
     </button>
 
-    <button class="card warm" onclick="openSheet('inquiry')">
+    <button class="card warm" onclick="playClickSound();openSheet('inquiry')">
       <div class="icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M4 5H20V16H8L4 19.5V5Z" stroke="#FF6B47" stroke-width="1.8" stroke-linejoin="round"/>
@@ -981,7 +1187,7 @@
     </div>
 
     <div class="below-cards">
-      <button class="card" onclick="openSheet('who')">
+      <button class="card" onclick="playClickSound();openSheet('who')">
         <div class="icon">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="12" cy="9" r="3.4" stroke="#3654FF" stroke-width="1.8"/>
@@ -1001,15 +1207,27 @@
 
   <div class="footer">
     <p class="maker-label">제작자: 최한민</p>
+    <p class="visitor-count" id="visitorCount"></p>
     <div class="version-row">
-      <p class="version-label">Ver 1.3</p>
+      <p class="version-label">Ver 2.5</p>
       <button class="changelog-btn" onclick="openSheet('changelog')">업데이트 내역 확인하기</button>
     </div>
-    <button class="faq-btn" onclick="openSheet('faq')">FAQ</button>
+    <div class="footer-actions">
+      <button class="faq-btn" onclick="openSheet('faq')">FAQ</button>
+      <button class="faq-btn" onclick="copyPageLink()">🔗 링크 복사</button>
+    </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
+
+<div class="success-overlay" id="successOverlay">
+  <svg class="success-check" viewBox="0 0 80 80">
+    <circle class="success-check-circle" cx="40" cy="40" r="34"/>
+    <path class="success-check-mark" d="M24,42 L35,53 L57,29"/>
+  </svg>
+</div>
+<div class="confetti-layer" id="confettiLayer"></div>
 
 <div class="overlay" id="overlay" onclick="if(event.target===this)closeSheet()">
   <div class="sheet" id="sheet"></div>
@@ -1025,13 +1243,17 @@
 </div>
 
 <script>
-  // ▼▼▼ EmailJS 설정 (emailjs.com 무료 가입 후 아래 3개 값을 본인 값으로 교체하세요) ▼▼▼
+  // ▼▼▼ EmailJS 설정 (emailjs.com 무료 가입 후 아래 값을 본인 값으로 교체하세요) ▼▼▼
   const EMAILJS_PUBLIC_KEY  = "gT3f6wnJqzi52pYQG";
   const EMAILJS_SERVICE_ID  = "service_4rbq86w";
   const EMAILJS_TEMPLATE_ID = "template_th6u4ck";
+  // 신청자 본인에게 보내는 확인 메일용 템플릿(선택사항). 아직 안 만들었으면 그대로 둬도
+  // 무방하며, 이 경우 확인 메일만 조용히 생략되고 나머지 기능은 정상 작동합니다.
+  const EMAILJS_CONFIRM_TEMPLATE_ID = "YOUR_CONFIRM_TEMPLATE_ID";
   // ▲▲▲ 여기까지 ▲▲▲
 
   const ALLOWED_EMAIL_DOMAINS = ["gmail.com", "naver.com", "kakao.com"];
+  const SEND_COOLDOWN_MS = 60000;
 
   function getSeoulMinutes(){
     const parts = new Intl.DateTimeFormat('en-GB', {
@@ -1057,16 +1279,55 @@
     });
   }
 
+  function getThemeOverride(){
+    try{
+      return localStorage.getItem('themeOverride') || 'auto';
+    }catch(e){
+      return 'auto';
+    }
+  }
+
+  function setThemeOverride(val){
+    try{
+      localStorage.setItem('themeOverride', val);
+    }catch(e){ /* ignore */ }
+  }
+
+  function cycleThemeOverride(){
+    const order = ['auto', 'light', 'dark'];
+    const current = getThemeOverride();
+    const next = order[(order.indexOf(current) + 1) % order.length];
+    setThemeOverride(next);
+    updateTimeBasedUI();
+  }
+
+  function updateThemeToggleLabel(){
+    const btn = document.getElementById('themeToggle');
+    if(!btn) return;
+    const override = getThemeOverride();
+    const labels = { auto: '🌗 자동', light: '☀️ 라이트', dark: '🌙 다크' };
+    btn.textContent = labels[override];
+  }
+
   function updateSkyIcon(){
-    const m = getSeoulMinutes();
-    const isDay = m >= 360 && m < 1080; // 06:00 ~ 18:00
+    const override = getThemeOverride();
+    let isDay;
+    if(override === 'light') isDay = true;
+    else if(override === 'dark') isDay = false;
+    else{
+      const m = getSeoulMinutes();
+      isDay = m >= 360 && m < 1080; // 06:00 ~ 18:00
+    }
     const sun = document.getElementById('sunIcon');
     const moon = document.getElementById('moonIcon');
     const stars = document.getElementById('starsGroup');
+    const fireflies = document.getElementById('firefliesGroup');
     if(sun) sun.style.display = isDay ? 'block' : 'none';
     if(moon) moon.style.display = isDay ? 'none' : 'block';
     if(stars) stars.style.display = isDay ? 'none' : 'block';
+    if(fireflies) fireflies.style.display = isDay ? 'none' : 'block';
     document.documentElement.classList.toggle('dark-mode', !isDay);
+    updateThemeToggleLabel();
   }
 
   function updateTimeBasedUI(){
@@ -1077,19 +1338,154 @@
   updateTimeBasedUI();
   setInterval(updateTimeBasedUI, 60000);
 
+  // ── 실시간 날씨 아이콘 (open-meteo, API 키 불필요) ──
+  async function updateWeatherIcon(){
+    try{
+      const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current_weather=true&timezone=Asia%2FSeoul");
+      const data = await res.json();
+      const code = data.current_weather.weathercode;
+      const cloud = document.getElementById('weatherCloud');
+      const rain = document.getElementById('weatherRain');
+      const snow = document.getElementById('weatherSnow');
+      [cloud, rain, snow].forEach(el => { if(el) el.style.display = 'none'; });
+
+      if([51,53,55,61,63,65,80,81,82,95,96,99].includes(code)){
+        if(rain) rain.style.display = 'block';
+      }else if([71,73,75,77,85,86].includes(code)){
+        if(snow) snow.style.display = 'block';
+      }else if([1,2,3,45,48].includes(code)){
+        if(cloud) cloud.style.display = 'block';
+      }
+      // code 0(맑음)일 땐 태양/달만 보이도록 아무 아이콘도 띄우지 않음
+    }catch(err){
+      console.warn("날씨 정보를 가져오지 못했습니다:", err);
+    }
+  }
+  updateWeatherIcon();
+  setInterval(updateWeatherIcon, 15 * 60000);
+
+  // ── 방문자 수 카운터 (countapi.xyz, 키 불필요) ──
+  async function updateVisitorCount(){
+    const el = document.getElementById('visitorCount');
+    if(!el) return;
+    try{
+      const res = await fetch("https://api.countapi.xyz/hit/hanmin-request-page/visits");
+      const data = await res.json();
+      el.textContent = "👀 " + data.value.toLocaleString() + "명 다녀감";
+    }catch(err){
+      el.textContent = "";
+    }
+  }
+  updateVisitorCount();
+
+  // ── 링크 복사 ──
+  function copyPageLink(){
+    const url = window.location.href;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url)
+        .then(()=> showToast("링크가 복사되었습니다"))
+        .catch(()=> showToast("복사에 실패했어요"));
+    }else{
+      showToast("복사에 실패했어요");
+    }
+  }
+
+  // ── 버튼 클릭/성공 사운드 (Web Audio API, 외부 파일 불필요) ──
+  let audioCtx = null;
+  function getAudioCtx(){
+    if(!audioCtx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(AC) audioCtx = new AC();
+    }
+    return audioCtx;
+  }
+  function playTone(freq, duration, type, volume){
+    const ctx = getAudioCtx();
+    if(!ctx) return;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type || 'sine';
+    osc.frequency.value = freq;
+    gain.gain.value = volume || 0.06;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+    osc.stop(ctx.currentTime + duration);
+  }
+  function playClickSound(){
+    playTone(720, 0.08, 'sine', 0.05);
+  }
+  function playSuccessSound(){
+    playTone(660, 0.12, 'sine', 0.06);
+    setTimeout(()=>playTone(880, 0.16, 'sine', 0.06), 110);
+  }
+
+  // ── 약속 신청 완료 후 내 캘린더에 추가(.ics 다운로드) ──
+  function toIcsDate(dateObj){
+    return dateObj.toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
+  }
+  function downloadIcs(title, isoDatetime){
+    const start = new Date(isoDatetime);
+    const end = new Date(start.getTime() + 60 * 60000);
+    const ics = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "BEGIN:VEVENT",
+      "SUMMARY:" + title,
+      "DTSTART:" + toIcsDate(start),
+      "DTEND:" + toIcsDate(end),
+      "DESCRIPTION:최한민에게 요청하기 페이지를 통해 신청한 약속입니다.",
+      "END:VEVENT",
+      "END:VCALENDAR"
+    ].join("\r\n");
+    const blob = new Blob([ics], { type: "text/calendar" });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = "약속.ics";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+  function showAddToCalendar(title, isoDatetime){
+    const btn = document.createElement('button');
+    btn.className = 'calendar-fab';
+    btn.textContent = '📅 내 캘린더에 추가';
+    btn.onclick = function(){
+      downloadIcs(title, isoDatetime);
+      btn.remove();
+    };
+    document.body.appendChild(btn);
+    setTimeout(()=>btn.remove(), 12000);
+  }
+
+  // ── (선택) 구글 시트에 신청 내역 자동 기록 ──
+  // Google Apps Script 웹앱 URL을 만들어서 아래에 넣으면, 문의/약속 신청 내역이
+  // 자동으로 구글 시트에 쌓입니다. 설정 안 해도 나머지 기능엔 전혀 지장 없습니다.
+  const SHEET_WEBHOOK_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL";
+  function logToSheet(record){
+    if(!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL") return;
+    fetch(SHEET_WEBHOOK_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(record)
+    }).catch(err => console.warn("시트 기록 실패(무시됨):", err));
+  }
+
   function isAllowedEmail(email){
     const match = /^[^\s@]+@([^\s@]+)$/.exec(email.trim().toLowerCase());
     if(!match) return false;
     return ALLOWED_EMAIL_DOMAINS.includes(match[1]);
   }
 
-  async function sendEmail(templateParams){
+  async function sendEmail(templateParams, templateId){
     const res = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         service_id: EMAILJS_SERVICE_ID,
-        template_id: EMAILJS_TEMPLATE_ID,
+        template_id: templateId || EMAILJS_TEMPLATE_ID,
         user_id: EMAILJS_PUBLIC_KEY,
         template_params: templateParams
       })
@@ -1097,6 +1493,34 @@
     if(!res.ok){
       throw new Error(await res.text());
     }
+  }
+
+  async function sendConfirmationEmail(toEmail, title, message){
+    if(!EMAILJS_CONFIRM_TEMPLATE_ID || EMAILJS_CONFIRM_TEMPLATE_ID === "YOUR_CONFIRM_TEMPLATE_ID") return;
+    try{
+      await sendEmail({
+        to_email: toEmail,
+        title: title,
+        message: message
+      }, EMAILJS_CONFIRM_TEMPLATE_ID);
+    }catch(err){
+      console.warn("확인 메일 전송 실패(무시됨):", err);
+    }
+  }
+
+  function canSendNow(){
+    try{
+      const last = parseInt(localStorage.getItem('lastSendTime') || '0', 10);
+      return (Date.now() - last) >= SEND_COOLDOWN_MS;
+    }catch(e){
+      return true;
+    }
+  }
+
+  function recordSendTime(){
+    try{
+      localStorage.setItem('lastSendTime', String(Date.now()));
+    }catch(e){ /* ignore */ }
   }
 
   const sheetTemplates = {
@@ -1177,6 +1601,56 @@
       <div class="sheet-head">
         <p class="sheet-title">업데이트 내역</p>
         <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <p class="version-tag">Ver 2.5</p>
+      <div class="faq-item">
+        <p class="faq-a">폰 홈 화면에 앱처럼 추가할 수 있게 되었습니다 (PWA).</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">"링크 복사" 버튼을 추가했습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">주요 버튼을 누르면 작은 클릭 사운드가, 전송에 성공하면 성공 사운드가 재생됩니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">밤(다크 모드)에는 배경에 반딧불이가 은은하게 떠다닙니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">약속 신청 완료 후 "내 캘린더에 추가" 버튼으로 .ics 파일을 바로 받을 수 있습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">문의/약속 신청 내역을 구글 시트에 자동으로 기록할 수 있는 기능을 추가했습니다 (선택 설정).</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">실제 서울 날씨(맑음/흐림/비/눈)를 배경 하늘에 아이콘으로 반영합니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">누적 방문자 수를 하단에 표시합니다.</p>
+      </div>
+      <p class="version-tag">Ver 2.0</p>
+      <div class="faq-item">
+        <p class="faq-a">파비콘(브라우저 탭 아이콘)을 수달 얼굴로 추가했습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">카카오톡/인스타 등에 링크 공유 시 미리보기 카드(제목·설명·이미지)가 뜨도록 만들었습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">전송 성공 시 체크마크와 컨페티가 터지는 축하 애니메이션을 추가했습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">약속 시간을 잠자는 시간대(02시~06시30분)로 고르면 답장이 늦을 수 있다는 경고 문구가 뜹니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">문의/약속 신청 후 보내는 분 이메일로도 접수 확인 메일이 자동으로 갑니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">1분 이내 재전송을 막는 도배 방지 기능을 추가했습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">라이트/다크 모드를 자동(시간 기준) 외에 직접 수동으로도 전환할 수 있는 버튼을 추가했습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">아기 수달이 가끔 눈을 깜빡입니다.</p>
       </div>
       <p class="version-tag">Ver 1.3</p>
       <div class="faq-item">
@@ -1280,6 +1754,28 @@
     setTimeout(()=>toast.classList.remove('show'), 2200);
   }
 
+  function playSuccessAnimation(){
+    playSuccessSound();
+    const overlay = document.getElementById('successOverlay');
+    overlay.classList.remove('show');
+    void overlay.offsetWidth; // restart animation
+    overlay.classList.add('show');
+    setTimeout(()=>overlay.classList.remove('show'), 1300);
+
+    const colors = ['#3654FF', '#FF6B47', '#FBD34D', '#8FC275', '#F6C9DD'];
+    const layer = document.getElementById('confettiLayer');
+    for(let i = 0; i < 26; i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDelay = (Math.random() * 0.3) + 's';
+      piece.style.animationDuration = (1.1 + Math.random() * 0.6) + 's';
+      layer.appendChild(piece);
+      setTimeout(()=>piece.remove(), 2200);
+    }
+  }
+
   function confirmChoice(label){
     closeSheet();
     showToast(label + " 요청이 접수될 예정이에요");
@@ -1325,7 +1821,8 @@
       </div>
       <div class="form-group">
         <label class="form-label">날짜 및 시간</label>
-        <input class="form-input" id="apptDatetime" type="datetime-local">
+        <input class="form-input" id="apptDatetime" type="datetime-local" oninput="checkSleepWarning()">
+        <p class="field-hint" id="sleepWarningHint"></p>
       </div>
       <button class="submit-btn" id="apptSubmitBtn" style="display:none;" onclick="submitAppointment('${type}')">신청 보내기</button>
     `;
@@ -1366,6 +1863,19 @@
     return `${parseInt(m)}월 ${parseInt(d)}일 ${h}시 ${min}분`;
   }
 
+  function checkSleepWarning(){
+    const input = document.getElementById('apptDatetime');
+    const hint = document.getElementById('sleepWarningHint');
+    if(!input || !hint || !input.value) return;
+    const [, timePart] = input.value.split('T');
+    const [h, min] = timePart.split(':').map(Number);
+    const mins = h * 60 + min;
+    const isSleepTime = (mins >= 120 && mins < 390); // 02:00 ~ 06:30
+    hint.textContent = isSleepTime
+      ? "😴 이 시간엔 최한민이 자고 있을 확률이 높아요. 답장이 늦을 수 있어요."
+      : "";
+  }
+
   async function submitAppointment(type){
     const email = document.getElementById('apptEmail').value.trim();
     const applicant = document.getElementById('apptApplicant').value.trim();
@@ -1384,12 +1894,17 @@
       showToast("신청자, 동행자, 날짜/시간을 모두 입력해주세요");
       return;
     }
+    if(!canSendNow()){
+      showToast("너무 빨리 재전송하려고 해요! 1분 후 다시 시도해주세요");
+      return;
+    }
 
     const submitBtn = document.getElementById('apptSubmitBtn');
     submitBtn.disabled = true;
     submitBtn.textContent = "전송 중...";
 
     const gameLine = type === '게임 약속' ? ("\n선택한 게임: " + Array.from(selectedGames).join(", ")) : "";
+    const formattedDatetime = formatDatetime(datetime);
 
     try{
       await sendEmail({
@@ -1397,10 +1912,28 @@
         reply_to: email,
         category: "약속 신청 - " + type,
         title: type + " 신청",
-        message: "보내는 사람: " + email + gameLine + "\n약속 신청자: " + applicant + "\n동행자: " + companion + "\n날짜 및 시간: " + formatDatetime(datetime)
+        message: "보내는 사람: " + email + gameLine + "\n약속 신청자: " + applicant + "\n동행자: " + companion + "\n날짜 및 시간: " + formattedDatetime
       });
+      recordSendTime();
       closeSheet();
       showToast("전송 되었습니다");
+      playSuccessAnimation();
+      sendConfirmationEmail(
+        email,
+        "약속 신청이 접수되었습니다",
+        applicant + "님, " + type + " 신청이 정상적으로 접수되었습니다.\n신청하신 날짜/시간: " + formattedDatetime + "\n최한민이 확인 후 답변드릴게요."
+      );
+      showAddToCalendar(type + " (" + applicant + ")", datetime);
+      logToSheet({
+        type: "약속",
+        category: type,
+        email: email,
+        applicant: applicant,
+        companion: companion,
+        datetime: formattedDatetime,
+        games: type === '게임 약속' ? Array.from(selectedGames).join(", ") : "",
+        sentAt: new Date().toISOString()
+      });
     }catch(err){
       showToast("전송 실패하였습니다");
       submitBtn.disabled = false;
@@ -1439,6 +1972,10 @@
       showToast("제목, 내용, 분류를 모두 입력해주세요");
       return;
     }
+    if(!canSendNow()){
+      showToast("너무 빨리 재전송하려고 해요! 1분 후 다시 시도해주세요");
+      return;
+    }
 
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.disabled = true;
@@ -1452,8 +1989,24 @@
         title: title,
         message: "보내는 사람: " + email + (selectedRelation ? " (" + selectedRelation + ")" : "") + "\n\n" + body
       });
+      recordSendTime();
       closeSheet();
       showToast("전송 되었습니다");
+      playSuccessAnimation();
+      sendConfirmationEmail(
+        email,
+        "문의가 접수되었습니다",
+        "보내주신 문의 \"" + title + "\"가 정상적으로 접수되었습니다.\n최한민이 확인 후 답변드릴게요."
+      );
+      logToSheet({
+        type: "문의",
+        category: selectedTag,
+        relation: selectedRelation || "",
+        email: email,
+        title: title,
+        body: body,
+        sentAt: new Date().toISOString()
+      });
     }catch(err){
       showToast("전송 실패하였습니다");
       submitBtn.disabled = false;
