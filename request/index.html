@@ -17,6 +17,36 @@
     --accent-soft:#EAEDFF;
     --warm:#FF6B47;
     --warm-soft:#FFEBE5;
+
+    --sky-top:#F4F8EF;
+    --sky-bottom:#E3EFDA;
+    --hill-back-top:#D2E5C3;
+    --hill-back-bottom:#BEDCAB;
+    --hill-front-top:#ACD293;
+    --hill-front-bottom:#8FC275;
+  }
+
+  html.dark-mode{
+    --bg:#10141F;
+    --surface:#1B2130;
+    --ink:#EDEFF5;
+    --ink-soft:#9AA3B8;
+    --line:#2A3142;
+    --accent:#7C93FF;
+    --accent-soft:rgba(124,147,255,0.18);
+    --warm:#FF8A66;
+    --warm-soft:rgba(255,138,102,0.15);
+
+    --sky-top:#0E1526;
+    --sky-bottom:#182035;
+    --hill-back-top:#1E2A22;
+    --hill-back-bottom:#16201A;
+    --hill-front-top:#172219;
+    --hill-front-bottom:#101911;
+  }
+
+  html,body{
+    transition:background-color .4s ease, color .4s ease;
   }
 
   *{box-sizing:border-box;}
@@ -109,6 +139,47 @@
     color:var(--ink-soft);
     line-height:1.6;
     margin:0 0 40px;
+  }
+
+  .header-row{
+    display:flex;
+    align-items:flex-start;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+
+  .header-text{
+    flex:1;
+    min-width:200px;
+  }
+
+  .status-grid{
+    flex:none;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+    width:148px;
+    margin-top:2px;
+  }
+
+  .status-cell{
+    font-size:10.5px;
+    font-weight:600;
+    line-height:1.3;
+    text-align:center;
+    padding:10px 6px;
+    border-radius:10px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    transition:all .25s ease;
+  }
+
+  .status-cell.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+    box-shadow:0 6px 16px -8px rgba(54,84,255,0.55);
   }
 
   .cards{
@@ -211,6 +282,38 @@
     letter-spacing:0.04em;
     margin:0;
     opacity:0.7;
+  }
+
+  .maker-label{
+    font-family:'SFMono-Regular', ui-monospace, Menlo, monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    letter-spacing:0.03em;
+    margin:0;
+    opacity:0.55;
+  }
+
+  .version-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .changelog-btn{
+    font-family:'SFMono-Regular', ui-monospace, Menlo, monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    background:none;
+    border:none;
+    padding:0;
+    cursor:pointer;
+    text-decoration:underline;
+    text-underline-offset:2px;
+    opacity:0.7;
+    transition:opacity .15s ease;
+  }
+  .changelog-btn:hover{
+    opacity:1;
   }
 
   .faq-btn{
@@ -318,6 +421,43 @@
     color:var(--warm);
     margin:6px 0 0;
     min-height:14px;
+  }
+
+  .field-hint--static{
+    font-weight:500;
+    line-height:1.5;
+  }
+
+  .version-tag{
+    font-family:'SFMono-Regular', ui-monospace, Menlo, monospace;
+    font-size:12px;
+    font-weight:700;
+    color:var(--accent);
+    margin:18px 0 4px;
+  }
+  .version-tag:first-of-type{
+    margin-top:4px;
+  }
+
+  .note-blue{
+    font-size:13px;
+    font-weight:600;
+    color:var(--accent);
+    margin:0 0 18px;
+  }
+
+  .card,
+  .sheet,
+  .option-btn,
+  .tag-btn,
+  .status-cell,
+  .form-input,
+  .form-textarea,
+  .close-btn,
+  .back-link,
+  .faq-btn,
+  .changelog-btn{
+    transition:background-color .35s ease, border-color .35s ease, color .35s ease, box-shadow .35s ease;
   }
   .submit-btn{
     width:100%;
@@ -521,7 +661,7 @@
     left:50%;
     bottom:32px;
     transform:translate(-50%, 20px);
-    background:var(--ink);
+    background:#1F2430;
     color:#fff;
     padding:12px 20px;
     border-radius:12px;
@@ -631,20 +771,53 @@
   <svg viewBox="0 0 800 1400" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#F4F8EF"/>
-        <stop offset="100%" stop-color="#E3EFDA"/>
+        <stop offset="0%" style="stop-color:var(--sky-top)"/>
+        <stop offset="100%" style="stop-color:var(--sky-bottom)"/>
       </linearGradient>
       <linearGradient id="hillBack" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#D2E5C3"/>
-        <stop offset="100%" stop-color="#BEDCAB"/>
+        <stop offset="0%" style="stop-color:var(--hill-back-top)"/>
+        <stop offset="100%" style="stop-color:var(--hill-back-bottom)"/>
       </linearGradient>
       <linearGradient id="hillFront" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#ACD293"/>
-        <stop offset="100%" stop-color="#8FC275"/>
+        <stop offset="0%" style="stop-color:var(--hill-front-top)"/>
+        <stop offset="100%" style="stop-color:var(--hill-front-bottom)"/>
       </linearGradient>
     </defs>
 
     <rect x="0" y="0" width="800" height="1400" fill="url(#skyGrad)"/>
+
+    <g id="starsGroup" style="display:none" fill="#F4F6FB" opacity="0.85">
+      <circle cx="60" cy="880" r="2.4"/>
+      <circle cx="150" cy="930" r="1.8"/>
+      <circle cx="230" cy="860" r="2"/>
+      <circle cx="320" cy="950" r="1.6"/>
+      <circle cx="420" cy="890" r="2.2"/>
+      <circle cx="520" cy="935" r="1.8"/>
+      <circle cx="610" cy="870" r="2"/>
+      <circle cx="260" cy="1000" r="1.6"/>
+      <circle cx="470" cy="990" r="1.8"/>
+      <circle cx="720" cy="960" r="2"/>
+    </g>
+
+    <g id="sunIcon" transform="translate(130,930)">
+      <circle r="32" fill="#FBD34D"/>
+      <g stroke="#FBD34D" stroke-width="5" stroke-linecap="round">
+        <line x1="0" y1="-50" x2="0" y2="-40"/>
+        <line x1="0" y1="50" x2="0" y2="40"/>
+        <line x1="-50" y1="0" x2="-40" y2="0"/>
+        <line x1="50" y1="0" x2="40" y2="0"/>
+        <line x1="-35" y1="-35" x2="-28" y2="-28"/>
+        <line x1="35" y1="-35" x2="28" y2="-28"/>
+        <line x1="-35" y1="35" x2="-28" y2="28"/>
+        <line x1="35" y1="35" x2="28" y2="28"/>
+      </g>
+    </g>
+    <g id="moonIcon" transform="translate(130,930)" style="display:none">
+      <circle r="32" fill="#EEF0F6"/>
+      <circle cx="-10" cy="-8" r="7" fill="#D7DBE5"/>
+      <circle cx="9" cy="10" r="5" fill="#D7DBE5"/>
+      <circle cx="13" cy="-13" r="4" fill="#D7DBE5"/>
+    </g>
 
     <path d="M0,1050 C150,980 300,1000 420,1040 C560,1085 650,1020 800,1060 L800,1400 L0,1400 Z" fill="url(#hillBack)"/>
     <path d="M0,1180 C180,1120 320,1160 480,1130 C620,1105 700,1150 800,1120 L800,1400 L0,1400 Z" fill="url(#hillFront)"/>
@@ -695,13 +868,60 @@
       <ellipse cx="40" cy="110" rx="14" ry="8" fill="#A8CC8F" transform="rotate(100 40 110)"/>
       <ellipse cx="15" cy="150" rx="12" ry="7" fill="#9BC482" transform="rotate(140 15 150)"/>
     </g>
+    <g transform="translate(720,1225)">
+      <ellipse cx="0" cy="35" rx="58" ry="60" fill="#8A7B68"/>
+      <ellipse cx="0" cy="48" rx="36" ry="42" fill="#EDE3D3"/>
+      <ellipse cx="-42" cy="65" rx="13" ry="17" fill="#8A7B68"/>
+      <ellipse cx="42" cy="65" rx="13" ry="17" fill="#8A7B68"/>
+
+      <ellipse cx="0" cy="-48" rx="50" ry="40" fill="#8A7B68"/>
+      <ellipse cx="-38" cy="-70" rx="9" ry="11" fill="#6E6153"/>
+      <ellipse cx="38" cy="-70" rx="9" ry="11" fill="#6E6153"/>
+      <ellipse cx="0" cy="-34" rx="38" ry="32" fill="#EDE3D3"/>
+
+      <g stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity="0.85">
+        <line x1="-20" y1="-30" x2="-62" y2="-38"/>
+        <line x1="-20" y1="-24" x2="-64" y2="-22"/>
+        <line x1="-18" y1="-18" x2="-58" y2="-8"/>
+        <line x1="20" y1="-30" x2="62" y2="-38"/>
+        <line x1="20" y1="-24" x2="64" y2="-22"/>
+        <line x1="18" y1="-18" x2="58" y2="-8"/>
+      </g>
+
+      <ellipse cx="0" cy="-38" rx="7" ry="5" fill="#3B2E26"/>
+      <path d="M-9,-26 Q0,-19 9,-26" stroke="#3B2E26" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+      <g stroke="#20222A" stroke-width="4" fill="none">
+        <rect x="-32" y="-58" width="24" height="18" rx="5"/>
+        <rect x="8" y="-58" width="24" height="18" rx="5"/>
+        <line x1="-8" y1="-49" x2="8" y2="-49"/>
+        <line x1="-32" y1="-51" x2="-40" y2="-53"/>
+        <line x1="32" y1="-51" x2="40" y2="-53"/>
+      </g>
+      <circle cx="-20" cy="-49" r="3" fill="#20222A"/>
+      <circle cx="20" cy="-49" r="3" fill="#20222A"/>
+
+      <path d="M-13,-4 Q0,10 13,-4" stroke="#8A6A46" stroke-width="3" fill="none"/>
+      <rect x="-19" y="4" width="38" height="22" rx="5" fill="#FFFFFF" stroke="#D8D2C4" stroke-width="1.5"/>
+      <text x="0" y="20" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="12" font-weight="700" fill="#3A362B">한민</text>
+    </g>
   </svg>
 </div>
 
 <div class="page">
-  <div class="eyebrow">STATUS: ONLINE<span class="cursor"></span></div>
-  <h1>최한민에게<br>무엇을 요청하시겠어요?</h1>
-  <p class="sub">아래에서 원하는 항목을 선택해주세요.</p>
+  <div class="header-row">
+    <div class="header-text">
+      <div class="eyebrow">STATUS: ONLINE<span class="cursor"></span></div>
+      <h1>최한민에게<br>무엇을 요청하시겠어요?</h1>
+      <p class="sub">아래에서 원하는 항목을 선택해주세요.</p>
+    </div>
+    <div class="status-grid" id="statusGrid">
+      <div class="status-cell" data-status="study">공부/학습 중</div>
+      <div class="status-cell" data-status="exercise">운동/산책 중</div>
+      <div class="status-cell" data-status="play">게임 등 노는 중</div>
+      <div class="status-cell" data-status="sleep">잠자는 중</div>
+    </div>
+  </div>
 
   <div class="cards">
     <button class="card" onclick="openSheet('appointment')">
@@ -776,7 +996,11 @@
   </div>
 
   <div class="footer">
-    <p class="version-label">Ver 1.0</p>
+    <p class="maker-label">제작자: 최한민</p>
+    <div class="version-row">
+      <p class="version-label">Ver 1.3</p>
+      <button class="changelog-btn" onclick="openSheet('changelog')">업데이트 내역 확인하기</button>
+    </div>
     <button class="faq-btn" onclick="openSheet('faq')">FAQ</button>
   </div>
 </div>
@@ -804,6 +1028,50 @@
   // ▲▲▲ 여기까지 ▲▲▲
 
   const ALLOWED_EMAIL_DOMAINS = ["gmail.com", "naver.com", "kakao.com"];
+
+  function getSeoulMinutes(){
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Seoul', hour12: false, hour: '2-digit', minute: '2-digit'
+    }).formatToParts(new Date());
+    const hour = parseInt(parts.find(p => p.type === 'hour').value, 10);
+    const minute = parseInt(parts.find(p => p.type === 'minute').value, 10);
+    return hour * 60 + minute;
+  }
+
+  function getCurrentStatus(){
+    const m = getSeoulMinutes();
+    if(m >= 390 && m < 1200) return 'study';      // 06:30 ~ 20:00
+    if(m >= 1200 && m < 1320) return 'exercise';  // 20:00 ~ 22:00
+    if(m >= 1320 || m < 120) return 'play';       // 22:00 ~ 02:00
+    return 'sleep';                                // 02:00 ~ 06:30
+  }
+
+  function updateStatusGrid(){
+    const current = getCurrentStatus();
+    document.querySelectorAll('.status-cell').forEach(cell => {
+      cell.classList.toggle('active', cell.dataset.status === current);
+    });
+  }
+
+  function updateSkyIcon(){
+    const m = getSeoulMinutes();
+    const isDay = m >= 360 && m < 1080; // 06:00 ~ 18:00
+    const sun = document.getElementById('sunIcon');
+    const moon = document.getElementById('moonIcon');
+    const stars = document.getElementById('starsGroup');
+    if(sun) sun.style.display = isDay ? 'block' : 'none';
+    if(moon) moon.style.display = isDay ? 'none' : 'block';
+    if(stars) stars.style.display = isDay ? 'none' : 'block';
+    document.documentElement.classList.toggle('dark-mode', !isDay);
+  }
+
+  function updateTimeBasedUI(){
+    updateStatusGrid();
+    updateSkyIcon();
+  }
+
+  updateTimeBasedUI();
+  setInterval(updateTimeBasedUI, 60000);
 
   function isAllowedEmail(email){
     const match = /^[^\s@]+@([^\s@]+)$/.exec(email.trim().toLowerCase());
@@ -834,7 +1102,8 @@
         <button class="close-btn" onclick="closeSheet()">✕</button>
       </div>
       <div class="option-list">
-        <button class="option-btn" onclick="selectAppointmentType('공부 등 활동 약속')">공부 등 활동 약속</button>
+        <button class="option-btn" onclick="selectAppointmentType('공부/대외활동 등 활동 약속')">공부/대외활동 등 활동 약속</button>
+        <button class="option-btn" onclick="selectAppointmentType('운동 약속')">운동 약속</button>
         <button class="option-btn" onclick="selectAppointmentType('식사 약속')">식사 약속</button>
         <button class="option-btn" onclick="selectAppointmentType('게임 약속')">게임 약속</button>
         <button class="option-btn" onclick="selectAppointmentType('데이트 약속')">데이트 약속</button>
@@ -845,10 +1114,19 @@
         <p class="sheet-title">문의 남기기</p>
         <button class="close-btn" onclick="closeSheet()">✕</button>
       </div>
+      <p class="note-blue">카톡/인스타 DM으로 문의하셔도 됩니다.</p>
       <div class="form-group">
         <label class="form-label">보내는 사람 이메일</label>
         <input class="form-input" id="inquiryEmail" type="email" placeholder="example@gmail.com / naver.com / kakao.com" oninput="checkInquiryValidity()">
         <p class="field-hint" id="inquiryEmailHint"></p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">보내는 사람 분류</label>
+        <div class="tag-group">
+          <button type="button" class="tag-btn" onclick="selectRelation(this,'부모')">부모</button>
+          <button type="button" class="tag-btn" onclick="selectRelation(this,'친구')">친구</button>
+          <button type="button" class="tag-btn" onclick="selectRelation(this,'지인')">지인</button>
+        </div>
       </div>
       <div class="form-group">
         <label class="form-label">제목</label>
@@ -857,6 +1135,7 @@
       <div class="form-group">
         <label class="form-label">문의 내용</label>
         <textarea class="form-textarea" id="inquiryBody" placeholder="문의하실 내용을 자세히 적어주세요"></textarea>
+        <p class="field-hint field-hint--static">욕설/비방 시 제재 대상이 됩니다. 누가 메일을 보냈는지 알아낼 수 있습니다.</p>
       </div>
       <div class="form-group">
         <label class="form-label">분류</label>
@@ -876,8 +1155,10 @@
       <div class="option-list">
         <button class="option-btn" onclick="personaChoice('good')">귀요미</button>
         <button class="option-btn" onclick="personaChoice('good')">공주</button>
+        <button class="option-btn" onclick="personaChoice('good')">자유로운파랑새</button>
         <button class="option-btn" onclick="personaChoice('bad')">꿀꿀돼지</button>
         <button class="option-btn" onclick="personaChoice('bad')">늙크크</button>
+        <button class="option-btn" onclick="personaChoice('bad')">영포티</button>
       </div>
     `,
     faq: `
@@ -887,16 +1168,57 @@
         </div>
         <p class="paper-text">최한민 요청 서비스에 온 것을 환영합니다. 사실 만든 이유는 제가 공부하려고 만든거지, 별 의미가 있지는 않습니다. 어쩌면 언젠가 의미가 생길 수도 있겠네요. 버튼은 매우 직관적이니 FAQ는 사실 안 필요하다고도 보입니다ㅎㅎ</p>
       </div>
+    `,
+    changelog: `
+      <div class="sheet-head">
+        <p class="sheet-title">업데이트 내역</p>
+        <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <p class="version-tag">Ver 1.3</p>
+      <div class="faq-item">
+        <p class="faq-a">문의 남기기에 카톡/인스타 DM 문의 안내를 추가했습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">낮(06시~18시)엔 태양과 함께 라이트 모드로, 밤(18시~06시)엔 보름달과 함께 다크 모드로 자동 전환됩니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">태양/보름달/별이 화면 위쪽에 가려 안 보이던 문제를 고쳐서, 언덕 바로 위 하늘에 보이도록 위치를 조정했습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">제작자 표시를 추가했습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">수달을 더 수달답게 다시 그렸습니다. 곰 아니에요.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">최한민은 누구인가요에 항목을 추가했습니다.</p>
+      </div>
+      <p class="version-tag">Ver 1.2</p>
+      <div class="faq-item">
+        <p class="faq-a">보내는 사람 분류를 추가하였습니다.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">최한민의 현 Status를 바둑판식으로 보여드립니다. 잠자는 중엔 웬만하면 건드리지 마세용</p>
+      </div>
+      <p class="version-tag">Ver 1.1</p>
+      <div class="faq-item">
+        <p class="faq-a">배경화면을 말 그대로 자연스럽게 추가했습니다. 대.자.연 ㅋㅋ</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-a">아기 수달을 추가했습니다. 저를 모티브로 그린 겁니다.</p>
+      </div>
     `
   };
 
   let selectedTag = null;
+  let selectedRelation = null;
 
   function openSheet(type){
     const sheetEl = document.getElementById('sheet');
     sheetEl.innerHTML = sheetTemplates[type];
     sheetEl.classList.toggle('sheet--paper', type === 'faq');
     selectedTag = null;
+    selectedRelation = null;
     document.getElementById('overlay').classList.add('show');
     if(type === 'faq'){
       requestAnimationFrame(()=>{
@@ -909,10 +1231,16 @@
   }
 
   function selectTag(btn, tag){
-    document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('selected'));
+    btn.parentElement.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('selected'));
     btn.classList.add('selected');
     selectedTag = tag;
     checkInquiryValidity();
+  }
+
+  function selectRelation(btn, relation){
+    btn.parentElement.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedRelation = relation;
   }
 
   function checkInquiryValidity(){
@@ -1115,7 +1443,7 @@
         reply_to: email,
         category: selectedTag,
         title: title,
-        message: "보내는 사람: " + email + "\n\n" + body
+        message: "보내는 사람: " + email + (selectedRelation ? " (" + selectedRelation + ")" : "") + "\n\n" + body
       });
       closeSheet();
       showToast("전송 되었습니다");
