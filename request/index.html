@@ -1462,7 +1462,7 @@
   // ── (선택) 구글 시트에 신청 내역 자동 기록 ──
   // Google Apps Script 웹앱 URL을 만들어서 아래에 넣으면, 문의/약속 신청 내역이
   // 자동으로 구글 시트에 쌓입니다. 설정 안 해도 나머지 기능엔 전혀 지장 없습니다.
-  const SHEET_WEBHOOK_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL";
+  const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyfLVnbW5DzLOz-gmn_xmkPVSaUyJF8wxoqFM7UShp_JZoHFbtOJmbS-8IdfwW0qbNr/exec";
   function logToSheet(record){
     if(!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL") return;
     fetch(SHEET_WEBHOOK_URL, {
