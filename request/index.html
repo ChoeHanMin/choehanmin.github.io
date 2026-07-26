@@ -1665,6 +1665,8 @@
     </g>
     <g transform="translate(720,1225)" style="pointer-events:auto;cursor:pointer;" onclick="clickOtterEasterEgg()">
       <g id="otterBounceGroup">
+        <text class="pet-star" x="-55" y="-75" font-size="20" style="display:none">⭐</text>
+        <text class="pet-crown" x="-8" y="-95" font-size="22" style="display:none">👑</text>
         <ellipse cx="0" cy="35" rx="58" ry="60" fill="#8A7B68"/>
         <ellipse cx="0" cy="48" rx="36" ry="42" fill="#EDE3D3"/>
         <ellipse cx="-42" cy="65" rx="13" ry="17" fill="#8A7B68"/>
@@ -1711,7 +1713,7 @@
       </g>
     </g>
 
-    <g transform="translate(140,1265) scale(0.8)">
+    <g transform="translate(140,1265) scale(0.8)" style="pointer-events:auto;cursor:pointer;" onclick="feedCreature('dog')">
       <g id="dogWander">
         <g id="dogFront">
           <ellipse cx="0" cy="30" rx="34" ry="38" fill="#1C1C1E"/>
@@ -1781,7 +1783,7 @@
     </g>
 
     <!-- 메리 (흰색 햄스터) -->
-    <g transform="translate(120,1355) scale(0.6)">
+    <g transform="translate(120,1355) scale(0.6)" style="pointer-events:auto;cursor:pointer;" onclick="feedCreature('mary')">
       <g id="maryGroup">
         <ellipse cx="0" cy="0" rx="36" ry="32" fill="#F7F2E8"/>
         <ellipse cx="0" cy="10" rx="22" ry="18" fill="#FFFFFF"/>
@@ -1814,7 +1816,7 @@
     </g>
 
     <!-- 찰스 (회갈색 햄스터) -->
-    <g transform="translate(745,1345) scale(0.6)">
+    <g transform="translate(745,1345) scale(0.6)" style="pointer-events:auto;cursor:pointer;" onclick="feedCreature('charles')">
       <g id="charlesGroup">
         <ellipse cx="0" cy="0" rx="36" ry="32" fill="#A89478"/>
         <path d="M0,-30 L0,28" stroke="#5C5040" stroke-width="7"/>
@@ -2003,7 +2005,7 @@
     <p class="maker-label">제작자: 최한민</p>
     <p class="visitor-count" id="visitorCount"></p>
     <div class="version-row">
-      <p class="version-label">Ver 4.5</p>
+      <p class="version-label">Ver 5.5</p>
       <button class="changelog-btn" onclick="openSheet('changelog')">업데이트 내역 확인하기</button>
     </div>
     <div class="footer-actions">
@@ -2062,8 +2064,14 @@
         <button class="option-btn" onclick="setAnnouncement()">📢 공지사항 설정/삭제</button>
         <button class="option-btn" onclick="setDdayTarget()">📌 디데이 설정</button>
         <button class="option-btn" onclick="backupToSheet()">💾 지금 구글시트로 백업</button>
+        <button class="option-btn" onclick="manageReplyTemplate()">✏️ 답변 템플릿 관리</button>
+        <button class="option-btn" onclick="sendMassEmail()">📧 전체 회원 공지 발송</button>
+        <button class="option-btn" onclick="showAdminStatsChart()">📊 요일별 통계 보기</button>
+        <button class="option-btn" onclick="showAnnualReport()">📅 연간 리포트</button>
       </div>
     </div>
+
+    <div id="adminExtraPanel"></div>
 
     <div class="form-group">
       <label class="form-label">최한민 현재 상태 수동 지정</label>
@@ -2080,6 +2088,7 @@
       <input class="form-input" id="adminSearchInput" type="text" placeholder="🔍 검색 (제목/이메일/이름)" oninput="renderAdminLists()">
     </div>
     <button class="back-link" onclick="exportCsv()">⬇️ CSV로 다운로드</button>
+    <button class="back-link" onclick="bulkUpdateSelected('완료')">✅ 선택 항목 일괄 완료 처리</button>
 
     <div class="admin-tabs">
       <button class="admin-tab active" onclick="switchAdminTab(this,'inquiries')">문의</button>
@@ -2306,8 +2315,10 @@
 
       if([51,53,55,61,63,65,80,81,82,95,96,99].includes(code)){
         if(rain) rain.style.display = 'block';
+        showWeatherReactionOnce('rain', "🌧️ 다들 비를 피해 집 안에 있어요");
       }else if([71,73,75,77,85,86].includes(code)){
         if(snow) snow.style.display = 'block';
+        showWeatherReactionOnce('snow', "❄️ 다들 눈밭에서 신나게 뛰어놀아요");
       }else if([1,2,3,45,48].includes(code)){
         if(cloud) cloud.style.display = 'block';
       }
@@ -2315,6 +2326,16 @@
     }catch(err){
       console.warn("날씨 정보를 가져오지 못했습니다:", err);
     }
+  }
+
+  function showWeatherReactionOnce(key, message){
+    try{
+      const today = new Date().toISOString().slice(0, 10);
+      const seenKey = 'weatherReaction_' + key;
+      if(localStorage.getItem(seenKey) === today) return;
+      localStorage.setItem(seenKey, today);
+      setTimeout(()=>showToast(message), 1500);
+    }catch(e){ /* ignore */ }
   }
   updateWeatherIcon();
   setInterval(updateWeatherIcon, 15 * 60000);
@@ -2345,6 +2366,7 @@
     faceAngry.style.display = current === 'angry' ? 'block' : 'none';
     snack.style.display = current === 'eating' ? 'block' : 'none';
     snack.classList.toggle('chewing', current === 'eating');
+    recordCreatureSighting('dog_' + current);
   }
   cycleDogMood();
   setInterval(cycleDogMood, 4500);
@@ -2362,6 +2384,7 @@
     sleep.style.display = current === 'sleep' ? 'block' : 'none';
     snack.style.display = current === 'eating' ? 'block' : 'none';
     wheel.style.display = current === 'wheel' ? 'block' : 'none';
+    if(current !== 'awake') recordCreatureSighting(prefix + '_' + current);
   }
   cycleHamsterMood('mary');
   cycleHamsterMood('charles');
@@ -2376,6 +2399,7 @@
     const showSide = Math.random() < 0.35;
     front.style.display = showSide ? 'none' : 'block';
     side.style.display = showSide ? 'block' : 'none';
+    if(showSide) recordCreatureSighting('dog_side');
   }
   cycleDogPose();
   setInterval(cycleDogPose, 8000);
@@ -2386,6 +2410,17 @@
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(url)
         .then(()=> showToast("링크가 복사되었습니다"))
+        .catch(()=> showToast("복사에 실패했어요"));
+    }else{
+      showToast("복사에 실패했어요");
+    }
+  }
+
+  function shareEntryText(name, message){
+    const text = "\"" + message + "\" - " + name + " (최한민에게 요청하기 방명록)";
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text)
+        .then(()=> showToast("공유용 텍스트가 복사되었습니다"))
         .catch(()=> showToast("복사에 실패했어요"));
     }else{
       showToast("복사에 실패했어요");
@@ -2431,9 +2466,41 @@
       playSuccessAnimation();
       showToast("🥚 숨겨진 메시지: 수달을 발견해줘서 고마워요!");
       otterClickCount = 0;
+      collectSecretFragment('otter');
     }else if(otterClickCount % 3 === 0){
       showToast("수달을 " + otterClickCount + "번 만졌어요...");
     }
+  }
+
+  // ── 먹이주기 인터랙션 ──
+  const FEED_REACTIONS = {
+    dog: ["멍멍! 고마워요 🐾", "꼬리를 흔들어요", "냠냠, 좋아해요!"],
+    mary: ["찍! 놀랐어요", "볼주머니에 저장했어요", "고마워요 메리예요"],
+    charles: ["오물오물 먹어요", "찰스가 좋아해요", "씨앗 더 없어요?"]
+  };
+  function feedCreature(name){
+    playClickSound();
+    const list = FEED_REACTIONS[name] || ["고마워요!"];
+    showToast(list[Math.floor(Math.random() * list.length)]);
+    addPoints(2);
+    if(name === 'charles') collectSecretFragment('charles');
+  }
+
+  // ── 시크릿 코드 (조각 3개 모으면 공개) ──
+  function collectSecretFragment(key){
+    try{
+      const found = JSON.parse(localStorage.getItem('secretFragments') || '[]');
+      if(!found.includes(key)){
+        found.push(key);
+        localStorage.setItem('secretFragments', JSON.stringify(found));
+      }
+      if(found.length >= 3){
+        setTimeout(()=>{
+          playSuccessAnimation();
+          showToast("🔑 시크릿 코드 발견: HANMIN-SECRET-2026");
+        }, 500);
+      }
+    }catch(e){ /* ignore */ }
   }
 
   // ── 음성으로 문의 입력 ──
@@ -2744,6 +2811,10 @@
       adminCache.members = memberSnap.docs.map(doc => Object.assign({ id: doc.id }, doc.data()));
       adminCache.chats = chatSnap.docs.map(doc => Object.assign({ id: doc.id }, doc.data()));
 
+      [...inquirySnap.docs.map(d => ({ ref: d.ref, d: d.data() })), ...apptSnap.docs.map(d => ({ ref: d.ref, d: d.data() }))]
+        .filter(x => !x.d.viewedByAdmin)
+        .forEach(x => x.ref.update({ viewedByAdmin: true }).catch(()=>{}));
+
       const responded = [...adminCache.inquiries, ...adminCache.appointments].filter(d => d.respondedAt && d.createdAt);
       let avgLabel = '-';
       if(responded.length){
@@ -2766,35 +2837,68 @@
     }
   }
 
+  async function bulkUpdateSelected(status){
+    const checks = document.querySelectorAll('.bulk-check:checked');
+    if(!checks.length){
+      showToast("선택된 항목이 없어요");
+      return;
+    }
+    if(!confirm(checks.length + "건을 '" + status + "' 상태로 일괄 변경할까요?")) return;
+    for(const box of checks){
+      await db.collection(box.dataset.collection).doc(box.dataset.id).update({
+        status: status,
+        respondedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).catch(()=>{});
+    }
+    showToast(checks.length + "건 처리했어요");
+    logAdminAction(checks.length + "건 일괄 '" + status + "' 처리");
+    loadAdminDashboard();
+  }
+
+  function isArchived(d){
+    if(d.status !== '완료' || !d.respondedAt) return false;
+    const ageDays = (Date.now() - d.respondedAt.toMillis()) / 86400000;
+    return ageDays > 30;
+  }
+
   function renderAdminLists(){
     const q = (document.getElementById('adminSearchInput').value || '').trim().toLowerCase();
     const match = (fields) => !q || fields.some(f => (f || '').toLowerCase().includes(q));
+    const showArchived = document.getElementById('adminShowArchived') ? document.getElementById('adminShowArchived').checked : false;
 
-    document.getElementById('adminPanelInquiries').innerHTML = adminCache.inquiries
-      .filter(d => match([d.title, d.email, d.body]))
-      .map(d => `<div class="admin-row">
+    const visibleInquiries = adminCache.inquiries.filter(d => match([d.title, d.email, d.body]) && (showArchived || !isArchived(d)));
+    const archivedInquiryCount = adminCache.inquiries.filter(isArchived).length;
+
+    document.getElementById('adminPanelInquiries').innerHTML =
+      (archivedInquiryCount ? `<div class="form-group"><label class="form-label"><input type="checkbox" id="adminShowArchived" onchange="renderAdminLists()" ${showArchived ? 'checked' : ''}> 30일 지난 완료 건 ${archivedInquiryCount}건도 보기</label></div>` : '') +
+      (visibleInquiries.map(d => `<div class="admin-row">
+        <input type="checkbox" class="bulk-check" data-collection="inquiries" data-id="${d.id}">
         <div class="admin-row-title">${escapeHtml(d.title || '(제목 없음)')}</div>
-        <div class="admin-row-meta">${escapeHtml(d.email || '')} · ${escapeHtml(d.category || '')} ${d.relation ? '· ' + escapeHtml(d.relation) : ''}</div>
+        <div class="admin-row-meta">${d.priority ? escapeHtml(d.priority) + ' · ' : ''}${escapeHtml(d.email || '')} · ${escapeHtml(d.category || '')} ${d.relation ? '· ' + escapeHtml(d.relation) : ''}</div>
         <div>${escapeHtml(d.body || '')}</div>
         <div style="margin-top:8px;">
           <select class="admin-status-select" onchange="updateDocStatus('inquiries','${d.id}',this.value)">
-            ${['대기중','수락','거절','완료'].map(s => `<option value="${s}" ${d.status===s?'selected':''}>${s}</option>`).join('')}
+            ${['대기중','수락','거절','완료','취소'].map(s => `<option value="${s}" ${d.status===s?'selected':''}>${s}</option>`).join('')}
           </select>
         </div>
-      </div>`).join('') || '<p class="field-hint">해당하는 문의가 없어요.</p>';
+      </div>`).join('') || '<p class="field-hint">해당하는 문의가 없어요.</p>');
 
-    document.getElementById('adminPanelAppointments').innerHTML = adminCache.appointments
-      .filter(d => match([d.appointmentType, d.email, d.applicant]))
-      .map(d => `<div class="admin-row">
+    const visibleAppointments = adminCache.appointments.filter(d => match([d.appointmentType, d.email, d.applicant]) && (showArchived || !isArchived(d)));
+    const archivedApptCount = adminCache.appointments.filter(isArchived).length;
+
+    document.getElementById('adminPanelAppointments').innerHTML =
+      (archivedApptCount ? `<p class="field-hint">30일 지난 완료 건 ${archivedApptCount}건은 숨겨져 있어요 (문의 탭 체크박스로 함께 표시됩니다).</p>` : '') +
+      (visibleAppointments.map(d => `<div class="admin-row">
+        <input type="checkbox" class="bulk-check" data-collection="appointments" data-id="${d.id}">
         <div class="admin-row-title">${escapeHtml(d.appointmentType || '')}</div>
         <div class="admin-row-meta">${escapeHtml(d.email || '')} · 신청자: ${escapeHtml(d.applicant || '')} · 동행: ${escapeHtml(d.companion || '')}</div>
         <div>${escapeHtml(d.datetimeDisplay || '')} ${d.games ? '· ' + escapeHtml(d.games) : ''}</div>
         <div style="margin-top:8px;">
           <select class="admin-status-select" onchange="updateDocStatus('appointments','${d.id}',this.value)">
-            ${['대기중','수락','거절','완료'].map(s => `<option value="${s}" ${d.status===s?'selected':''}>${s}</option>`).join('')}
+            ${['대기중','수락','거절','완료','취소'].map(s => `<option value="${s}" ${d.status===s?'selected':''}>${s}</option>`).join('')}
           </select>
         </div>
-      </div>`).join('') || '<p class="field-hint">해당하는 약속이 없어요.</p>';
+      </div>`).join('') || '<p class="field-hint">해당하는 약속이 없어요.</p>');
 
     document.getElementById('adminPanelMembers').innerHTML = adminCache.members
       .filter(d => match([d.name, d.email]))
@@ -2841,6 +2945,105 @@
     showToast("백업 요청을 보냈어요 (구글시트 확인)");
   }
 
+  // ── 답변 템플릿 ──
+  async function getReplyTemplates(){
+    if(!firebaseReady) return [];
+    try{
+      const doc = await db.collection('settings').doc('replyTemplates').get();
+      return doc.exists ? (doc.data().list || []) : [];
+    }catch(e){ return []; }
+  }
+
+  async function manageReplyTemplate(){
+    if(!firebaseReady) return;
+    const templates = await getReplyTemplates();
+    const current = templates.length ? templates.map((t, i) => (i+1) + ". " + t).join("\n") + "\n\n" : "";
+    const input = prompt(
+      "답변 템플릿 목록입니다. 아래에 새 목록을 줄바꿈으로 구분해서 전부 다시 입력하세요 (비우면 전체 삭제):\n\n" + current,
+      templates.join("\n")
+    );
+    if(input === null) return;
+    const list = input.split("\n").map(s => s.trim()).filter(Boolean);
+    try{
+      if(list.length){
+        await db.collection('settings').doc('replyTemplates').set({ list });
+      }else{
+        await db.collection('settings').doc('replyTemplates').delete();
+      }
+      showToast("답변 템플릿이 저장됐어요");
+    }catch(err){
+      showToast("저장에 실패했어요");
+    }
+  }
+
+  // ── 전체 회원 공지 발송 ──
+  async function sendMassEmail(){
+    if(!firebaseReady) return;
+    const subject = prompt("공지 제목을 입력하세요:", "");
+    if(!subject) return;
+    const body = prompt("공지 내용을 입력하세요:", "");
+    if(!body) return;
+    if(!confirm(adminCache.members.length + "명의 회원 전체에게 발송할까요?")) return;
+
+    let sent = 0;
+    for(const m of adminCache.members){
+      if(!m.email) continue;
+      try{
+        await sendEmail({
+          to_email: m.email,
+          title: "[공지] " + subject,
+          message: body
+        }, EMAILJS_CONFIRM_TEMPLATE_ID);
+        sent++;
+      }catch(err){ /* 개별 실패는 무시하고 계속 진행 */ }
+    }
+    showToast(sent + "명에게 발송했어요");
+    logAdminAction("전체 공지 발송: " + subject + " (" + sent + "명)");
+  }
+
+  // ── 요일별 통계 그래프 (막대는 CSS 너비로 표현) ──
+  function showAdminStatsChart(){
+    const counts = [0, 0, 0, 0, 0, 0, 0]; // 일~토
+    [...adminCache.inquiries, ...adminCache.appointments].forEach(d => {
+      if(d.createdAt) counts[new Date(d.createdAt.toMillis()).getDay()]++;
+    });
+    const max = Math.max(...counts, 1);
+    const labels = ['일', '월', '화', '수', '목', '금', '토'];
+    const bars = labels.map((label, i) => `
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <div style="width:20px;font-size:12px;color:var(--ink-soft);">${label}</div>
+        <div style="flex:1;background:var(--bg);border-radius:6px;overflow:hidden;">
+          <div style="width:${(counts[i] / max * 100).toFixed(0)}%;background:var(--accent);height:16px;"></div>
+        </div>
+        <div style="width:24px;font-size:12px;color:var(--ink-soft);">${counts[i]}</div>
+      </div>
+    `).join('');
+    document.getElementById('adminExtraPanel').innerHTML = `
+      <div class="admin-row">
+        <div class="admin-row-title">📊 요일별 문의/약속 건수</div>
+        <div style="margin-top:10px;">${bars}</div>
+      </div>
+    `;
+  }
+
+  // ── 연간 리포트 ──
+  function showAnnualReport(){
+    const all = [...adminCache.inquiries, ...adminCache.appointments].filter(d => d.createdAt);
+    const year = new Date().getFullYear();
+    const thisYear = all.filter(d => new Date(d.createdAt.toMillis()).getFullYear() === year);
+    const monthCounts = Array(12).fill(0);
+    thisYear.forEach(d => monthCounts[new Date(d.createdAt.toMillis()).getMonth()]++);
+    const maxMonth = monthCounts.indexOf(Math.max(...monthCounts));
+    document.getElementById('adminExtraPanel').innerHTML = `
+      <div class="admin-row">
+        <div class="admin-row-title">📅 ${year}년 리포트</div>
+        <div class="admin-row-meta">올해 총 문의/약속: ${thisYear.length}건</div>
+        <div class="admin-row-meta">제일 바빴던 달: ${maxMonth + 1}월 (${monthCounts[maxMonth]}건)</div>
+        <div class="admin-row-meta">올해 신규 회원: ${adminCache.members.filter(m => m.createdAt && new Date(m.createdAt.toMillis()).getFullYear() === year).length}명</div>
+      </div>
+    `;
+  }
+
   function logAdminAction(action){
     if(!firebaseReady) return;
     db.collection('adminLog').add({
@@ -2869,7 +3072,11 @@
     try{
       let reason = '';
       if(status === '수락' || status === '거절'){
-        reason = prompt((status === '수락' ? '수락' : '거절') + " 사유(선택, 비워도 됨)를 입력하세요:") || '';
+        const templates = await getReplyTemplates();
+        const hint = templates.length ? ("\n\n[저장된 템플릿]\n" + templates.map((t, i) => (i+1) + ". " + t).join("\n")) : '';
+        reason = prompt((status === '수락' ? '수락' : '거절') + " 사유(선택, 비워도 됨)를 입력하세요. 템플릿 번호만 입력해도 돼요." + hint, "") || '';
+        const asIndex = parseInt(reason, 10);
+        if(!isNaN(asIndex) && templates[asIndex - 1]) reason = templates[asIndex - 1];
       }
       const doc = await db.collection(collectionName).doc(docId).get();
       const d = doc.data();
@@ -2883,12 +3090,30 @@
       loadAdminDashboard();
 
       if((status === '수락' || status === '거절') && d && d.email){
+        let shouldNotify = true;
+        try{
+          const memberSnap = await db.collection('members').where('email', '==', d.email).limit(1).get();
+          if(!memberSnap.empty && memberSnap.docs[0].data().notifyAll === false){
+            shouldNotify = false; // 완료됐을 때만 받길 원함 → 수락/거절은 건너뜀
+          }
+        }catch(e){ /* ignore, 기본값 알림 발송 */ }
+
+        if(shouldNotify){
+          const label = collectionName === 'inquiries' ? (d.title || '문의') : (d.appointmentType || '약속');
+          sendEmail({
+            to_email: d.email,
+            title: "[" + status + "] " + label,
+            message: (d.applicant || '') + " 님, \"" + label + "\" 건이 " + status + "되었습니다." + (reason ? ("\n사유: " + reason) : "")
+          }, EMAILJS_CONFIRM_TEMPLATE_ID).catch(err => console.warn("상태 알림 메일 실패(무시됨):", err));
+        }
+      }
+      if(status === '완료' && d && d.email){
         const label = collectionName === 'inquiries' ? (d.title || '문의') : (d.appointmentType || '약속');
         sendEmail({
           to_email: d.email,
-          title: "[" + status + "] " + label,
-          message: (d.applicant || '') + " 님, \"" + label + "\" 건이 " + status + "되었습니다." + (reason ? ("\n사유: " + reason) : "")
-        }, EMAILJS_CONFIRM_TEMPLATE_ID).catch(err => console.warn("상태 알림 메일 실패(무시됨):", err));
+          title: "[완료] " + label,
+          message: (d.applicant || '') + " 님, \"" + label + "\" 건이 완료되었습니다."
+        }, EMAILJS_CONFIRM_TEMPLATE_ID).catch(err => console.warn("완료 알림 메일 실패(무시됨):", err));
       }
     }catch(err){
       showToast("업데이트에 실패했어요");
@@ -3034,7 +3259,45 @@
         <button class="option-btn" onclick="openSheet('inviteRanking')">🏆 초대 랭킹</button>
         <button class="option-btn" onclick="openSheet('themeColor')">🎨 테마 컬러</button>
         <button class="option-btn" onclick="openSheet('favorites')">⭐ 즐겨찾기 설정</button>
+        <button class="option-btn" onclick="openSheet('hallOfFame')">🏆 명예의 전당</button>
+        <button class="option-btn" onclick="openSheet('coupleMatch')">💘 커플 매칭 게임</button>
+        <button class="option-btn" onclick="openSheet('creatureLog')">📔 캐릭터 도감</button>
+        <button class="option-btn" onclick="openSheet('notifyPref')">🔔 알림 설정</button>
+        <button class="option-btn" onclick="openSheet('reactionGame')">🎮 반응속도 게임</button>
+        <button class="option-btn" onclick="openSheet('privacyPolicy')">📄 개인정보처리방침</button>
+        <button class="option-btn" onclick="openSheet('bugReport')">🐞 버그 신고</button>
+        <button class="option-btn" onclick="openSheet('accountDelete')">🚪 회원 탈퇴</button>
       </div>
+    `,
+    privacyPolicy: `
+      <div class="sheet-head">
+        <p class="sheet-title">📄 개인정보처리방침</p>
+        <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <p class="gate-sub" style="text-align:left;">
+      이 서비스는 회원가입/로그인을 위해 이름과 이메일 주소를 수집합니다. 수집된 정보는 서비스 이용 확인, 문의·약속 신청 처리, 알림 발송 목적으로만 사용되며 Firebase(Google) 데이터베이스에 저장됩니다.<br><br>
+      제3자에게 정보를 판매하거나 공유하지 않으며, 이메일 발송은 EmailJS를 통해 이루어집니다. 방문 기록(구글 애널리틱스 등)은 별도로 수집하지 않습니다.<br><br>
+      본인 정보 삭제를 원하시면 "회원 탈퇴" 메뉴를 이용하거나, 인스타그램 DM으로 요청해주세요.
+      </p>
+    `,
+    bugReport: `
+      <div class="sheet-head">
+        <p class="sheet-title">🐞 버그 신고</p>
+        <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">어떤 문제가 있었나요?</label>
+        <textarea class="form-textarea" id="bugReportInput" placeholder="예: OO 버튼을 눌렀는데 반응이 없어요"></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitBugReport()">신고하기</button>
+    `,
+    accountDelete: `
+      <div class="sheet-head">
+        <p class="sheet-title">🚪 회원 탈퇴</p>
+        <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <p class="gate-sub" style="text-align:left;">탈퇴하면 저장된 이름/이메일 정보가 삭제되고 로그아웃됩니다. 다시 이용하려면 재가입이 필요해요.</p>
+      <button class="submit-btn" onclick="deleteMyAccount()" style="background:#FF4D4D;">탈퇴하기</button>
     `,
     favorites: `
       <div class="sheet-head">
@@ -3170,6 +3433,14 @@
           <button type="button" class="tag-btn" onclick="selectTag(this,'아무 생각 없음')">아무 생각 없음</button>
         </div>
       </div>
+      <div class="form-group">
+        <label class="form-label">우선순위</label>
+        <div class="tag-group">
+          <button type="button" class="tag-btn" onclick="selectPriority(this,'급함')">🔴 급함</button>
+          <button type="button" class="tag-btn" onclick="selectPriority(this,'보통')">🟡 보통</button>
+          <button type="button" class="tag-btn" onclick="selectPriority(this,'여유')">🟢 여유</button>
+        </div>
+      </div>
       <button class="submit-btn" id="submitBtn" style="display:none;" onclick="submitInquiry()">전송</button>
     `,
     faq: `
@@ -3185,6 +3456,30 @@
         <p class="sheet-title">업데이트 내역</p>
         <button class="close-btn" onclick="closeSheet()">✕</button>
       </div>
+      <p class="version-tag">Ver 5.5</p>
+      <div class="faq-item"><p class="faq-a">📄 개인정보처리방침, 🐞 버그 신고, 🚪 회원 탈퇴 메뉴를 추가했습니다.</p></div>
+      <div class="faq-item"><p class="faq-a">문의에 우선순위(급함/보통/여유) 태그를 추가했습니다.</p></div>
+      <div class="faq-item"><p class="faq-a">관리자가 문의/약속을 확인하면 신청자 쪽에 "읽음" 표시가 뜹니다.</p></div>
+      <div class="faq-item"><p class="faq-a">🎮 반응속도 게임을 추가했습니다.</p></div>
+      <div class="faq-item"><p class="faq-a">등급이 오르면 축하 알림이 뜨고, 가끔 "포인트 2배" 랜덤 이벤트가 발생합니다.</p></div>
+      <div class="faq-item"><p class="faq-a">포인트가 쌓이면 수달에게 별/왕관 악세서리가 생기는 펫 성장 요소를 추가했습니다.</p></div>
+      <div class="faq-item"><p class="faq-a">관리자가 답변 템플릿을 만들어두고 상태 변경 시 번호로 재사용할 수 있습니다.</p></div>
+      <div class="faq-item"><p class="faq-a">관리자가 전체 회원에게 공지 메일을 한 번에 발송할 수 있습니다.</p></div>
+      <div class="faq-item"><p class="faq-a">관리자 대시보드에 요일별 문의/약속 그래프와 연간 리포트를 추가했습니다.</p></div>
+      <div class="faq-item"><p class="faq-a">짧은 시간에 회원가입을 반복 시도하면 잠시 제한되도록 했습니다.</p></div>
+      <div class="faq-item"><p class="faq-a">방명록 글에 "공유" 버튼을 추가해 텍스트로 복사할 수 있습니다.</p></div>
+      <p class="version-tag">Ver 5.0</p>
+      <div class="faq-item"><p class="faq-a">헨리/메리/찰스를 클릭하면 반응과 함께 포인트를 받습니다 (먹이주기).</p></div>
+      <div class="faq-item"><p class="faq-a">지금까지 만난 캐릭터의 모습을 모으는 "캐릭터 도감"을 추가했습니다.</p></div>
+      <div class="faq-item"><p class="faq-a">비/눈이 오면 한 번씩 캐릭터들의 반응 메시지가 뜹니다.</p></div>
+      <div class="faq-item"><p class="faq-a">문의/약속 상태가 바뀔 때 알림을 모두 받을지, 완료됐을 때만 받을지 선택할 수 있는 "알림 설정"을 추가했습니다.</p></div>
+      <div class="faq-item"><p class="faq-a">관리자가 자주 쓰는 답변 문구를 템플릿으로 저장하고 번호만 입력해 재사용할 수 있습니다.</p></div>
+      <div class="faq-item"><p class="faq-a">"내 신청 내역"에서 대기중인 문의/약속을 직접 취소할 수 있습니다.</p></div>
+      <div class="faq-item"><p class="faq-a">방명록 참여자 중 랜덤으로 궁합을 보는 "커플 매칭 게임"을 추가했습니다 (장난용).</p></div>
+      <div class="faq-item"><p class="faq-a">포인트가 실제로 저장되어 "명예의 전당" 랭킹을 볼 수 있습니다.</p></div>
+      <div class="faq-item"><p class="faq-a">수달 7번 클릭 + 찰스 먹이주기 + 오늘의 운세 확인, 3가지를 모으면 시크릿 코드가 공개됩니다.</p></div>
+      <div class="faq-item"><p class="faq-a">관리자 대시보드에서 여러 건을 선택해 한 번에 완료 처리할 수 있습니다 (일괄 처리).</p></div>
+      <div class="faq-item"><p class="faq-a">완료된 지 30일 지난 건은 기본적으로 목록에서 숨겨지고, 필요하면 다시 볼 수 있습니다 (자동 아카이브).</p></div>
       <p class="version-tag">Ver 4.5</p>
       <div class="faq-item"><p class="faq-a">배경에 흰 햄스터 "메리"와 회갈색 햄스터 "찰스"를 추가했습니다. 목에 이름표를 달고 있습니다.</p></div>
       <div class="faq-item"><p class="faq-a">메리와 찰스가 랜덤으로 잠을 자거나, 해바라기씨를 먹거나, 쳇바퀴를 돌립니다.</p></div>
@@ -3602,20 +3897,76 @@
     }catch(e){ /* ignore */ }
   }
 
+  function getLevelName(pts){
+    if(pts >= 100) return '단골 회원';
+    if(pts >= 30) return '활발한 회원';
+    return '새싹 회원';
+  }
+
   function addPoints(amount){
     try{
-      const pts = parseInt(localStorage.getItem('myPoints') || '0', 10) + amount;
+      const isDoubleEvent = sessionStorage.getItem('doublePointsEvent') === '1';
+      const finalAmount = isDoubleEvent ? amount * 2 : amount;
+      const beforePts = parseInt(localStorage.getItem('myPoints') || '0', 10);
+      const pts = beforePts + finalAmount;
       localStorage.setItem('myPoints', String(pts));
+
+      const beforeLevel = getLevelName(beforePts);
+      const afterLevel = getLevelName(pts);
+      if(beforeLevel !== afterLevel){
+        setTimeout(()=>{
+          playSuccessAnimation();
+          showToast("🎉 등급 승급! \"" + afterLevel + "\"이 되었어요");
+        }, 300);
+      }
+      updatePetGrowthStage(pts);
+
+      const email = getCurrentMemberEmail();
+      if(email && firebaseReady){
+        db.collection('members').where('email', '==', email).limit(1).get().then(snap => {
+          if(!snap.empty) snap.docs[0].ref.update({ points: pts }).catch(()=>{});
+        }).catch(()=>{});
+      }
       return pts;
     }catch(e){ return 0; }
   }
 
   function getMyLevel(){
     const pts = parseInt(localStorage.getItem('myPoints') || '0', 10);
-    if(pts >= 100) return { name: '단골 회원', pts };
-    if(pts >= 30) return { name: '활발한 회원', pts };
-    return { name: '새싹 회원', pts };
+    return { name: getLevelName(pts), pts };
   }
+
+  // ── 랜덤 이벤트 (가끔 포인트 2배) ──
+  function checkRandomEvent(){
+    try{
+      if(sessionStorage.getItem('doublePointsEventChecked')) return;
+      sessionStorage.setItem('doublePointsEventChecked', '1');
+      if(Math.random() < 0.1){
+        sessionStorage.setItem('doublePointsEvent', '1');
+        setTimeout(()=>showToast("🎊 오늘의 랜덤 이벤트! 포인트 2배 지급 중"), 2000);
+      }
+    }catch(e){ /* ignore */ }
+  }
+  checkRandomEvent();
+
+  // ── 펫 성장 시스템 (포인트에 따라 반짝이는 별 악세서리 추가) ──
+  function updatePetGrowthStage(pts){
+    const stage = pts >= 100 ? 2 : (pts >= 30 ? 1 : 0);
+    try{ localStorage.setItem('petGrowthStage', String(stage)); }catch(e){ /* ignore */ }
+    applyPetGrowthStage();
+  }
+
+  function applyPetGrowthStage(){
+    let stage = 0;
+    try{ stage = parseInt(localStorage.getItem('petGrowthStage') || '0', 10); }catch(e){ /* ignore */ }
+    document.querySelectorAll('.pet-star').forEach(el => {
+      el.style.display = stage >= 1 ? 'block' : 'none';
+    });
+    document.querySelectorAll('.pet-crown').forEach(el => {
+      el.style.display = stage >= 2 ? 'block' : 'none';
+    });
+  }
+  applyPetGrowthStage();
 
   // ── 글자 크기 조절 ──
   function cycleFontSize(){
@@ -3735,6 +4086,24 @@
     showGatePanel('gateSignupStep1');
   }
 
+  // ── 의심스러운 회원가입 시도 감지 ──
+  function isSuspiciousSignupActivity(){
+    try{
+      const attempts = JSON.parse(localStorage.getItem('signupAttempts') || '[]');
+      const recent = attempts.filter(t => Date.now() - t < 10 * 60000);
+      return recent.length >= 3;
+    }catch(e){ return false; }
+  }
+
+  function recordSignupAttempt(){
+    try{
+      const attempts = JSON.parse(localStorage.getItem('signupAttempts') || '[]');
+      attempts.push(Date.now());
+      const recent = attempts.filter(t => Date.now() - t < 10 * 60000);
+      localStorage.setItem('signupAttempts', JSON.stringify(recent));
+    }catch(e){ /* ignore */ }
+  }
+
   async function requestSignupOtp(){
     const name = document.getElementById('signupName').value.trim();
     const email = document.getElementById('signupEmail').value.trim();
@@ -3756,6 +4125,11 @@
       hint.textContent = "잠시 후 다시 시도해주세요.";
       return;
     }
+    if(isSuspiciousSignupActivity()){
+      hint.textContent = "짧은 시간에 너무 많이 시도했어요. 잠시 후 다시 시도해주세요.";
+      return;
+    }
+    recordSignupAttempt();
 
     hint.textContent = "";
     const btn = document.getElementById('signupRequestBtn');
@@ -3843,6 +4217,7 @@
 
   let selectedTag = null;
   let selectedRelation = null;
+  let selectedPriority = null;
 
   function buildWhoSheet(){
     const personas = [
@@ -3869,7 +4244,7 @@
     `;
   }
 
-  const DYNAMIC_SHEET_TYPES = ['mySubmissions', 'guestbook', 'rollingPaper', 'vote', 'fortune', 'publicSchedule'];
+  const DYNAMIC_SHEET_TYPES = ['mySubmissions', 'guestbook', 'rollingPaper', 'vote', 'fortune', 'publicSchedule', 'hallOfFame', 'coupleMatch', 'creatureLog', 'notifyPref', 'reactionGame'];
 
   function firestoreNotReadyHtml(title){
     return `
@@ -3882,6 +4257,18 @@
   }
 
   // ── 내 신청 내역 ──
+  async function cancelSubmission(collectionName, docId){
+    if(!firebaseReady) return;
+    if(!confirm("정말 취소하시겠어요?")) return;
+    try{
+      await db.collection(collectionName).doc(docId).update({ status: '취소' });
+      showToast("취소됐어요");
+      renderMySubmissions();
+    }catch(err){
+      showToast("취소에 실패했어요");
+    }
+  }
+
   async function renderMySubmissions(){
     const sheetEl = document.getElementById('sheet');
     if(!firebaseReady){ sheetEl.innerHTML = firestoreNotReadyHtml('내 신청 내역'); return; }
@@ -3894,16 +4281,20 @@
       ]);
       const inquiryRows = inquirySnap.docs.map(doc => {
         const d = doc.data();
+        const canCancel = (d.status || '대기중') === '대기중';
         return `<div class="admin-row">
-          <div class="admin-row-title">📩 ${escapeHtml(d.title || '')}</div>
+          <div class="admin-row-title">📩 ${escapeHtml(d.title || '')} ${d.viewedByAdmin ? '<span style="font-size:11px;color:var(--accent);">· 읽음</span>' : ''}</div>
           <div class="admin-row-meta">${escapeHtml(d.category || '')} · 상태: ${escapeHtml(d.status || '대기중')}</div>
+          ${canCancel ? `<button class="back-link" onclick="cancelSubmission('inquiries','${doc.id}')">신청 취소</button>` : ''}
         </div>`;
       }).join('');
       const apptRows = apptSnap.docs.map(doc => {
         const d = doc.data();
+        const canCancel = (d.status || '대기중') === '대기중';
         return `<div class="admin-row">
-          <div class="admin-row-title">📅 ${escapeHtml(d.appointmentType || '')}</div>
+          <div class="admin-row-title">📅 ${escapeHtml(d.appointmentType || '')} ${d.viewedByAdmin ? '<span style="font-size:11px;color:var(--accent);">· 읽음</span>' : ''}</div>
           <div class="admin-row-meta">${escapeHtml(d.datetimeDisplay || '')} · 상태: ${escapeHtml(d.status || '대기중')}</div>
+          ${canCancel ? `<button class="back-link" onclick="cancelSubmission('appointments','${doc.id}')">신청 취소</button>` : ''}
         </div>`;
       }).join('');
       const pendingCount = [...inquirySnap.docs, ...apptSnap.docs].filter(doc => (doc.data().status || '대기중') === '대기중').length;
@@ -3944,6 +4335,7 @@
           ${replies}
           <button class="back-link" onclick="likeEntry('guestbook','${doc.id}')">❤️ ${d.likes || 0}</button>
           <button class="back-link" onclick="replyToGuestbook('${doc.id}')">💬 답글</button>
+          <button class="back-link" onclick="shareEntryText('${escapeHtml(d.name || '익명')}','${escapeHtml(d.message || '')}')">🔗 공유</button>
         </div>`;
       }).join('') || '<p class="field-hint">아직 방명록이 비어있어요.</p>';
     }catch(err){ /* ignore */ }
@@ -4105,6 +4497,7 @@
       "생각지도 못한 곳에서 좋은 소식이 들려올 거예요 🍀"
     ];
     const pick = fortunes[Math.floor(Math.random() * fortunes.length)];
+    collectSecretFragment('fortune');
     document.getElementById('sheet').innerHTML = `
       <div class="sheet-head">
         <p class="sheet-title">🔮 오늘의 운세</p>
@@ -4190,6 +4583,218 @@
     }
   }
 
+  // ── 명예의 전당 (포인트 랭킹) ──
+  async function renderHallOfFame(){
+    const sheetEl = document.getElementById('sheet');
+    if(!firebaseReady){ sheetEl.innerHTML = firestoreNotReadyHtml('🏆 명예의 전당'); return; }
+    try{
+      const snap = await db.collection('members').orderBy('points', 'desc').limit(10).get();
+      const rows = snap.docs.map((doc, i) => {
+        const d = doc.data();
+        return `<div class="admin-row"><div class="admin-row-title">${i + 1}위 · ${escapeHtml(d.name || '')}</div><div class="admin-row-meta">${d.points || 0}포인트</div></div>`;
+      }).join('') || '<p class="field-hint">아직 포인트 기록이 없어요.</p>';
+      sheetEl.innerHTML = `
+        <div class="sheet-head">
+          <p class="sheet-title">🏆 명예의 전당</p>
+          <button class="close-btn" onclick="closeSheet()">✕</button>
+        </div>
+        <p class="gate-sub" style="text-align:left;">방명록·투표 참여로 포인트를 쌓아보세요.</p>
+        ${rows}
+      `;
+    }catch(err){
+      sheetEl.innerHTML = firestoreNotReadyHtml('🏆 명예의 전당');
+    }
+  }
+
+  // ── 커플 매칭 게임 (장난용) ──
+  async function renderCoupleMatch(){
+    const sheetEl = document.getElementById('sheet');
+    sheetEl.innerHTML = `
+      <div class="sheet-head">
+        <p class="sheet-title">💘 커플 매칭 게임</p>
+        <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <p class="gate-sub" style="text-align:left;">방명록에 남긴 이름 중 두 명을 랜덤으로 뽑아 궁합을 봐드려요 (장난용입니다!).</p>
+      <div id="coupleMatchResult"><p class="field-hint">버튼을 눌러보세요.</p></div>
+      <button class="submit-btn" onclick="drawCoupleMatch()">매칭 뽑기</button>
+    `;
+  }
+
+  async function drawCoupleMatch(){
+    const box = document.getElementById('coupleMatchResult');
+    if(!firebaseReady){ box.innerHTML = '<p class="field-hint">Firebase 설정 후 사용할 수 있어요.</p>'; return; }
+    try{
+      const snap = await db.collection('guestbook').limit(50).get();
+      const names = [...new Set(snap.docs.map(doc => doc.data().name).filter(n => n && n !== '익명'))];
+      if(names.length < 2){
+        box.innerHTML = '<p class="field-hint">방명록에 이름이 2명 이상 있어야 뽑을 수 있어요.</p>';
+        return;
+      }
+      const shuffled = names.sort(() => Math.random() - 0.5);
+      const [a, b] = shuffled;
+      const pct = Math.floor(Math.random() * 101);
+      box.innerHTML = `<div class="admin-row"><div class="admin-row-title">${escapeHtml(a)} ❤️ ${escapeHtml(b)}</div><div class="admin-row-meta">궁합 지수 ${pct}%</div></div>`;
+    }catch(err){
+      box.innerHTML = '<p class="field-hint">불러오지 못했어요.</p>';
+    }
+  }
+
+  // ── 캐릭터 도감 ──
+  const CREATURE_MOODS = [
+    { key: 'dog_default', label: '헨리 - 혀 내밀기' },
+    { key: 'dog_angry', label: '헨리 - 화내기' },
+    { key: 'dog_eating', label: '헨리 - 간식 먹기' },
+    { key: 'dog_side', label: '헨리 - 옆모습' },
+    { key: 'mary_sleep', label: '메리 - 잠자기' },
+    { key: 'mary_eating', label: '메리 - 해바라기씨 먹기' },
+    { key: 'mary_wheel', label: '메리 - 쳇바퀴' },
+    { key: 'charles_sleep', label: '찰스 - 잠자기' },
+    { key: 'charles_eating', label: '찰스 - 해바라기씨 먹기' },
+    { key: 'charles_wheel', label: '찰스 - 쳇바퀴' }
+  ];
+
+  function recordCreatureSighting(key){
+    try{
+      const seen = JSON.parse(localStorage.getItem('creatureSeen') || '[]');
+      if(!seen.includes(key)){
+        seen.push(key);
+        localStorage.setItem('creatureSeen', JSON.stringify(seen));
+      }
+    }catch(e){ /* ignore */ }
+  }
+
+  function renderCreatureLog(){
+    let seen = [];
+    try{ seen = JSON.parse(localStorage.getItem('creatureSeen') || '[]'); }catch(e){ /* ignore */ }
+    const rows = CREATURE_MOODS.map(m => {
+      const found = seen.includes(m.key);
+      return `<div class="admin-row"><div class="admin-row-title">${found ? '✅' : '❔'} ${found ? escapeHtml(m.label) : '???'}</div></div>`;
+    }).join('');
+    document.getElementById('sheet').innerHTML = `
+      <div class="sheet-head">
+        <p class="sheet-title">📔 캐릭터 도감</p>
+        <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <p class="gate-sub" style="text-align:left;">${seen.length} / ${CREATURE_MOODS.length}개 발견</p>
+      ${rows}
+    `;
+  }
+
+  // ── 알림 설정 ──
+  async function renderNotifyPref(){
+    const sheetEl = document.getElementById('sheet');
+    if(!firebaseReady){ sheetEl.innerHTML = firestoreNotReadyHtml('🔔 알림 설정'); return; }
+    const email = getCurrentMemberEmail();
+    if(!email){ sheetEl.innerHTML = firestoreNotReadyHtml('🔔 알림 설정'); return; }
+    try{
+      const snap = await db.collection('members').where('email', '==', email).limit(1).get();
+      const notifyAll = snap.empty ? true : (snap.docs[0].data().notifyAll !== false);
+      sheetEl.innerHTML = `
+        <div class="sheet-head">
+          <p class="sheet-title">🔔 알림 설정</p>
+          <button class="close-btn" onclick="closeSheet()">✕</button>
+        </div>
+        <p class="gate-sub" style="text-align:left;">문의/약속의 상태가 바뀔 때마다 메일을 받을지, 최종 완료됐을 때만 받을지 선택하세요.</p>
+        <div class="option-list">
+          <button class="option-btn" onclick="setNotifyPref(true)">${notifyAll ? '✅ ' : ''}모든 상태 변경 알림 받기</button>
+          <button class="option-btn" onclick="setNotifyPref(false)">${!notifyAll ? '✅ ' : ''}완료됐을 때만 알림 받기</button>
+        </div>
+      `;
+    }catch(err){
+      sheetEl.innerHTML = firestoreNotReadyHtml('🔔 알림 설정');
+    }
+  }
+
+  async function setNotifyPref(notifyAll){
+    const email = getCurrentMemberEmail();
+    if(!email || !firebaseReady) return;
+    try{
+      const snap = await db.collection('members').where('email', '==', email).limit(1).get();
+      if(!snap.empty){
+        await snap.docs[0].ref.update({ notifyAll: notifyAll });
+        showToast("알림 설정이 저장됐어요");
+        renderNotifyPref();
+      }
+    }catch(err){
+      showToast("설정에 실패했어요");
+    }
+  }
+
+  // ── 반응속도 게임 ──
+  let reactionGameStart = 0;
+  let reactionGameTimer = null;
+  function renderReactionGame(){
+    document.getElementById('sheet').innerHTML = `
+      <div class="sheet-head">
+        <p class="sheet-title">🎮 반응속도 게임</p>
+        <button class="close-btn" onclick="closeSheet()">✕</button>
+      </div>
+      <p class="gate-sub" style="text-align:left;">아래 버튼이 초록색으로 바뀌면 최대한 빨리 눌러보세요!</p>
+      <button class="submit-btn" id="reactionBtn" onclick="handleReactionClick()" style="background:var(--ink-soft);">준비하는 중...</button>
+    `;
+    const btn = document.getElementById('reactionBtn');
+    const delay = 1500 + Math.random() * 2500;
+    reactionGameTimer = setTimeout(()=>{
+      btn.style.background = '#2FAE66';
+      btn.textContent = '지금 눌러요!';
+      reactionGameStart = Date.now();
+    }, delay);
+  }
+
+  function handleReactionClick(){
+    const btn = document.getElementById('reactionBtn');
+    if(reactionGameStart === 0){
+      clearTimeout(reactionGameTimer);
+      btn.textContent = '너무 빨랐어요! 다시 시도';
+      btn.style.background = '#FF4D4D';
+      setTimeout(renderReactionGame, 1200);
+      return;
+    }
+    const ms = Date.now() - reactionGameStart;
+    reactionGameStart = 0;
+    btn.textContent = ms + "ms! 다시 하기";
+    btn.style.background = 'var(--accent)';
+    addPoints(1);
+    btn.onclick = renderReactionGame;
+  }
+
+  // ── 버그 신고 ──
+  function submitBugReport(){
+    const text = document.getElementById('bugReportInput').value.trim();
+    if(!text){
+      showToast("내용을 입력해주세요");
+      return;
+    }
+    const email = getCurrentMemberEmail() || '익명';
+    sendEmail({
+      to_email: "rokafhanmin@gmail.com",
+      title: "버그 신고",
+      message: "보낸 사람: " + email + "\n\n" + text
+    }).catch(err => console.warn("버그 신고 전송 실패:", err));
+    saveToFirestore('bugReports', { email, text });
+    closeSheet();
+    showToast("신고해주셔서 감사해요!");
+  }
+
+  // ── 회원 탈퇴 ──
+  async function deleteMyAccount(){
+    if(!confirm("정말 탈퇴하시겠어요? 이 작업은 되돌릴 수 없어요.")) return;
+    const email = getCurrentMemberEmail();
+    try{
+      if(email && firebaseReady){
+        const snap = await db.collection('members').where('email', '==', email).limit(1).get();
+        if(!snap.empty) await snap.docs[0].ref.delete();
+      }
+    }catch(err){ /* ignore */ }
+    try{ localStorage.removeItem('memberInfo'); }catch(e){ /* ignore */ }
+    closeSheet();
+    showToast("탈퇴가 완료됐어요");
+    setTimeout(()=>{
+      document.getElementById('gateOverlay').classList.remove('gate-hidden');
+      showGatePanel('gateStep1');
+    }, 800);
+  }
+
   // ── 테마 컬러 ──
   function setThemeColor(hex){
     try{ localStorage.setItem('themeColorPref', hex); }catch(e){ /* ignore */ }
@@ -4253,6 +4858,7 @@
     sheetEl.classList.toggle('sheet--paper', type === 'faq');
     selectedTag = null;
     selectedRelation = null;
+    selectedPriority = null;
     document.getElementById('overlay').classList.add('show');
     if(type === 'faq'){
       requestAnimationFrame(()=>{
@@ -4270,6 +4876,11 @@
     if(type === 'publicSchedule') renderPublicSchedule();
     if(type === 'activityFeed') renderActivityFeed();
     if(type === 'inviteRanking') renderInviteRanking();
+    if(type === 'hallOfFame') renderHallOfFame();
+    if(type === 'coupleMatch') renderCoupleMatch();
+    if(type === 'creatureLog') renderCreatureLog();
+    if(type === 'notifyPref') renderNotifyPref();
+    if(type === 'reactionGame') renderReactionGame();
   }
 
   function selectTag(btn, tag){
@@ -4283,6 +4894,12 @@
     btn.parentElement.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('selected'));
     btn.classList.add('selected');
     selectedRelation = relation;
+  }
+
+  function selectPriority(btn, priority){
+    btn.parentElement.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedPriority = priority;
   }
 
   function checkInquiryValidity(){
@@ -4569,8 +5186,8 @@
         to_email: "rokafhanmin@gmail.com",
         reply_to: email,
         category: selectedTag,
-        title: title,
-        message: "보내는 사람: " + email + (selectedRelation ? " (" + selectedRelation + ")" : "") + "\n\n" + body
+        title: (selectedPriority === '급함' ? "🔴[급함] " : "") + title,
+        message: "보내는 사람: " + email + (selectedRelation ? " (" + selectedRelation + ")" : "") + (selectedPriority ? "\n우선순위: " + selectedPriority : "") + "\n\n" + body
       });
       recordSendTime();
       closeSheet();
@@ -4585,6 +5202,7 @@
         type: "문의",
         category: selectedTag,
         relation: selectedRelation || "",
+        priority: selectedPriority || "",
         email: email,
         title: title,
         body: body,
@@ -4593,6 +5211,7 @@
       saveToFirestore('inquiries', {
         category: selectedTag,
         relation: selectedRelation || "",
+        priority: selectedPriority || "",
         email: email,
         title: title,
         body: body
