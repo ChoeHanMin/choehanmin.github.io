@@ -15,6 +15,7 @@
     "namespace": "android_app",
     "package_name": "com.choehanmin.stealthops",
     "sha256_cert_fingerprints": [
+      "33:1E:D7:4E:89:BC:59:F4:CA:C1:BD:21:8E:4A:2E:FA:D7:62:4A:8F:F2:BA:2E:B1:D6:A9:C6:E4:3D:BA:40:20",
       "98:0E:49:C1:C4:34:BD:72:7B:13:99:73:48:EC:6E:8D:6A:10:85:3B:F8:12:44:71:37:EB:11:D8:07:52:07:B3",
       "F8:1A:A8:48:7E:3C:14:03:A4:F6:BA:7B:B8:19:36:5F:02:DB:95:79:B6:B8:F6:73:B6:7D:53:15:AE:B7:3C:51"
     ]
