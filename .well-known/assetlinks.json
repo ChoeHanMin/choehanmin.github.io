@@ -27,7 +27,8 @@
     "namespace": "android_app",
     "package_name": "com.choehanmin.mazeescape",
     "sha256_cert_fingerprints": [
-      "0E:01:4C:9A:AC:0A:16:E3:A7:DD:7E:19:D3:97:85:AA:BA:5E:73:BF:65:A1:63:4B:24:52:81:BA:72:4A:D7:06"
+      "0E:01:4C:9A:AC:0A:16:E3:A7:DD:7E:19:D3:97:85:AA:BA:5E:73:BF:65:A1:63:4B:24:52:81:BA:72:4A:D7:06",
+      "2B:FD:D7:3B:C9:5A:0F:E6:9A:A2:00:BB:68:19:A1:FC:4D:4E:48:F8:27:FE:34:E7:7C:F2:98:1C:15:1A:F8:D2"
     ]
   }
 }]
