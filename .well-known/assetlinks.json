@@ -20,4 +20,14 @@
       "F8:1A:A8:48:7E:3C:14:03:A4:F6:BA:7B:B8:19:36:5F:02:DB:95:79:B6:B8:F6:73:B6:7D:53:15:AE:B7:3C:51"
     ]
   }
+},
+{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.choehanmin.mazeescape",
+    "sha256_cert_fingerprints": [
+      "0E:01:4C:9A:AC:0A:16:E3:A7:DD:7E:19:D3:97:85:AA:BA:5E:73:BF:65:A1:63:4B:24:52:81:BA:72:4A:D7:06"
+    ]
+  }
 }]
