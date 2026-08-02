@@ -1,36 +1,49 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.choehanmin.minicourt",
-    "sha256_cert_fingerprints": [
-      "E9:36:9B:C4:38:9D:9C:A6:39:CC:76:E7:8E:13:A7:2C:E3:5C:35:12:3E:10:72:E1:81:D8:27:5C:BC:43:86:E6",
-      "A3:2C:50:F7:76:F4:67:B1:C9:70:A7:94:8D:D5:6A:93:33:C8:30:E7:A8:5C:71:68:9F:2D:CA:FD:C5:37:2E:D5"
-    ]
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.choehanmin.minicourt",
+      "sha256_cert_fingerprints": [
+        "E9:36:9B:C4:38:9D:9C:A6:39:CC:76:E7:8E:13:A7:2C:E3:5C:35:12:3E:10:72:E1:81:D8:27:5C:BC:43:86:E6",
+        "A3:2C:50:F7:76:F4:67:B1:C9:70:A7:94:8D:D5:6A:93:33:C8:30:E7:A8:5C:71:68:9F:2D:CA:FD:C5:37:2E:D5"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.choehanmin.stealthops",
+      "sha256_cert_fingerprints": [
+        "33:1E:D7:4E:89:BC:59:F4:CA:C1:BD:21:8E:4A:2E:FA:D7:62:4A:8F:F2:BA:2E:B1:D6:A9:C6:E4:3D:BA:40:20",
+        "98:0E:49:C1:C4:34:BD:72:7B:13:99:73:48:EC:6E:8D:6A:10:85:3B:F8:12:44:71:37:EB:11:D8:07:52:07:B3",
+        "F8:1A:A8:48:7E:3C:14:03:A4:F6:BA:7B:B8:19:36:5F:02:DB:95:79:B6:B8:F6:73:B6:7D:53:15:AE:B7:3C:51"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.choehanmin.mazeescape",
+      "sha256_cert_fingerprints": [
+        "5F:E8:3C:27:2C:0C:A2:69:06:B5:DD:3E:A3:A6:E4:22:33:5E:7A:25:7F:D8:07:91:5F:05:85:92:B8:FB:18:1B",
+        "25:67:6A:4D:B4:00:D9:6F:B9:AA:F7:71:F1:5F:FC:1C:96:E6:11:55:73:16:BC:78:06:F9:83:93:CC:99:1C:B3",
+        "0E:01:4C:9A:AC:0A:16:E3:A7:DD:7E:19:D3:97:85:AA:BA:5E:73:BF:65:A1:63:4B:24:52:81:BA:72:4A:D7:06",
+        "2B:FD:D7:3B:C9:5A:0F:E6:9A:A2:00:BB:68:19:A1:FC:4D:4E:48:F8:27:FE:34:E7:7C:F2:98:1C:15:1A:F8:D2"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.choehanmin.timeheist24",
+      "sha256_cert_fingerprints": [
+        "48:E4:67:67:CD:54:5E:9E:9C:59:90:31:D8:9A:98:A8:AC:20:A0:51:9B:90:68:D1:11:F2:C9:D5:80:EC:A4:52",
+        "19:19:5B:B0:60:CC:5A:34:A3:76:63:52:93:9F:0D:74:9D:BF:10:86:B6:6B:6E:83:97:44:B4:EA:1C:1A:A7:D8"
+      ]
+    }
   }
-},
-{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.choehanmin.stealthops",
-    "sha256_cert_fingerprints": [
-      "33:1E:D7:4E:89:BC:59:F4:CA:C1:BD:21:8E:4A:2E:FA:D7:62:4A:8F:F2:BA:2E:B1:D6:A9:C6:E4:3D:BA:40:20",
-      "98:0E:49:C1:C4:34:BD:72:7B:13:99:73:48:EC:6E:8D:6A:10:85:3B:F8:12:44:71:37:EB:11:D8:07:52:07:B3",
-      "F8:1A:A8:48:7E:3C:14:03:A4:F6:BA:7B:B8:19:36:5F:02:DB:95:79:B6:B8:F6:73:B6:7D:53:15:AE:B7:3C:51"
-    ]
-  }
-},
-{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.choehanmin.mazeescape",
-    "sha256_cert_fingerprints": [
-      "5F:E8:3C:27:2C:0C:A2:69:06:B5:DD:3E:A3:A6:E4:22:33:5E:7A:25:7F:D8:07:91:5F:05:85:92:B8:FB:18:1B",
-      "25:67:6A:4D:B4:00:D9:6F:B9:AA:F7:71:F1:5F:FC:1C:96:E6:11:55:73:16:BC:78:06:F9:83:93:CC:99:1C:B3",
-      "0E:01:4C:9A:AC:0A:16:E3:A7:DD:7E:19:D3:97:85:AA:BA:5E:73:BF:65:A1:63:4B:24:52:81:BA:72:4A:D7:06",
-      "2B:FD:D7:3B:C9:5A:0F:E6:9A:A2:00:BB:68:19:A1:FC:4D:4E:48:F8:27:FE:34:E7:7C:F2:98:1C:15:1A:F8:D2"
-    ]
-  }
-}]
+]
