@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>최한민 — Choi Hanmin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F6F8;
+    --surface:#FFFFFF;
+    --ink:#161B2E;
+    --navy:#1F2A44;
+    --blue:#2E5AAC;
+    --amber:#E8A33D;
+    --line:#E2E4EA;
+    --muted:#6B7280;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.mono{font-family:'Space Grotesk',sans-serif;}
+  .tag,.meta,.eyebrow,code{font-family:'JetBrains Mono',monospace;}
+
+  a{color:inherit;}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px;}
+
+  /* NAV */
+  header.nav{
+    position:sticky;top:0;z-index:20;
+    background:rgba(245,246,248,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:960px;margin:0 auto;padding:14px 24px;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .nav-name{font-weight:700;font-size:15px;letter-spacing:0.02em;}
+  .nav-links{display:flex;gap:20px;font-size:13px;}
+  .nav-links a{
+    color:var(--muted);text-decoration:none;
+    border-bottom:1px solid transparent;
+    transition:color .15s, border-color .15s;
+  }
+  .nav-links a:hover{color:var(--navy);border-color:var(--navy);}
+
+  /* HERO */
+  .hero{padding:88px 0 56px;}
+  .eyebrow{
+    display:inline-block;color:var(--blue);font-size:12px;
+    letter-spacing:.06em;margin-bottom:18px;
+  }
+  .eyebrow::before{content:"> ";color:var(--amber);}
+  .hero h1{
+    font-size:56px;font-weight:700;margin:0 0 6px;letter-spacing:-0.01em;
+    color:var(--navy);
+  }
+  .hero .en{
+    font-size:16px;color:var(--muted);margin:0 0 26px;font-weight:500;
+  }
+  .hero p.lede{
+    max-width:560px;font-size:16.5px;color:#3B4256;margin:0 0 34px;
+  }
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 20px;border-radius:2px;font-size:14px;font-weight:600;
+    text-decoration:none;border:1.5px solid var(--navy);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn-primary{background:var(--navy);color:#fff;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:3px 3px 0 var(--amber);}
+  .btn-ghost{background:transparent;color:var(--navy);}
+  .btn-ghost:hover{transform:translateY(-2px);box-shadow:3px 3px 0 var(--line);}
+
+  /* STAT STRIP */
+  .stats{
+    display:flex;flex-wrap:wrap;gap:0;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    margin:8px 0 64px;
+  }
+  .stat{
+    flex:1 1 200px;padding:18px 0;border-right:1px solid var(--line);
+  }
+  .stat:last-child{border-right:none;}
+  .stat .tag{font-size:11px;color:var(--blue);margin-bottom:4px;display:block;}
+  .stat .val{font-size:14px;font-weight:600;color:var(--navy);}
+
+  /* SECTION TITLES */
+  .section{padding:8px 0 64px;}
+  .section-head{display:flex;align-items:baseline;gap:12px;margin-bottom:28px;}
+  .section-head h2{font-size:22px;margin:0;color:var(--navy);}
+  .section-head .count{font-size:12px;color:var(--muted);}
+  .section-head::after{
+    content:"";flex:1;height:1px;background:var(--line);
+  }
+
+  /* PROJECT CARDS (signature: cartridge notch) */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+  .card{
+    position:relative;
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:20px 20px 22px;
+    clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%);
+    transition:border-color .15s, transform .15s;
+  }
+  .card:hover{border-color:var(--navy);transform:translateY(-3px);}
+  .card .tag{
+    display:inline-block;font-size:10.5px;letter-spacing:.05em;
+    color:var(--navy);background:var(--bg);border:1px solid var(--line);
+    padding:3px 7px;margin-bottom:12px;
+  }
+  .card .tag.game{color:#8A5A00;border-color:#EBD3A0;background:#FDF6E7;}
+  .card .tag.web{color:var(--blue);border-color:#C7D5EE;background:#EEF2FA;}
+  .card .tag.ai{color:#5B3A9E;border-color:#DAD0F0;background:#F4F0FB;}
+  .card h3{font-size:16.5px;margin:0 0 8px;color:var(--ink);}
+  .card p{font-size:13.5px;color:var(--muted);margin:0;}
+
+  /* ACTIVITY LOG */
+  .log{
+    background:var(--navy);color:#DDE3F0;
+    padding:24px 24px;font-size:13px;
+    border-radius:2px;
+  }
+  .log .line{
+    display:flex;gap:14px;padding:7px 0;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .log .line:last-child{border-bottom:none;}
+  .log .t{color:var(--amber);white-space:nowrap;min-width:120px;}
+  .log .d{color:#F2F4F9;}
+
+  /* PDF */
+  .pdf-panel{
+    display:flex;justify-content:space-between;align-items:center;
+    gap:20px;flex-wrap:wrap;
+    background:var(--surface);border:1px solid var(--line);padding:26px;
+  }
+  .pdf-panel .l h3{margin:0 0 6px;font-size:17px;color:var(--navy);}
+  .pdf-panel .l p{margin:0;font-size:13.5px;color:var(--muted);}
+
+  footer{
+    border-top:1px solid var(--line);padding:28px 0 48px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+    font-size:12.5px;color:var(--muted);
+  }
+  footer a{text-decoration:none;color:var(--muted);}
+  footer a:hover{color:var(--navy);}
+
+  @media (max-width:600px){
+    .hero h1{font-size:38px;}
+    .stat{flex:1 1 50%;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="nav-name">최한민</div>
+    <nav class="nav-links">
+      <a href="#projects">Projects</a>
+      <a href="#activities">Activities</a>
+      <a href="https://blog.naver.com/choehanmin" target="_blank" rel="noopener">Blog</a>
+      <a href="https://github.com/ChoeHanMin" target="_blank" rel="noopener">GitHub</a>
+      <a href="portfolio.pdf" target="_blank" rel="noopener">PDF</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <span class="eyebrow">hufs / ces / student no. 202003621</span>
+    <h1>최한민</h1>
+    <p class="en">Choi Hanmin — Computer Engineering &amp; Science, 개발자 · 게임 크리에이터</p>
+    <p class="lede">컴퓨터공학을 전공하며 개발과 서비스 기획을 함께 경험해온 학생입니다.
+    Python 교육조교와 게임 개발 동아리 활동으로 기술 역량을 다지고, 여러 팀 프로젝트에서
+    기획부터 실행까지 직접 이끌어왔습니다.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="portfolio.pdf" target="_blank" rel="noopener">포트폴리오 PDF 보기</a>
+      <a class="btn btn-ghost" href="#projects">프로젝트 둘러보기</a>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><span class="tag">AFFIL</span><span class="val">HUFS · CES</span></div>
+    <div class="stat"><span class="tag">ROLE</span><span class="val">TA · Frontend/UX</span></div>
+    <div class="stat"><span class="tag">FOCUS</span><span class="val">Game Dev · Web · AI</span></div>
+    <div class="stat"><span class="tag">SHIPPED</span><span class="val">Play Store 3종 출시</span></div>
+  </div>
+
+  <section class="section" id="projects">
+    <div class="section-head"><h2>Projects</h2><span class="count">selected</span></div>
+    <div class="grid">
+      <div class="card">
+        <span class="tag game">GAME</span>
+        <h3>미니법정</h3>
+        <p>픽셀아트 법정 시뮬레이션. Canvas 2D · Web Audio API, 43개 이상 사건 · 다중 판결 시스템. Google Play 출시.</p>
+      </div>
+      <div class="card">
+        <span class="tag game">GAME</span>
+        <h3>Stealth Ops</h3>
+        <p>2D 탑다운 스텔스 게임. 무기·미션·미니맵 시스템, Electron 데스크톱 버전 병행 개발. Google Play 출시.</p>
+      </div>
+      <div class="card">
+        <span class="tag game">GAME</span>
+        <h3>미로 탈출</h3>
+        <p>시드 기반 랜덤 맵과 안개 시스템의 미로 게임. 업적·데일리 챌린지 포함. Google Play 출시.</p>
+      </div>
+      <div class="card">
+        <span class="tag game">GAME</span>
+        <h3>Time Heist 24</h3>
+        <p>시간을 단일 자원으로 쓰는 턴제 보드게임. 4종 AI 상대, 랜덤 이벤트 시스템. Alpha 테스트 진행.</p>
+      </div>
+      <div class="card">
+        <span class="tag game">GAME</span>
+        <h3>Tappy Friends</h3>
+        <p>Flappy Bird 스타일 캔버스 게임. 4개 캐릭터와 히든 캐릭터 언락 요소를 직접 설계.</p>
+      </div>
+      <div class="card">
+        <span class="tag ai">AI</span>
+        <h3>TutoGen</h3>
+        <p>증권 초보 투자자를 위한 실시간 화면 가이드 크롬 익스텐션. 하나 소셜벤처 유니버시티 5기, 프론트엔드/UX 담당.</p>
+      </div>
+      <div class="card">
+        <span class="tag ai">AI</span>
+        <h3>Scene Search (씬 서치)</h3>
+        <p>자세·구도 분석, NLP, 스케치 입력을 결합한 멀티모달 사진 검색 시스템. AI 경진대회 출품.</p>
+      </div>
+      <div class="card">
+        <span class="tag web">WEB</span>
+        <h3>최한민에게 요청하기</h3>
+        <p>EmailJS · Firebase · Apps Script를 연동한 개인 웹 요청 서비스. 바닐라 JavaScript로 단독 개발.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="activities">
+    <div class="section-head"><h2>Activities</h2><span class="count">경력 및 대외활동</span></div>
+    <div class="log">
+      <div class="line"><span class="t">2026.08–2027.01</span><span class="d">코드하나 코더스 서포터즈 — 초등 SW·AI 교육 진행 및 콘텐츠 기획</span></div>
+      <div class="line"><span class="t">2026.06–2028.03</span><span class="d">죽전 다우디지털스퀘어 AI 육성센터 — 실무 역량 강화 프로그램</span></div>
+      <div class="line"><span class="t">2026.07–2026.08</span><span class="d">하나 소셜벤처 유니버시티 5기 — 팀 A-Invest, TutoGen 개발</span></div>
+      <div class="line"><span class="t">2026.03–2026.12</span><span class="d">삼성 갤럭시 대학생 서포터즈 (갤대서 6기)</span></div>
+      <div class="line"><span class="t">2026.03–2026.06</span><span class="d">한국외국어대학교 컴퓨팅 사고 교육조교(TA)</span></div>
+      <div class="line"><span class="t">2022.01–2023.10</span><span class="d">공군 무선통신체계정비 — 통신 장비·항행안전무선시설 점검정비</span></div>
+      <div class="line"><span class="t">2020.03–현재</span><span class="d">AJ 게임 개발 동아리</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="pdf-panel">
+      <div class="l">
+        <h3>전체 포트폴리오 PDF</h3>
+        <p>모든 프로젝트, 경력, 수상 내역이 정리된 전체 문서입니다.</p>
+      </div>
+      <a class="btn btn-primary" href="portfolio.pdf" target="_blank" rel="noopener">PDF 다운로드</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>&copy; 2026 Choi Hanmin</span>
+    <span>
+      <a href="https://blog.naver.com/choehanmin" target="_blank" rel="noopener">Naver Blog</a> ·
+      <a href="https://github.com/ChoeHanMin" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="mailto:hufshanmin@gmail.com">hufshanmin@gmail.com</a>
+    </span>
+  </footer>
+
+</div>
+
+</body>
+</html>
