@@ -64,6 +64,7 @@
     gap:24px;margin-bottom:0;
   }
   .hero-text{flex:1;}
+  .hero-photo-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:10px;}
   .hero-photo{
     width:224px;height:224px;object-fit:cover;border-radius:8px;
     border:1px solid var(--line);box-shadow:0 10px 28px rgba(20,23,42,0.14);
@@ -102,10 +103,11 @@
   .gallery-toggle{
     display:inline-flex;align-items:center;gap:6px;
     background:none;border:none;cursor:pointer;
-    font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
-    color:var(--blue);padding:0 0 4px;margin-bottom:32px;
+    font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;
+    color:var(--blue);padding:0 0 3px;margin:0;
     border-bottom:1px solid transparent;
     transition:border-color .15s;
+    white-space:nowrap;
   }
   .gallery-toggle:hover{border-bottom-color:var(--blue);}
   .gallery-toggle span{font-size:11px;transition:transform .2s;}
@@ -292,10 +294,13 @@
         <h1>최한민</h1>
         <p class="en">Choi Hanmin — Computer Engineering &amp; Science</p>
       </div>
-      <img class="hero-photo" src="photos/profile.jpg" alt="최한민 프로필 사진">
+      <div class="hero-photo-wrap">
+        <img class="hero-photo" src="photos/profile.jpg" alt="최한민 프로필 사진">
+        <button class="gallery-toggle" id="galleryToggle">다른 사진 더 보기 <span id="galleryArrow">↓</span></button>
+      </div>
     </div>
     <p class="lede">컴퓨터공학을 전공하며 <strong>개발과 서비스 기획을 함께 경험</strong>해온 학생입니다.
-    한국외국어대학교 컴퓨팅사고 교육조교와 게임 개발 동아리 활동으로 기술 역량을 다지고,
+    <strong>한국외국어대학교 컴퓨팅사고 교육조교</strong>와 <strong>게임 개발 동아리 활동</strong>으로 기술 역량을 다지고,
     <strong>삼성 갤럭시 대학생 서포터즈</strong>로 활동하며 갤럭시 캠퍼스 스토어 스마트폰 채널 방장 등을 하며
     여러 팀 프로젝트의 리더로 기획부터 실행까지 직접 이끌어왔습니다.</p>
     <div class="cta-row">
@@ -303,7 +308,6 @@
       <a class="btn btn-ghost" href="#projects">프로젝트 둘러보기</a>
     </div>
 
-    <button class="gallery-toggle" id="galleryToggle">다른 사진 더 보기 <span id="galleryArrow">↓</span></button>
     <div class="gallery-grid" id="galleryGrid">
       <img class="gallery-item" src="photos/photo2.jpg" data-shot="photos/photo2.jpg" data-title="최한민" alt="최한민 사진 2">
       <img class="gallery-item" src="photos/photo3.jpg" data-shot="photos/photo3.jpg" data-title="최한민" alt="최한민 사진 3">
@@ -314,7 +318,7 @@
 
     <div class="stats">
       <div class="stat"><span class="num">5<span>종</span></span><span class="label">게임 개발·출시</span></div>
-      <div class="stat"><span class="num">12</span><span class="label">경력 및 대외활동</span></div>
+      <div class="stat"><span class="num">12<span>개</span></span><span class="label">경력 및 대외활동</span></div>
       <div class="stat"><span class="num">6<span>기</span></span><span class="label">갤캠스 방장</span></div>
       <div class="stat"><span class="num">3<span>종</span></span><span class="label">Google Play 정식 출시</span></div>
     </div>
