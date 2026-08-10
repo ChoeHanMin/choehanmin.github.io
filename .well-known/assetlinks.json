@@ -46,5 +46,15 @@
         "19:19:5B:B0:60:CC:5A:34:A3:76:63:52:93:9F:0D:74:9D:BF:10:86:B6:6B:6E:83:97:44:B4:EA:1C:1A:A7:D8"
       ]
     }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.choehanmin.seathunter",
+      "sha256_cert_fingerprints": [
+        "19:B9:D2:CC:FC:34:C7:31:B8:9F:CB:B3:13:4D:03:9A:05:02:F2:D6:67:B2:22:31:41:5B:67:3D:AE:8C:72:22"
+      ]
+    }
   }
 ]
