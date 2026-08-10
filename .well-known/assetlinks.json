@@ -53,7 +53,8 @@
       "namespace": "android_app",
       "package_name": "com.choehanmin.seathunter",
       "sha256_cert_fingerprints": [
-        "19:B9:D2:CC:FC:34:C7:31:B8:9F:CB:B3:13:4D:03:9A:05:02:F2:D6:67:B2:22:31:41:5B:67:3D:AE:8C:72:22"
+        "19:B9:D2:CC:FC:34:C7:31:B8:9F:CB:B3:13:4D:03:9A:05:02:F2:D6:67:B2:22:31:41:5B:67:3D:AE:8C:72:22",
+        "D9:56:B8:37:47:69:03:A3:E7:59:27:D0:BD:2E:EC:79:87:36:D6:03:C5:D1:2F:38:22:FC:AC:62:88:38:64:8F"
       ]
     }
   }
