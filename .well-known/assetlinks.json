@@ -1,8 +1,6 @@
 [
   {
-    "relation": [
-      "delegate_permission/common.handle_all_urls"
-    ],
+    "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
       "package_name": "com.choehanmin.minicourt",
@@ -13,9 +11,7 @@
     }
   },
   {
-    "relation": [
-      "delegate_permission/common.handle_all_urls"
-    ],
+    "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
       "package_name": "com.choehanmin.stealthops",
@@ -27,9 +23,7 @@
     }
   },
   {
-    "relation": [
-      "delegate_permission/common.handle_all_urls"
-    ],
+    "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
       "package_name": "com.choehanmin.mazeescape",
@@ -42,9 +36,7 @@
     }
   },
   {
-    "relation": [
-      "delegate_permission/common.handle_all_urls"
-    ],
+    "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
       "package_name": "com.choehanmin.timeheist24",
@@ -56,9 +48,7 @@
     }
   },
   {
-    "relation": [
-      "delegate_permission/common.handle_all_urls"
-    ],
+    "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
       "package_name": "com.choehanmin.seathunter",
@@ -69,14 +59,12 @@
     }
   },
   {
-    "relation": [
-      "delegate_permission/common.handle_all_urls"
-    ],
+    "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
       "package_name": "com.choehanmin.colordebt",
       "sha256_cert_fingerprints": [
-        "09:60:81:C6:E1:AD:A2:0C:FF:DB:3B:DC:51:21:27:8E:86:6F:15:53:20:36:67:31:3A:B8:BB:1C:DF:CE:10:31"
+        "A8:30:7B:92:4A:17:A5:98:19:6C:F2:81:4F:38:62:28:01:8C:6B:3D:DA:51:32:63:76:C5:7C:D5:FD:37:DC:18"
       ]
     }
   }
