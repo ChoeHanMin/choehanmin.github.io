@@ -2005,7 +2005,7 @@
     <p class="maker-label">제작자: 최한민</p>
     <p class="visitor-count" id="visitorCount"></p>
     <div class="version-row">
-      <p class="version-label">Ver 5.5</p>
+      <p class="version-label">Ver 5.6</p>
       <button class="changelog-btn" onclick="openSheet('changelog')">업데이트 내역 확인하기</button>
     </div>
     <div class="footer-actions">
@@ -2039,6 +2039,10 @@
     <div class="sheet-head">
       <p class="sheet-title">🛠 관리자 로그인</p>
       <button class="close-btn" onclick="closeAdminLogin()">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">관리자 이메일</label>
+      <input class="form-input" id="adminEmailInput" type="email" placeholder="관리자 이메일" value="rokafhanmin@gmail.com">
     </div>
     <div class="form-group">
       <label class="form-label">관리자 비밀번호</label>
@@ -2143,6 +2147,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
 <script>
   // ▼▼▼ Firebase 설정 (firebase.google.com 무료 프로젝트 생성 후 본인 값으로 교체) ▼▼▼
@@ -2155,6 +2160,7 @@
     appId: "1:846552471829:web:49dc2c3613a1ba4b73311c"
   };
   const ADMIN_PASSWORD = "hanmin-admin-2026";
+  const ADMIN_EMAIL = "rokafhanmin@gmail.com"; // Firebase Authentication에 등록한 관리자 이메일
   const FCM_VAPID_KEY = "YOUR_VAPID_KEY";
   // ▲▲▲ 여기까지 ▲▲▲
 
@@ -2578,9 +2584,11 @@
   // ── Firestore 백엔드 저장 (관리자 대시보드/채팅/캘린더 충돌 체크의 기반) ──
   async function saveToFirestore(collectionName, data){
     if(!firebaseReady) return null;
+    const currentUser = (firebase.auth && firebase.auth().currentUser) || null;
     try{
       const ref = await db.collection(collectionName).add(Object.assign({
         status: "대기중",
+        uid: currentUser ? currentUser.uid : null,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       }, data));
       return ref.id;
@@ -2736,20 +2744,31 @@
     document.getElementById('adminLoginOverlay').classList.remove('show');
   }
 
-  function submitAdminLogin(){
+  async function submitAdminLogin(){
+    const email = document.getElementById('adminEmailInput').value.trim();
     const pw = document.getElementById('adminPasswordInput').value;
     const hint = document.getElementById('adminLoginHint');
-    if(pw !== ADMIN_PASSWORD){
-      hint.textContent = "비밀번호가 일치하지 않아요.";
+
+    if(!firebaseReady){
+      hint.textContent = "Firebase 설정 전이에요.";
       return;
     }
+    if(!email || !pw){
+      hint.textContent = "이메일과 비밀번호를 모두 입력해주세요.";
+      return;
+    }
+
+    try{
+      await firebase.auth().signInWithEmailAndPassword(email, pw);
+    }catch(err){
+      hint.textContent = "이메일 또는 비밀번호가 일치하지 않아요.";
+      return;
+    }
+
     hint.textContent = "";
     isAdminLoggedIn = true;
     closeAdminLogin();
     document.getElementById('adminDashboardOverlay').classList.add('show');
-    if(!firebaseReady){
-      showToast("Firebase 설정 전이라 데이터는 비어있어요");
-    }
     loadAdminDashboard();
     sendEmail({
       to_email: "rokafhanmin@gmail.com",
@@ -3456,6 +3475,9 @@
         <p class="sheet-title">업데이트 내역</p>
         <button class="close-btn" onclick="closeSheet()">✕</button>
       </div>
+      <p class="version-tag">Ver 5.6</p>
+      <div class="faq-item"><p class="faq-a">진짜 로그인 체계(Firebase Authentication)를 도입했습니다. 방문자는 익명 로그인으로, 관리자는 이메일/비밀번호 로그인으로 접속합니다.</p></div>
+      <div class="faq-item"><p class="faq-a">문의/약속 등 저장되는 데이터에 로그인 사용자의 uid가 함께 기록되어, 이후 "본인 글만 조회" 같은 보안 규칙 적용의 기반이 마련되었습니다.</p></div>
       <p class="version-tag">Ver 5.5</p>
       <div class="faq-item"><p class="faq-a">📄 개인정보처리방침, 🐞 버그 신고, 🚪 회원 탈퇴 메뉴를 추가했습니다.</p></div>
       <div class="faq-item"><p class="faq-a">문의에 우선순위(급함/보통/여유) 태그를 추가했습니다.</p></div>
@@ -3813,6 +3835,10 @@
       sentAt: new Date().toISOString()
     });
 
+    if(firebaseReady && firebase.auth){
+      firebase.auth().signInAnonymously().catch(err => console.warn("익명 로그인 실패(무시됨):", err));
+    }
+
     document.getElementById('gateOverlay').classList.add('gate-hidden');
     registerPushToken(gateOtpEmail);
     watchChatBadge(gateOtpEmail);
@@ -3847,6 +3873,9 @@
 
   function initGate(){
     if(isMember()){
+      if(firebaseReady && firebase.auth && !firebase.auth().currentUser){
+        firebase.auth().signInAnonymously().catch(err => console.warn("익명 로그인 실패(무시됨):", err));
+      }
       document.getElementById('gateOverlay').classList.add('gate-hidden');
       const email = getCurrentMemberEmail();
       if(email){
@@ -3873,6 +3902,9 @@
     try{
       localStorage.removeItem('memberInfo');
     }catch(e){ /* ignore */ }
+    if(firebaseReady && firebase.auth && firebase.auth().currentUser){
+      firebase.auth().signOut().catch(()=>{});
+    }
     document.getElementById('gateOverlay').classList.remove('gate-hidden');
     showGatePanel('gateStep1');
     const codeInput = document.getElementById('gateCode');
