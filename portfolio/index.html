@@ -198,9 +198,15 @@
   .card.ai .kicker{color:#6B4FA0;}
   .card.web .kicker{color:var(--blue);}
   .card h3{font-size:18px;margin:0 0 10px;color:var(--ink);font-weight:700;}
+  .card h3 .en-name{font-size:12px;font-weight:600;color:var(--muted);margin-left:4px;}
+  .studio-credit{
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);
+    margin:-16px 0 26px;letter-spacing:.01em;
+  }
+  .studio-credit strong{color:var(--navy);font-weight:700;}
   .card p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.6;}
   .card p strong{color:var(--ink);font-weight:700;}
-  .card{cursor:pointer;}
+  .card[data-shot]{cursor:pointer;}
   .card:focus{outline:none;border-color:var(--navy);}
   .card .shot-hint{
     display:inline-block;margin-top:14px;font-size:11.5px;font-weight:600;
@@ -341,7 +347,7 @@
     <p class="lede">컴퓨터공학을 전공하며 <strong>개발과 서비스 기획을 함께 경험</strong>해온 학생입니다.
     <strong>한국외국어대학교 컴퓨팅사고 교육조교</strong>와 <strong>게임 개발 동아리 활동</strong>으로 기술 역량을 다지고,
     <strong>삼성 갤럭시 대학생 서포터즈</strong>로 활동하며 갤럭시 캠퍼스 스토어 스마트폰 채널 방장 등을 하며
-    17건 이상의 대내외 활동에서 리더로 기획부터 실행까지 직접 이끌어왔습니다.</p>
+    20건 이상의 대내외 활동에서 리더로 기획부터 실행까지 직접 이끌어왔습니다.</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="portfolio.pdf" target="_blank" rel="noopener">포트폴리오 PDF 보기</a>
       <a class="btn btn-ghost" href="#projects">프로젝트 둘러보기</a>
@@ -356,21 +362,22 @@
     </div>
 
     <div class="stats stats-5">
-      <div class="stat"><span class="num">5<span>종</span></span><span class="label">게임 개발·출시</span></div>
+      <div class="stat"><span class="num">7<span>종</span></span><span class="label">게임 개발·출시</span></div>
       <div class="stat"><span class="num">20<span>개</span></span><span class="label">경력 및 대외활동</span></div>
       <div class="stat"><span class="num">6<span>기</span></span><span class="label">갤캠스 방장</span></div>
-      <div class="stat"><span class="num">3<span>종</span></span><span class="label">Google Play 정식 출시</span></div>
+      <div class="stat"><span class="num">2<span>개</span></span><span class="label">플랫폼 (Play·Steam)</span></div>
       <div class="stat"><span class="num">EN<span></span></span><span class="label">Native 수준 영어</span></div>
     </div>
   </section>
 
   <section class="section" id="projects">
     <div class="section-head"><h2>Projects</h2><span class="count">주요 프로젝트 · 클릭하면 스크린샷</span></div>
+    <p class="studio-credit">인디 게임 스튜디오 <strong>Soodal Games (Choi Hanmin)</strong> 운영 · Google Play Store &amp; Steam 출시</p>
     <div class="grid">
       <div class="card game" tabindex="0" data-shot="shots/mini-court.jpg" data-title="미니법정">
-        <span class="kicker">Game · Pixel Art</span>
+        <span class="kicker">Game · Pixel Art · Steam</span>
         <h3>미니법정</h3>
-        <p><strong>Google Play 정식 출시.</strong> 픽셀아트 법정 시뮬레이션. Canvas 2D · Web Audio API 기반, <strong>43개 이상 사건</strong>과 다중 판결 시스템 구현.</p>
+        <p><strong>Google Play·Steam 동시 출시.</strong> 픽셀아트 법정 시뮬레이션. Canvas 2D · Web Audio API 기반, <strong>43개 이상 사건</strong>과 다중 판결 시스템 구현.</p>
         <span class="shot-hint">스크린샷 보기 ↗</span>
       </div>
       <div class="card game" tabindex="0" data-shot="shots/stealth-ops.jpg" data-title="Stealth Ops">
@@ -381,15 +388,30 @@
       </div>
       <div class="card game" tabindex="0" data-shot="shots/maze-escape.jpg" data-title="미로 탈출">
         <span class="kicker">Game · Puzzle</span>
-        <h3>미로 탈출</h3>
+        <h3>미로 탈출 <span class="en-name">Maze Escape</span></h3>
         <p><strong>Google Play 정식 출시.</strong> 시드 기반 랜덤 맵과 안개 시스템의 미로 게임. 업적·데일리 챌린지 시스템 포함.</p>
         <span class="shot-hint">스크린샷 보기 ↗</span>
       </div>
       <div class="card game" tabindex="0" data-shot="shots/time-heist.jpg" data-title="Time Heist 24">
         <span class="kicker">Game · Board</span>
         <h3>Time Heist 24</h3>
-        <p>시간을 단일 자원으로 쓰는 턴제 보드게임. <strong>4종 AI 상대</strong>, 랜덤 이벤트 시스템 직접 설계. Alpha 테스트 진행 중.</p>
+        <p><strong>Google Play 정식 출시.</strong> 시간을 단일 자원으로 쓰는 턴제 보드게임. <strong>4종 AI 상대</strong>, 랜덤 이벤트 시스템 직접 설계.</p>
         <span class="shot-hint">스크린샷 보기 ↗</span>
+      </div>
+      <div class="card game">
+        <span class="kicker">Game · Prediction</span>
+        <h3>자리 사냥 <span class="en-name">Seat Hunter</span></h3>
+        <p><strong>Google Play 정식 출시.</strong> 지하철 좌석 예측 게임. 실시간 확률 계산 로직을 직접 설계해 구현.</p>
+      </div>
+      <div class="card game">
+        <span class="kicker">Game · Puzzle</span>
+        <h3>Color Debt</h3>
+        <p><strong>Google Play 정식 출시.</strong> 60초 캐주얼 컬러 매칭 퍼즐. 짧고 중독성 있는 세션 디자인에 집중.</p>
+      </div>
+      <div class="card game">
+        <span class="kicker">Game · Casual</span>
+        <h3>Stress Smash</h3>
+        <p><strong>Google Play 정식 출시.</strong> 스트레스 해소용 타격 게임. 직관적인 조작감과 피드백 연출에 집중.</p>
       </div>
       <div class="card game" tabindex="0" data-shot="shots/tappy-friends.jpg" data-title="Tappy Friends">
         <span class="kicker">Game · Arcade</span>
