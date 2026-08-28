@@ -50,16 +50,20 @@ entries (newest first, by start date):
      place and nothing overflowed a page oddly.
    - Once it looks right: `cp scripts/portfolio_generated.pdf
      portfolio/portfolio.pdf`.
-3. **`index.html`** (root) — optionally add a matching entry to the
+3. **`index.html`** (root) — **always** add a matching entry to the
    `#log` commit list (`.commit` div, with a made-up short git-style hash
-   like the existing ones, `.commit-msg`, and `.commit-meta`). This list
-   is curated/recent-only by design, so use judgment — very old or minor
-   entries don't need to appear here even though they're in the full
-   timeline. Its `.stats` "15+" 대내외 활동 number is an independent,
-   intentionally-smaller highlight count — don't feel obligated to keep
-   it in lockstep with the portfolio page's total.
+   like the existing ones, `.commit-msg`, and `.commit-meta`), per
+   explicit standing instruction from the user (don't skip this one even
+   though the list reads as a curated highlights reel — every new spec
+   gets an entry here too). Its `.stats` "15+" 대내외 활동 number is an
+   independent, intentionally-smaller highlight count — don't feel
+   obligated to keep it in lockstep with the portfolio page's total.
 
-Commit all changed files together with one descriptive commit message.
+All three files above are updated together, every time, with no
+exceptions, per explicit standing instruction from the user — don't ask
+whether to touch all three, just do it. Commit all changed files together
+with one descriptive commit message and push straight to `main` (see Git
+workflow below) without asking for confirmation first.
 
 ## Git workflow for this repo
 
