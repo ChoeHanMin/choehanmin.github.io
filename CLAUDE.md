@@ -65,6 +65,15 @@ whether to touch all three, just do it. Commit all changed files together
 with one descriptive commit message and push straight to `main` (see Git
 workflow below) without asking for confirmation first.
 
+## Related accounts
+
+- Google Search Console owner for `choehanmin.github.io` /
+  `https://www.choihanmin.com/` is `rokafhanmin@gmail.com` — this is a
+  different Google account from the user's primary email
+  (`1228hanmin@gmail.com`, see userEmail context). Relevant when dealing
+  with Google Play Console / Search Console site-ownership verification
+  for this site.
+
 ## Git workflow for this repo
 
 - Push directly to `main` — this is a single-owner personal site with no
