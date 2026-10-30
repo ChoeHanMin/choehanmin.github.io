@@ -19,6 +19,20 @@ build step — GitHub Pages serves straight from `main`.
 - `photos/`, `portfolio/photos/`, `portfolio/shots/`, `images/` — static
   images referenced by the two index.html files.
 
+## Do not touch the design of choihanmin.com
+
+Per explicit standing instruction from the user: do not change the visual
+design/layout/CSS of `index.html` or `portfolio/index.html` (the
+choihanmin.com site) unless the user explicitly asks for a design change
+in that message. Routine work here — adding specs, reordering entries,
+fixing counts, regenerating the PDF — is **content-only**: edit the data
+(timeline rows, lists, text) using the existing markup/classes, never the
+styling, colors, spacing, or structure around it. The navy `#1F2A44` /
+gold `#B8862F` palette is intentionally shared between this site and the
+`ChoeHanMin/ChoeHanMin` GitHub profile README (treat it as the signature
+color scheme) — that's expected, not a bug to "fix" by making them look
+different.
+
 ## Adding a new activity / spec / credential
 
 When asked to add a new "스펙" (activity, award, certification, etc.),
