@@ -58,12 +58,47 @@ entries (newest first, by start date):
    gets an entry here too). Its `.stats` "15+" 대내외 활동 number is an
    independent, intentionally-smaller highlight count — don't feel
    obligated to keep it in lockstep with the portfolio page's total.
+4. **`ChoeHanMin/ChoeHanMin` GitHub profile README** (a *separate* repo,
+   `github.com/ChoeHanMin/ChoeHanMin` — lowercase `choehanmin/choehanmin`
+   on disk; `add_repo`/clone it if not already attached this session) —
+   per explicit standing instruction from the user, every spec addition
+   must also be reflected here, in **both** the Korean and English
+   sections, not just one:
+   - If it's an award/certification: add a bullet to the
+     `<details>🏅 Awards & Certifications` list (Korean only — there's no
+     separate English awards list).
+   - If it's an activity/volunteer entry that changes the activity count:
+     bump **every** occurrence of the old count to the new one —
+     grep for the old number, don't rely on memory of where it appears.
+     As of this writing that's: the `readme-typing-svg` `lines=` query
+     param (line ~7), the `ACTIVITIES` shields.io badge (`🏆 Highlights`),
+     `assets/terminal.svg` **and** `assets/terminal-light.svg` (count is
+     baked into the SVG text itself, not just alt text), `assets/
+     timeline.svg`/`timeline-light.svg` (same), the Collaborations
+     paragraph (Korean, "N건 이상"), and the English Summary paragraph
+     near the bottom ("N+ activities"). The organizations count
+     ("ORGANIZATIONS" badge / "N+ organizations" / "N+ 조직") is a
+     *separate* number from activities — only bump it if the portfolio
+     PDF's own "N건이 넘는 조직" text changed too (check
+     `scripts/generate_portfolio_pdf.py`'s `PAGE2_BODY` in the other
+     repo), and keep both numbers equal to each other if the PDF does.
+   - If it's the user's newest/most-recent ongoing activity: update the
+     "🚀 Currently:" line near the top.
+   - If a brand-new organization is involved: add a badge to the
+     `<details>🏢 Trusted By` list too.
+   - The "📄 VIEW FULL RESUME" / "이력서 PDF" link already points at
+     `https://choehanmin.github.io/portfolio/portfolio.pdf` — once step 2
+     above regenerates that file, this link is automatically current; no
+     separate edit needed here, just don't forget step 2.
+   - This repo pushes straight to its own `main` too (see
+     `choehanmin/choehanmin`'s own git remote) — no PR, same as this repo.
 
-All three files above are updated together, every time, with no
+All four targets above are updated together, every time, with no
 exceptions, per explicit standing instruction from the user — don't ask
-whether to touch all three, just do it. Commit all changed files together
-with one descriptive commit message and push straight to `main` (see Git
-workflow below) without asking for confirmation first.
+whether to touch all of them, just do it. Commit changed files in each
+repo together with one descriptive commit message per repo and push
+straight to `main` (see Git workflow below) without asking for
+confirmation first.
 
 ## Related accounts
 
