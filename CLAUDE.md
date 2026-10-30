@@ -50,6 +50,14 @@ entries (newest first, by start date):
      place and nothing overflowed a page oddly.
    - Once it looks right: `cp scripts/portfolio_generated.pdf
      portfolio/portfolio.pdf`.
+   - **Every** link to this file — the three `href="portfolio.pdf"` spots
+     in `portfolio/index.html` and the three `.../portfolio/portfolio.pdf`
+     links in the `ChoeHanMin/ChoeHanMin` README (step 4 below) — carries
+     a `?v=YYYYMMDD` cache-busting query param. Bump it to today's date
+     every time `portfolio.pdf` is regenerated (even if the filename
+     itself doesn't change), so browsers/CDNs don't keep serving a stale
+     cached copy — this has confused the user before ("아직도 과거 포폴이
+     떠" even though the file on disk was already current).
 3. **`index.html`** (root) — **always** add a matching entry to the
    `#log` commit list (`.commit` div, with a made-up short git-style hash
    like the existing ones, `.commit-msg`, and `.commit-meta`), per
