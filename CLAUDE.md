@@ -31,7 +31,21 @@ styling, colors, spacing, or structure around it. The navy `#1F2A44` /
 gold `#B8862F` palette is intentionally shared between this site and the
 `ChoeHanMin/ChoeHanMin` GitHub profile README (treat it as the signature
 color scheme) — that's expected, not a bug to "fix" by making them look
-different.
+different. This applies to the generated `portfolio.pdf` too — it's
+*meant* to look different from `portfolio/index.html` (plain drawn
+document vs. full web page, see below); don't try to make the PDF's
+layout visually match the HTML page unless explicitly asked.
+
+Separately: per explicit standing instruction, work in this chat thread
+is scoped to GitHub content (this repo + the `ChoeHanMin/ChoeHanMin`
+profile README) — not other properties, and never choihanmin.com's
+design as above. Every "스펙 추가" request means walking through **all
+four** sync targets in the next section, every time, including actually
+regenerating `portfolio.pdf` (not just confirming the link URLs are
+already correct) — the three buttons/links that open it
+("VIEW FULL RESUME" / "이력서 PDF" / "Full résumé (PDF)") only show the
+latest content once that file itself has been regenerated and
+cache-busted (see step 2).
 
 ## Adding a new activity / spec / credential
 
