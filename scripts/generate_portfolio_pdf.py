@@ -31,6 +31,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 FONT_DIR = SCRIPT_DIR / "fonts"
 FULL_REG_PATH = FONT_DIR / "NanumGothic-Regular.ttf"
 FULL_BOLD_PATH = FONT_DIR / "NanumGothic-Bold.ttf"
+PHOTO_PATH = SCRIPT_DIR.parent / "portfolio" / "photos" / "profile.jpg"
 
 # Reassigned by setup_fonts() to point at subsetted copies before build() runs.
 REG_PATH = str(FULL_REG_PATH)
@@ -127,6 +128,12 @@ class Builder:
         self.ensure(16)
         self.text(MARGIN_L, self.y + 9, s, 9.5, color=MUTED)
         self.y += 15
+
+    def photo(self, path, size=92, top=MARGIN_T):
+        if not path.exists():
+            return
+        r = pymupdf.Rect(PAGE_W - MARGIN_R - size, top, PAGE_W - MARGIN_R, top + size)
+        self.page.insert_image(r, filename=str(path), keep_proportion=True)
 
     def stat_strip(self, stats):
         self.ensure(58)
@@ -282,7 +289,8 @@ STATS = [("7종", "게임 개발·출시"), ("33+", "경력 및 대외활동"), 
 CONTACT_LINES = [
     "Naver Blog   blog.naver.com/choehanmin",
     "이메일   hufshanmin@gmail.com      전화번호   010-3250-8620",
-    "GitHub   github.com/ChoeHanMin      Instagram   @choihanmin_, @choehanmin, @dae.hanmin.guk",
+    "GitHub   github.com/ChoeHanMin",
+    "Instagram   @choihanmin_, @choehanmin, @dae.hanmin.guk",
 ]
 
 INTRO = ("컴퓨터공학을 전공하며 개발과 서비스 기획을 함께 경험해온 학생입니다. Python 교육조교와 게임 개발 동아리 "
@@ -496,6 +504,7 @@ def build():
     b.heading_name("최한민 (Choi Hanmin)", "한국외국어대학교 컴퓨터공학과(CES) | 학번 202003621")
     for ln in CONTACT_LINES:
         b.contact_line(ln)
+    b.photo(PHOTO_PATH)
     b.gap(14)
     b.stat_strip(STATS)
 
