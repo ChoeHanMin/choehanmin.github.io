@@ -424,6 +424,11 @@ VOLUNTEER = [
     ("2015.03 ~ 2015.09", "발달장애 아동 대상 봉사활동", "발달장애 아동을 대상으로 정기적인 돌봄 및 활동 지원 봉사 수행"),
 ]
 
+CERTIFICATIONS = [
+    ("2026.10.26", "윈드서핑 지도자 자격증 3급 취득"),
+    ("2024.08.19", "운전면허증(2종보통) 취득"),
+]
+
 PROJECTS = [
     ("주요 웹사이트 제작 — choihanmin.com & soodalgames.com",
      "개인 프로젝트, 기획·디자인·개발 단독 수행",
@@ -522,6 +527,9 @@ def build():
     b.section_header("CAREER", "경력 및 대외활동")
     b.table(("기간", "활동명", "내용"), [110, 130, 250], ACTIVITIES)
 
+    b.section_header("CERT", "자격증")
+    b.award_table(CERTIFICATIONS)
+
     b.section_header("VOLUNTEER", "봉사활동")
     b.table(("기간", "활동명", "내용"), [110, 130, 250], VOLUNTEER)
 
@@ -560,14 +568,14 @@ def _collect_used_chars():
                 add(item)
 
     for name in ("STATS", "CONTACT_LINES", "INTRO", "STRENGTHS", "PAGE2_LEAD",
-                 "PAGE2_BODY", "ACTIVITIES", "VOLUNTEER", "PROJECTS", "AWARDS",
+                 "PAGE2_BODY", "ACTIVITIES", "VOLUNTEER", "CERTIFICATIONS", "PROJECTS", "AWARDS",
                  "TECHSTACK"):
         add(getattr(mod, name, None))
 
     # Static UI chrome not in the content lists above (headers, labels, name).
     chars.update("최한민 (Choi Hanmin) 한국외국어대학교 컴퓨터공학과(CES) | 학번 202003621")
-    chars.update("ABOUTSTRENGTHSCAREERVOLUNTEERPROJECTSAWARDSSTACK")
-    chars.update("한 줄 소개 핵심 강점 경력 및 대외활동 봉사활동 주요 프로젝트 수상 및 수료 기술 스택")
+    chars.update("ABOUTSTRENGTHSCAREERCERTVOLUNTEERPROJECTSAWARDSSTACK")
+    chars.update("한 줄 소개 핵심 강점 경력 및 대외활동 자격증 봉사활동 주요 프로젝트 수상 및 수료 기술 스택")
     chars.update("기간 활동명 내용 일자")
     chars.update("0123456789.,()·-~+/:;•→↗ ")
     return chars
